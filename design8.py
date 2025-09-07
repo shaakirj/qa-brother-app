@@ -1,23 +1,18 @@
 import os
 import requests
 import warnings
+import sys
+import platform
 
 # Suppress urllib3 SSL warnings for macOS LibreSSL compatibility
 warnings.filterwarnings("ignore", category=UserWarning, module="urllib3")
 
 from io import BytesIO
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
-import time
-import traceback
 from datetime import datetime
 from jira import JIRA, JIRAError
 from dotenv import load_dotenv
 from PIL import Image, ImageDraw, ImageFont, ImageChops
 import numpy as np
-from skimage.metrics import structural_similarity as ssim
 import cv2  # Import OpenCV
 from datetime import datetime as _dt
 from scipy import ndimage
@@ -34,7 +29,61 @@ import imageio
 import shutil
 import html
 import threading
-from playwright.sync_api import sync_playwright, ViewportSize, Playwright, Browser, Page, Error as PlaywrightError
+import concurrent.futures
+
+# Cloud environment detection
+IS_CLOUD_DEPLOYMENT = (
+    os.getenv("STREAMLIT_SHARING_MODE") is not None or
+    os.getenv("HOSTNAME", "").startswith("streamlit") or
+    "streamlit.app" in os.getenv("HOSTNAME", "") or
+    platform.system() == "Linux" and not os.path.exists("/usr/bin/google-chrome")
+)
+
+# Conditionally import browser automation based on environment
+BROWSER_AUTOMATION_AVAILABLE = False
+try:
+    if not IS_CLOUD_DEPLOYMENT:
+        from selenium import webdriver
+        from selenium.webdriver.chrome.options import Options
+        from selenium.webdriver.chrome.service import Service
+        from webdriver_manager.chrome import ChromeDriverManager
+        from playwright.sync_api import sync_playwright, ViewportSize, Playwright, Browser, Page, Error as PlaywrightError
+        BROWSER_AUTOMATION_AVAILABLE = True
+    else:
+        # For cloud deployment, provide mock classes
+        class MockPlaywright:
+            def __init__(self):
+                pass
+            def chromium(self):
+                return self
+            def launch(self, **kwargs):
+                return MockBrowser()
+            def close(self):
+                pass
+        
+        class MockBrowser:
+            def new_page(self):
+                return MockPage()
+            def close(self):
+                pass
+        
+        class MockPage:
+            def goto(self, url):
+                pass
+            def screenshot(self, **kwargs):
+                return b""
+            def set_viewport_size(self, viewport):
+                pass
+            def close(self):
+                pass
+        
+        sync_playwright = lambda: MockPlaywright()
+        BROWSER_AUTOMATION_AVAILABLE = False
+        logger.warning("Browser automation disabled for cloud deployment")
+        
+except ImportError as e:
+    BROWSER_AUTOMATION_AVAILABLE = False
+    logger.warning(f"Browser automation not available: {e}")
 
 # Load environment variables
 load_dotenv()
@@ -57,6 +106,7 @@ class EnhancedPlaywrightDriver:
         self.live_preview_callback = None
         self.live_preview_thread = None
         self.recording_enabled = False
+        self.cloud_mode = IS_CLOUD_DEPLOYMENT
 
     def _device_preset(self, pw, name: Optional[str]):
         if not name:
@@ -118,6 +168,14 @@ class EnhancedPlaywrightDriver:
     
     def _setup_playwright_sync(self, headless=True, window_size="1920,1080", mobile_device_name: Optional[str] = None, browser_type="Chromium"):
         """Internal method to setup Playwright synchronously - always runs outside asyncio loop"""
+        if self.cloud_mode:
+            logger.warning("Browser automation disabled in cloud deployment mode")
+            return False
+            
+        if not BROWSER_AUTOMATION_AVAILABLE:
+            logger.warning("Browser automation libraries not available")
+            return False
+            
         try:
             self._pw = sync_playwright().start()
             
@@ -226,7 +284,6 @@ class EnhancedPlaywrightDriver:
             
         except Exception as e:
             logger.error(f"_setup_playwright_sync failed: {e}")
-            return False
             return False
 
     def capture_screenshot(self, url, full_page=True, wait_time=5, max_retries=3):

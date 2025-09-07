@@ -15,7 +15,7 @@ groq>=0.3.0
 # Document processing
 PyPDF2>=3.0.1
 
-# Web automation (Streamlit Cloud compatible)
+# Web automation - Cloud compatible setup
 playwright>=1.40.0
 beautifulsoup4>=4.12.0
 

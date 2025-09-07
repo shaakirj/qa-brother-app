@@ -1,0 +1,5 @@
+# System packages for Streamlit Cloud
+# Required for Playwright browser automation
+chromium-browser
+chromium-driver
+xvfb

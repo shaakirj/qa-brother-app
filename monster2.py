@@ -49,8 +49,9 @@ logger = logging.getLogger(__name__)
 
 # Attempt to import the necessary processor from design8
 try:
-    from design8 import DesignQAProcessor
+    from design8 import DesignQAProcessor, IS_CLOUD_DEPLOYMENT, BROWSER_AUTOMATION_AVAILABLE
     DESIGN8_AVAILABLE = True
+    
     # Create a simple fallback functional agent
     class FunctionalQAAgent:
         def run_full_test_cycle(self, *args, **kwargs):
@@ -69,9 +70,13 @@ try:
             return {}
         def generate_test_cases_from_ai(self, *args, **kwargs):
             return []
+            
 except ImportError as e:
     st.error(f"Fatal Error: Could not import 'design8.py'. Please ensure the file exists and is correct. Details: {e}")
     DESIGN8_AVAILABLE = False
+    IS_CLOUD_DEPLOYMENT = True
+    BROWSER_AUTOMATION_AVAILABLE = False
+    
     # Define a fallback class so the app doesn't crash immediately
     class DesignQAProcessor:
         def process_qa_request(self, *args, **kwargs):
@@ -1324,6 +1329,17 @@ def main():
     """, unsafe_allow_html=True)
     
     st.markdown("---")
+
+    # Show cloud deployment notice if applicable
+    if IS_CLOUD_DEPLOYMENT or not BROWSER_AUTOMATION_AVAILABLE:
+        st.info("""
+        **🌤️ Cloud Deployment Mode Active**
+        
+        You're running QA Brother in cloud mode! Some features are optimized for cloud deployment:
+        - Browser automation is disabled for cloud compatibility
+        - Focus on AI-powered analysis and design validation
+        - Full desktop features available when running locally
+        """)
 
     if 'agent' not in st.session_state:
         st.session_state.agent = MonsterQAAgent()
