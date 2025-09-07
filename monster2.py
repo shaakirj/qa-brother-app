@@ -1331,12 +1331,14 @@ def main():
     # Hero section with Envole-inspired styling
     st.markdown(f"""
     <div class="hero-background">
-        <div class="logo-container" style="display: flex; align-items: center; margin-bottom: 20px;">
-            <img src="{logo_base64}" width="72" style="margin-right: 24px;"/>
-            <div>
-                <h1 style="margin-bottom:0; font-size: 3.5rem; font-weight: 700;">Quali</h1>
-                <p style="margin-top:0; color: #9ca3af; font-size: 1.2rem; font-weight: 500;">Your AI-Powered Quality Assurance Buddy</p>
-                <p style="margin-top:8px; color: #22d3ee; font-size: 0.9rem; font-style: italic;">Intelligent • Comprehensive • Beautiful</p>
+        <div class="logo-container">
+            <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 1.5rem;">
+                <img src="{logo_base64}" width="72" height="72" alt="Quali Logo" style="flex-shrink: 0;"/>
+                <div style="flex: 1; min-width: 300px;">
+                    <h1 style="margin: 0 0 0.5rem 0; font-size: clamp(2.5rem, 5vw, 3.5rem); font-weight: 700; line-height: 1.1;">Quali</h1>
+                    <p style="margin: 0 0 0.5rem 0; color: #9ca3af; font-size: clamp(1rem, 2vw, 1.2rem); font-weight: 500; line-height: 1.3;">Your AI-Powered Quality Assurance Buddy</p>
+                    <p style="margin: 0; color: #22d3ee; font-size: clamp(0.8rem, 1.5vw, 0.9rem); font-style: italic; opacity: 0.9;">Intelligent • Comprehensive • Beautiful</p>
+                </div>
             </div>
         </div>
     </div>
@@ -1345,13 +1347,20 @@ def main():
     # Show cloud deployment notice if applicable
     if IS_CLOUD_DEPLOYMENT or not BROWSER_AUTOMATION_AVAILABLE:
         st.markdown("""
-        <div class="stInfo" style="padding: 20px; border-radius: 16px; margin: 20px 0;">
-            <h4 style="color: #22d3ee; margin-top: 0;">🌤️ Cloud Deployment Mode Active</h4>
-            <p style="color: #e5e7eb; margin-bottom: 8px;">You're running Quali in cloud mode! Some features are optimized for cloud deployment:</p>
-            <ul style="color: #9ca3af; margin-bottom: 0;">
-                <li>Browser automation is disabled for cloud compatibility</li>
-                <li>Focus on AI-powered analysis and design validation</li>
-                <li>Full desktop features available when running locally</li>
+        <div style="
+            background: rgba(34, 211, 238, 0.1);
+            border: 1px solid rgba(34, 211, 238, 0.3);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            backdrop-filter: blur(10px);
+        ">
+            <h4 style="color: #22d3ee; margin: 0 0 1rem 0; font-size: 1.1rem; font-weight: 600;">🌤️ Cloud Deployment Mode Active</h4>
+            <p style="color: #e5e7eb; margin: 0 0 0.75rem 0; font-size: 0.95rem; line-height: 1.5;">You're running Quali in cloud mode! Some features are optimized for cloud deployment:</p>
+            <ul style="color: #9ca3af; margin: 0; padding-left: 1.5rem; font-size: 0.9rem; line-height: 1.6;">
+                <li style="margin-bottom: 0.25rem;">Browser automation is disabled for cloud compatibility</li>
+                <li style="margin-bottom: 0.25rem;">Focus on AI-powered analysis and design validation</li>
+                <li style="margin-bottom: 0;">Full desktop features available when running locally</li>
             </ul>
         </div>
         """, unsafe_allow_html=True)

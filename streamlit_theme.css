@@ -6,7 +6,7 @@
 footer {visibility: hidden;}
 .stDeployButton {display:none;}
 
-/* Root app styling */
+/* Root app styling - more conservative */
 .stApp {
     background: linear-gradient(
         180deg, 
@@ -17,60 +17,95 @@ footer {visibility: hidden;}
     color: #e5e7eb;
 }
 
-/* Sidebar styling */
-.css-1d391kg {
-    background: rgba(11, 18, 32, 0.6);
-    border-right: 1px solid rgba(255, 255, 255, 0.08);
-    backdrop-filter: saturate(140%) blur(12px);
+/* Main container padding fix */
+.main .block-container {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
 }
 
-/* Headers */
-h1, h2, h3, h4, h5, h6 {
+/* Sidebar styling */
+.css-1d391kg, .css-1cypcdb, .css-17eq0hr {
+    background: rgba(11, 18, 32, 0.6) !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+    backdrop-filter: saturate(140%) blur(12px) !important;
+}
+
+/* Headers - more specific targeting */
+.stApp h1, .stApp h2, .stApp h3, .stApp h4, .stApp h5, .stApp h6 {
     color: #e5e7eb !important;
     font-weight: 600 !important;
-    background: linear-gradient(135deg, #8b5cf6, #22d3ee);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    background: linear-gradient(135deg, #8b5cf6, #22d3ee) !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    margin-bottom: 1rem !important;
 }
 
-/* Text elements */
-p, span, div, label {
+/* Text elements - more conservative */
+.stApp p, .stApp span, .stApp div:not(.stButton):not(.stSelectbox):not(.stTextInput) {
     color: #e5e7eb !important;
+}
+
+.stApp label {
+    color: #9ca3af !important;
+    font-weight: 500 !important;
 }
 
 /* Buttons - Primary */
 .stButton > button {
-    background: linear-gradient(135deg, #8b5cf6, #06b6d4);
-    border: none;
+    background: linear-gradient(135deg, #8b5cf6, #06b6d4) !important;
+    border: none !important;
     color: white !important;
-    border-radius: 25px;
-    box-shadow: 0 6px 24px rgba(34, 211, 238, 0.25), 0 2px 8px rgba(139, 92, 246, 0.25);
-    font-weight: 500;
-    transition: all 0.3s ease;
+    border-radius: 25px !important;
+    box-shadow: 0 6px 24px rgba(34, 211, 238, 0.25), 0 2px 8px rgba(139, 92, 246, 0.25) !important;
+    font-weight: 500 !important;
+    transition: all 0.3s ease !important;
+    padding: 0.5rem 1.5rem !important;
+    min-height: 2.5rem !important;
 }
 
 .stButton > button:hover {
-    filter: brightness(1.05);
-    transform: translateY(-1px);
-    box-shadow: 0 12px 36px rgba(34, 211, 238, 0.32), 0 6px 18px rgba(139, 92, 246, 0.28);
+    filter: brightness(1.05) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 12px 36px rgba(34, 211, 238, 0.32), 0 6px 18px rgba(139, 92, 246, 0.28) !important;
 }
 
-/* Input fields */
-.stTextInput input, .stTextArea textarea, .stSelectbox select {
+/* Input fields - better targeting */
+.stTextInput > div > div > input {
     background-color: #0f172a !important;
     border: 1px solid rgba(255, 255, 255, 0.08) !important;
     color: #e5e7eb !important;
-    border-radius: 12px;
+    border-radius: 12px !important;
 }
 
-.stTextInput input:focus, .stTextArea textarea:focus, .stSelectbox select:focus {
+.stTextArea > div > div > textarea {
+    background-color: #0f172a !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    color: #e5e7eb !important;
+    border-radius: 12px !important;
+}
+
+.stSelectbox > div > div > select {
+    background-color: #0f172a !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    color: #e5e7eb !important;
+    border-radius: 12px !important;
+}
+
+/* Focus states */
+.stTextInput > div > div > input:focus,
+.stTextArea > div > div > textarea:focus,
+.stSelectbox > div > div > select:focus {
     border-color: #22d3ee !important;
     box-shadow: 0 0 0 1px #22d3ee !important;
 }
 
-/* Cards/Containers */
-.stContainer, .element-container {
+/* Remove aggressive container styling - only style specific elements */
+/* Cards/Containers - more selective */
+.element-container:has(.stAlert),
+.element-container:has(.stExpander) {
     background: linear-gradient(
         180deg,
         rgba(255, 255, 255, 0.06) 0%,
@@ -81,21 +116,25 @@ p, span, div, label {
     border-radius: 16px;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
     backdrop-filter: saturate(140%) blur(12px);
+    margin: 1rem 0;
+    padding: 1rem;
 }
 
-/* Tabs */
+/* Tabs - better spacing */
 .stTabs [data-baseweb="tab-list"] {
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 12px;
-    padding: 4px;
+    background: rgba(255, 255, 255, 0.02) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 12px !important;
+    padding: 4px !important;
+    margin-bottom: 1rem !important;
 }
 
 .stTabs [data-baseweb="tab"] {
-    background: transparent;
-    color: #9ca3af;
-    border-radius: 8px;
-    font-weight: 500;
+    background: transparent !important;
+    color: #9ca3af !important;
+    border-radius: 8px !important;
+    font-weight: 500 !important;
+    padding: 0.5rem 1rem !important;
 }
 
 .stTabs [aria-selected="true"] {
@@ -105,87 +144,162 @@ p, span, div, label {
 
 /* Progress bars */
 .stProgress > div > div > div {
-    background: linear-gradient(135deg, #8b5cf6, #22d3ee);
+    background: linear-gradient(135deg, #8b5cf6, #22d3ee) !important;
 }
 
-/* Metrics */
+/* Metrics - better spacing */
 .metric-container {
     background: linear-gradient(
         180deg,
         rgba(255, 255, 255, 0.06) 0%,
         rgba(255, 255, 255, 0.03) 100%
-    );
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 16px;
-    padding: 20px;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    ) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 16px !important;
+    padding: 1.5rem !important;
+    margin: 1rem 0 !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5) !important;
 }
 
-/* Success/Error states */
+/* Success/Error states - better visibility */
 .stSuccess {
-    background: rgba(16, 185, 129, 0.1);
-    border: 1px solid rgba(16, 185, 129, 0.3);
-    color: #10b981;
+    background: rgba(16, 185, 129, 0.1) !important;
+    border: 1px solid rgba(16, 185, 129, 0.3) !important;
+    color: #10b981 !important;
+    border-radius: 12px !important;
+    padding: 1rem !important;
+    margin: 1rem 0 !important;
 }
 
 .stError {
-    background: rgba(239, 68, 68, 0.1);
-    border: 1px solid rgba(239, 68, 68, 0.3);
-    color: #ef4444;
+    background: rgba(239, 68, 68, 0.1) !important;
+    border: 1px solid rgba(239, 68, 68, 0.3) !important;
+    color: #ef4444 !important;
+    border-radius: 12px !important;
+    padding: 1rem !important;
+    margin: 1rem 0 !important;
 }
 
 .stInfo {
-    background: rgba(34, 211, 238, 0.1);
-    border: 1px solid rgba(34, 211, 238, 0.3);
-    color: #22d3ee;
+    background: rgba(34, 211, 238, 0.1) !important;
+    border: 1px solid rgba(34, 211, 238, 0.3) !important;
+    color: #22d3ee !important;
+    border-radius: 12px !important;
+    padding: 1rem !important;
+    margin: 1rem 0 !important;
 }
 
-/* Code blocks */
+/* Code blocks - better readability */
 .stCode {
     background: #0f172a !important;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 12px !important;
+    padding: 1rem !important;
+    margin: 0.5rem 0 !important;
 }
 
-/* Expandable sections */
+/* Expandable sections - improved styling */
 .streamlit-expanderHeader {
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.02) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 12px !important;
     color: #e5e7eb !important;
+    padding: 0.75rem 1rem !important;
+    margin: 0.5rem 0 !important;
 }
 
-/* File uploader */
+.streamlit-expanderContent {
+    background: rgba(255, 255, 255, 0.01) !important;
+    border: 1px solid rgba(255, 255, 255, 0.05) !important;
+    border-top: none !important;
+    border-radius: 0 0 12px 12px !important;
+    padding: 1rem !important;
+}
+
+/* File uploader - better design */
 .stFileUploader {
-    background: rgba(255, 255, 255, 0.02);
-    border: 2px dashed rgba(34, 211, 238, 0.5);
-    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.02) !important;
+    border: 2px dashed rgba(34, 211, 238, 0.5) !important;
+    border-radius: 16px !important;
+    padding: 2rem !important;
+    margin: 1rem 0 !important;
+    text-align: center !important;
 }
 
-/* Dataframes */
+.stFileUploader:hover {
+    border-color: rgba(34, 211, 238, 0.8) !important;
+    background: rgba(255, 255, 255, 0.04) !important;
+}
+
+/* Dataframes - dark theme */
 .stDataFrame {
-    background: #0f172a;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 12px;
+    background: #0f172a !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 12px !important;
+    overflow: hidden !important;
 }
 
-/* Custom logo container */
+/* Custom spacing helpers */
+.stApp .element-container {
+    margin-bottom: 1rem;
+}
+
+.stApp .row-widget {
+    padding: 0.25rem 0;
+}
+
+/* Fix column spacing */
+.stApp .css-1kyxreq {
+    padding: 0 0.5rem;
+}
+
+/* Custom logo container - better spacing */
 .logo-container {
-    background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(34, 211, 238, 0.1));
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 20px;
-    padding: 20px;
-    margin-bottom: 30px;
-    backdrop-filter: saturate(140%) blur(12px);
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(34, 211, 238, 0.1)) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 20px !important;
+    padding: 2rem !important;
+    margin-bottom: 2rem !important;
+    backdrop-filter: saturate(140%) blur(12px) !important;
 }
 
-/* Hero gradient background */
+/* Hero gradient background - better spacing */
 .hero-background {
-    position: relative;
+    position: relative !important;
     background: 
         radial-gradient(900px 600px at 15% -10%, rgba(139, 92, 246, 0.25), transparent 60%),
-        radial-gradient(900px 600px at 85% 0%, rgba(34, 211, 238, 0.18), transparent 60%);
-    border-radius: 20px;
-    padding: 30px;
-    margin-bottom: 20px;
+        radial-gradient(900px 600px at 85% 0%, rgba(34, 211, 238, 0.18), transparent 60%) !important;
+    border-radius: 20px !important;
+    padding: 2rem !important;
+    margin: 1rem 0 2rem 0 !important;
+}
+
+/* Sidebar navigation improvements */
+.css-1d391kg .css-1v0mbdj {
+    padding: 1rem !important;
+}
+
+/* Column spacing fixes */
+.css-ocqkz7 {
+    gap: 1rem !important;
+}
+
+/* Remove extra padding from certain elements */
+.stMarkdown {
+    margin-bottom: 1rem !important;
+}
+
+/* Selectbox dropdown styling */
+.stSelectbox > div > div > div {
+    background-color: #0f172a !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 12px !important;
+}
+
+/* Number input styling */
+.stNumberInput > div > div > input {
+    background-color: #0f172a !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    color: #e5e7eb !important;
+    border-radius: 12px !important;
 }
