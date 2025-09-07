@@ -31,6 +31,16 @@ import html
 import threading
 import concurrent.futures
 
+# Load environment variables
+load_dotenv()
+
+# Configure logging FIRST - before any logger usage
+logging.basicConfig(
+    level=os.getenv("LOG_LEVEL", "INFO"), 
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
+
 # Cloud environment detection
 IS_CLOUD_DEPLOYMENT = (
     os.getenv("STREAMLIT_SHARING_MODE") is not None or
@@ -84,16 +94,6 @@ try:
 except ImportError as e:
     BROWSER_AUTOMATION_AVAILABLE = False
     logger.warning(f"Browser automation not available: {e}")
-
-# Load environment variables
-load_dotenv()
-
-# Configure logging
-logging.basicConfig(
-    level=os.getenv("LOG_LEVEL", "INFO"), 
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-)
-logger = logging.getLogger(__name__)
 
 class EnhancedPlaywrightDriver:
     def __init__(self):
