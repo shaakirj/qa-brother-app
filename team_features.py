@@ -1,5 +1,5 @@
 """
-Team-friendly configuration and user guide for QA Brother
+Team-friendly configuration and user guide for Quali
 """
 
 import streamlit as st
@@ -8,13 +8,13 @@ from datetime import datetime
 
 def render_team_welcome_tab():
     """Renders a welcome tab with team instructions and tips"""
-    st.header("👋 Welcome to QA Brother!")
+    st.header("👋 Welcome to Quali!")
     st.markdown("""
-    QA Brother is your AI-powered quality assurance companion that helps you:
+    **Quali** is your AI-powered quality assurance buddy that helps you:
     - **Compare designs** with live websites automatically
-    - **Test across devices** (mobile, tablet, desktop)
+    - **Test across devices** (mobile, tablet, desktop)  
     - **Generate test reports** and create Jira tickets
-    - **Save time** on manual QA tasks
+    - **Save time** on manual QA tasks with intelligent automation
     """)
     
     # Quick start guide

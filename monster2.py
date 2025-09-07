@@ -1305,7 +1305,17 @@ def render_fluid_breakpoint_tab(agent):
                 st.error("Failed to generate the breakpoint animation. Please check the application logs for more details.")
 
 def main():
-    st.set_page_config(page_title="QA Brother", page_icon="🤖", layout="wide")
+    st.set_page_config(page_title="Quali - Your QA Buddy", page_icon="🎨", layout="wide")
+
+    # Load and inject custom CSS theme
+    try:
+        css_file_path = os.path.join(os.path.dirname(__file__), "streamlit_theme.css")
+        if os.path.exists(css_file_path):
+            with open(css_file_path, "r") as css_file:
+                css_content = css_file.read()
+            st.markdown(f"<style>{css_content}</style>", unsafe_allow_html=True)
+    except Exception as e:
+        logger.warning(f"Could not load custom CSS theme: {e}")
 
     # Import team features
     try:
@@ -1315,31 +1325,36 @@ def main():
         # Team features not available, continue without them
         pass
 
-    # Base64 encoded logo
-    logo_base64 = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgdmlld0JveD0iMCAwIDY0IDY0Ij4KICA8Y2lyY2xlIGN4PSIzMiIgY3k9IjMyIiByPSIzMCIgZmlsbD0iIzQyODVGNCIvPgogIDx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjRweCIgZm9udC13ZWlnaHQ9ImJvbGQiIGZpbGw9IndoaXRlIj5RQTwvdGV4dD4KPC9zdmc+"
+    # Updated logo for Quali (QA → QL)
+    logo_base64 = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI3MiIgaGVpZ2h0PSI3MiIgdmlld0JveD0iMCAwIDcyIDcyIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iZ3JhZCIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiM4YjVjZjY7c3RvcC1vcGFjaXR5OjEiIC8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6IzIyZDNlZTtzdG9wLW9wYWNpdHk6MSIgLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgPC9kZWZzPgogIDxjaXJjbGUgY3g9IjM2IiBjeT0iMzYiIHI9IjM0IiBmaWxsPSJ1cmwoI2dyYWQpIi8+CiAgPHRleHQgeD0iNTAlIiB5PSI1OCUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNHB4IiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0id2hpdGUiPlFMPC90ZXh0Pgo8L3N2Zz4="
     
+    # Hero section with Envole-inspired styling
     st.markdown(f"""
-    <div style="display: flex; align-items: center; margin-bottom: 20px;">
-        <img src="{logo_base64}" width="60" style="margin-right: 20px;"/>
-        <div>
-            <h1 style="margin-bottom:0;">QA Brother</h1>
-            <p style="margin-top:0; color: grey;">Your AI-Powered Quality Assurance Buddy in maintaining quality</p>
+    <div class="hero-background">
+        <div class="logo-container" style="display: flex; align-items: center; margin-bottom: 20px;">
+            <img src="{logo_base64}" width="72" style="margin-right: 24px;"/>
+            <div>
+                <h1 style="margin-bottom:0; font-size: 3.5rem; font-weight: 700;">Quali</h1>
+                <p style="margin-top:0; color: #9ca3af; font-size: 1.2rem; font-weight: 500;">Your AI-Powered Quality Assurance Buddy</p>
+                <p style="margin-top:8px; color: #22d3ee; font-size: 0.9rem; font-style: italic;">Intelligent • Comprehensive • Beautiful</p>
+            </div>
         </div>
     </div>
     """, unsafe_allow_html=True)
-    
-    st.markdown("---")
 
     # Show cloud deployment notice if applicable
     if IS_CLOUD_DEPLOYMENT or not BROWSER_AUTOMATION_AVAILABLE:
-        st.info("""
-        **🌤️ Cloud Deployment Mode Active**
-        
-        You're running QA Brother in cloud mode! Some features are optimized for cloud deployment:
-        - Browser automation is disabled for cloud compatibility
-        - Focus on AI-powered analysis and design validation
-        - Full desktop features available when running locally
-        """)
+        st.markdown("""
+        <div class="stInfo" style="padding: 20px; border-radius: 16px; margin: 20px 0;">
+            <h4 style="color: #22d3ee; margin-top: 0;">🌤️ Cloud Deployment Mode Active</h4>
+            <p style="color: #e5e7eb; margin-bottom: 8px;">You're running Quali in cloud mode! Some features are optimized for cloud deployment:</p>
+            <ul style="color: #9ca3af; margin-bottom: 0;">
+                <li>Browser automation is disabled for cloud compatibility</li>
+                <li>Focus on AI-powered analysis and design validation</li>
+                <li>Full desktop features available when running locally</li>
+            </ul>
+        </div>
+        """, unsafe_allow_html=True)
 
     if 'agent' not in st.session_state:
         st.session_state.agent = MonsterQAAgent()
@@ -1347,7 +1362,7 @@ def main():
         st.session_state.functional_agent = FunctionalQAAgent()
 
     if not st.session_state.agent.is_initialized:
-        st.error("Agent initialization failed. Please check the logs and ensure 'design8.py' is correct.")
+        st.error("Agent initialization failed. Please check the logs and ensure all dependencies are correctly installed.")
         st.stop()
 
     # Include welcome tab for teams

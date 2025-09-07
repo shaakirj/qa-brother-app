@@ -1,0 +1,191 @@
+/* Quali - Streamlit Custom Theme (Envole-inspired) */
+/* Deep navy backgrounds, violet→cyan gradients, glassmorphism effects */
+
+/* Hide Streamlit branding and menu */
+#MainMenu {visibility: hidden;}
+footer {visibility: hidden;}
+.stDeployButton {display:none;}
+
+/* Root app styling */
+.stApp {
+    background: linear-gradient(
+        180deg, 
+        #0b1220 0%, 
+        #0a0f1c 60%, 
+        #0b1220 100%
+    );
+    color: #e5e7eb;
+}
+
+/* Sidebar styling */
+.css-1d391kg {
+    background: rgba(11, 18, 32, 0.6);
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: saturate(140%) blur(12px);
+}
+
+/* Headers */
+h1, h2, h3, h4, h5, h6 {
+    color: #e5e7eb !important;
+    font-weight: 600 !important;
+    background: linear-gradient(135deg, #8b5cf6, #22d3ee);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Text elements */
+p, span, div, label {
+    color: #e5e7eb !important;
+}
+
+/* Buttons - Primary */
+.stButton > button {
+    background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+    border: none;
+    color: white !important;
+    border-radius: 25px;
+    box-shadow: 0 6px 24px rgba(34, 211, 238, 0.25), 0 2px 8px rgba(139, 92, 246, 0.25);
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.stButton > button:hover {
+    filter: brightness(1.05);
+    transform: translateY(-1px);
+    box-shadow: 0 12px 36px rgba(34, 211, 238, 0.32), 0 6px 18px rgba(139, 92, 246, 0.28);
+}
+
+/* Input fields */
+.stTextInput input, .stTextArea textarea, .stSelectbox select {
+    background-color: #0f172a !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    color: #e5e7eb !important;
+    border-radius: 12px;
+}
+
+.stTextInput input:focus, .stTextArea textarea:focus, .stSelectbox select:focus {
+    border-color: #22d3ee !important;
+    box-shadow: 0 0 0 1px #22d3ee !important;
+}
+
+/* Cards/Containers */
+.stContainer, .element-container {
+    background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.06) 0%,
+        rgba(255, 255, 255, 0.03) 100%
+    ),
+    rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    backdrop-filter: saturate(140%) blur(12px);
+}
+
+/* Tabs */
+.stTabs [data-baseweb="tab-list"] {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 4px;
+}
+
+.stTabs [data-baseweb="tab"] {
+    background: transparent;
+    color: #9ca3af;
+    border-radius: 8px;
+    font-weight: 500;
+}
+
+.stTabs [aria-selected="true"] {
+    background: linear-gradient(135deg, #8b5cf6, #06b6d4) !important;
+    color: white !important;
+}
+
+/* Progress bars */
+.stProgress > div > div > div {
+    background: linear-gradient(135deg, #8b5cf6, #22d3ee);
+}
+
+/* Metrics */
+.metric-container {
+    background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.06) 0%,
+        rgba(255, 255, 255, 0.03) 100%
+    );
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Success/Error states */
+.stSuccess {
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    color: #10b981;
+}
+
+.stError {
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    color: #ef4444;
+}
+
+.stInfo {
+    background: rgba(34, 211, 238, 0.1);
+    border: 1px solid rgba(34, 211, 238, 0.3);
+    color: #22d3ee;
+}
+
+/* Code blocks */
+.stCode {
+    background: #0f172a !important;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+}
+
+/* Expandable sections */
+.streamlit-expanderHeader {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    color: #e5e7eb !important;
+}
+
+/* File uploader */
+.stFileUploader {
+    background: rgba(255, 255, 255, 0.02);
+    border: 2px dashed rgba(34, 211, 238, 0.5);
+    border-radius: 16px;
+}
+
+/* Dataframes */
+.stDataFrame {
+    background: #0f172a;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+}
+
+/* Custom logo container */
+.logo-container {
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(34, 211, 238, 0.1));
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 30px;
+    backdrop-filter: saturate(140%) blur(12px);
+}
+
+/* Hero gradient background */
+.hero-background {
+    position: relative;
+    background: 
+        radial-gradient(900px 600px at 15% -10%, rgba(139, 92, 246, 0.25), transparent 60%),
+        radial-gradient(900px 600px at 85% 0%, rgba(34, 211, 238, 0.18), transparent 60%);
+    border-radius: 20px;
+    padding: 30px;
+    margin-bottom: 20px;
+}
