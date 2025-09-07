@@ -17,7 +17,11 @@ import cv2  # Import OpenCV
 from datetime import datetime as _dt
 from scipy import ndimage
 import re
-import logging
+try:
+    import logging
+    LOGGING_AVAILABLE = True
+except ImportError:
+    LOGGING_AVAILABLE = False
 from urllib.parse import urlparse
 from typing import Dict, List, Any, Optional
 import tempfile
@@ -34,12 +38,29 @@ import concurrent.futures
 # Load environment variables
 load_dotenv()
 
-# Configure logging FIRST - before any logger usage
-logging.basicConfig(
-    level=os.getenv("LOG_LEVEL", "INFO"), 
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-)
-logger = logging.getLogger(__name__)
+# Configure logging FIRST - with maximum cloud environment compatibility
+logger = None
+if LOGGING_AVAILABLE:
+    try:
+        logging.basicConfig(
+            level=os.getenv("LOG_LEVEL", "INFO"), 
+            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+            force=True  # Force reconfiguration for cloud environments
+        )
+        logger = logging.getLogger(__name__)
+        logger.info("Logger initialized successfully")
+    except Exception as e:
+        LOGGING_AVAILABLE = False
+
+if not LOGGING_AVAILABLE or logger is None:
+    # Ultimate fallback for any cloud environment issues
+    class SimpleLogger:
+        def info(self, msg): print(f"INFO: {msg}", file=sys.stderr, flush=True)
+        def warning(self, msg): print(f"WARNING: {msg}", file=sys.stderr, flush=True) 
+        def error(self, msg): print(f"ERROR: {msg}", file=sys.stderr, flush=True)
+        def debug(self, msg): print(f"DEBUG: {msg}", file=sys.stderr, flush=True)
+    logger = SimpleLogger()
+    logger.warning("Using fallback logger - logging module unavailable or failed")
 
 # Cloud environment detection
 IS_CLOUD_DEPLOYMENT = (
