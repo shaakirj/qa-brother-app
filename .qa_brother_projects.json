@@ -1,0 +1,21 @@
+{
+  "SCANS AI": {
+    "jira_ticket_id": "",
+    "web_url": "https://scans.staging2.liquidpreview2.net/",
+    "figma_url": "https://www.figma.com/design/D0tXCTuRzPjTL1yy0NrPlG/Scans.ai--Dev-?node-id=65-4882&t=0NwZs9UxaGbSHEBM-4",
+    "figma_ux_url": "",
+    "jira_assignee": "",
+    "design_figma_url": "https://www.figma.com/design/l4TxuwRoGxGOZpYUpWpVcN/Scans.ai--UI-?node-id=899-3752&m=dev",
+    "design_base_web_url": "https://scans.staging2.liquidpreview2.net/",
+    "design_specific_path": "2025/07/18/from-rule-to-real/",
+    "design_similarity_threshold": 0.95,
+    "design_device_type": "Desktop",
+    "design_mobile_device": "",
+    "design_tablet_device": "",
+    "design_full_page": true,
+    "design_overlay_grid": true,
+    "design_jira_assignee": "",
+    "design_enable_video_recording": false,
+    "design_enable_live_preview": false
+  }
+}

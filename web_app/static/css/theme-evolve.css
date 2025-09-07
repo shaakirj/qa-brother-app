@@ -1,0 +1,39 @@
+/* theme-evolve.css: site-specific overrides and additions on top of theme-envole.css */
+/* Load after theme-envole.css. Keep selectors compatible with existing markup. */
+
+/* Example: tweak hero gradients and button emphasis */
+.theme-envole .hero-section {
+  background:
+    radial-gradient(800px 500px at 20% -10%, rgba(56, 189, 248, 0.20), transparent 60%),
+    radial-gradient(800px 500px at 80% 0%, rgba(139, 92, 246, 0.22), transparent 60%),
+    linear-gradient(180deg, #0a0f1c 0%, #0b1220 60%, #0a0f1c 100%);
+}
+
+/* Stronger contrast for primary text */
+.theme-envole .text-primary { color: #e7eaf1; }
+.theme-envole .text-secondary { color: #a6b0c3; }
+
+/* Button sizes */
+.theme-envole .btn-primary,
+.theme-envole .btn-outline {
+  padding-top: 0.8rem;
+  padding-bottom: 0.8rem;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+}
+
+/* Card border emphasis */
+.theme-envole .card,
+.theme-envole .feature-card {
+  border-color: rgba(148, 163, 184, 0.16);
+}
+
+/* KPI tiles readability */
+.theme-envole .metric-card {
+  border-left-color: #22d3ee; /* cyan accent */
+}
+
+/* Navbar active link style (utility class you can add) */
+.theme-envole .nav-active {
+  color: #7dd3fc !important;
+}

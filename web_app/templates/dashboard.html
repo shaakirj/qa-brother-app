@@ -1,0 +1,350 @@
+{% extends "base.html" %} {% block title %}Quali - Operational Dashboard{%
+endblock %} {% block content %}
+<!-- Dashboard Header -->
+<div class="bg-primary border-b border-light">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div class="flex items-center justify-between">
+      <div>
+        <h1 class="text-3xl font-bold text-primary mb-2">
+          Operational Dashboard
+        </h1>
+        <p class="text-secondary">
+          Monitor active tests, team activity, and key metrics at a glance
+        </p>
+      </div>
+      <div class="flex items-center space-x-4">
+        <div class="relative">
+          <i
+            class="fas fa-bell text-secondary text-lg cursor-pointer hover:text-primary"
+          ></i>
+          <span
+            class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center"
+            >3</span
+          >
+        </div>
+        <div
+          class="w-8 h-8 bg-tertiary rounded-full flex items-center justify-center"
+        >
+          <i class="fas fa-user text-secondary text-sm"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Main Dashboard Content -->
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <!-- Quick Actions Bar -->
+  <div class="mb-8">
+    <h2 class="text-lg font-semibold text-primary mb-4">Quick Actions</h2>
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <a
+        href="{{ url_for('workflow_new_suite') }}"
+        class="btn-primary px-6 py-4 rounded-lg flex items-center justify-center space-x-2 transition-all"
+      >
+        <i class="fas fa-plus"></i>
+        <span>New Test Suite</span>
+      </a>
+      <a
+        href="{{ url_for('design_qa') }}"
+        class="btn-outline px-6 py-4 rounded-lg flex items-center justify-center space-x-2 transition-all"
+      >
+        <i class="fas fa-palette"></i>
+        <span>Design QA</span>
+      </a>
+      <a
+        href="{{ url_for('functional_testing') }}"
+        class="btn-outline px-6 py-4 rounded-lg flex items-center justify-center space-x-2 transition-all"
+      >
+        <i class="fas fa-cogs"></i>
+        <span>Run Tests</span>
+      </a>
+      <a
+        href="{{ url_for('workflow_triage') }}"
+        class="btn-outline px-6 py-4 rounded-lg flex items-center justify-center space-x-2 transition-all"
+      >
+        <i class="fas fa-exclamation-triangle"></i>
+        <span>Issue Triage</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Metrics at a Glance -->
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+    <div class="metric-card p-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm text-secondary">Active Tests</p>
+          <p class="text-2xl font-bold text-primary">12</p>
+          <p class="text-sm text-success">3 running now</p>
+        </div>
+        <div
+          class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center"
+        >
+          <i class="fas fa-play-circle text-primary text-xl"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="metric-card p-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm text-secondary">Success Rate</p>
+          <p class="text-2xl font-bold text-success">94.2%</p>
+          <p class="text-sm text-success">+2.1% this week</p>
+        </div>
+        <div
+          class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center"
+        >
+          <i class="fas fa-check-circle text-success text-xl"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="metric-card p-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm text-secondary">Issues Found</p>
+          <p class="text-2xl font-bold text-error">8</p>
+          <p class="text-sm text-error">Need attention</p>
+        </div>
+        <div
+          class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center"
+        >
+          <i class="fas fa-exclamation-triangle text-error text-xl"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="metric-card p-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm text-secondary">Team Velocity</p>
+          <p class="text-2xl font-bold text-primary">127</p>
+          <p class="text-sm text-secondary">tests this week</p>
+        </div>
+        <div
+          class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center"
+        >
+          <i class="fas fa-rocket text-primary text-xl"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content Grid -->
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <!-- Active Tasks Panel -->
+    <div class="lg:col-span-2">
+      <div class="card">
+        <div class="p-6 border-b border-light">
+          <div class="flex items-center justify-between">
+            <h3 class="text-lg font-semibold text-primary">Active Tasks</h3>
+            <div class="flex space-x-2">
+              <a
+                href="{{ url_for('workflow_active') }}"
+                class="text-sm text-secondary hover:text-primary"
+                >View All</a
+              >
+              <i class="fas fa-filter text-secondary cursor-pointer"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-6 space-y-4">
+          <!-- Active Task Item -->
+          <div
+            class="flex items-center space-x-4 p-4 bg-blue-50 rounded-lg border-l-4 border-blue-500"
+          >
+            <div class="flex-shrink-0">
+              <div
+                class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center"
+              >
+                <i class="fas fa-palette text-primary"></i>
+              </div>
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="text-sm font-medium text-primary">Homepage Design QA</p>
+              <p class="text-sm text-secondary">vs. Production • QA-456</p>
+              <div class="flex items-center space-x-2 mt-1">
+                <div class="w-24 bg-tertiary rounded-full h-1.5">
+                  <div
+                    class="progress-bar h-1.5 rounded-full"
+                    style="width: 75%"
+                  ></div>
+                </div>
+                <span class="text-xs text-secondary">75%</span>
+              </div>
+            </div>
+            <div class="flex-shrink-0 text-right">
+              <p class="text-sm text-primary">Sarah K.</p>
+              <p class="text-xs text-secondary">5 min ago</p>
+            </div>
+          </div>
+
+          <!-- Completed Task Item -->
+          <div
+            class="flex items-center space-x-4 p-4 bg-green-50 rounded-lg border-l-4 border-green-500"
+          >
+            <div class="flex-shrink-0">
+              <div
+                class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center"
+              >
+                <i class="fas fa-cogs text-success"></i>
+              </div>
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="text-sm font-medium text-primary">Login Flow Tests</p>
+              <p class="text-sm text-secondary">Functional Suite • QA-234</p>
+              <div class="flex items-center space-x-2 mt-1">
+                <span
+                  class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full"
+                  >Completed</span
+                >
+              </div>
+            </div>
+            <div class="flex-shrink-0 text-right">
+              <p class="text-sm text-primary">Mike R.</p>
+              <p class="text-xs text-secondary">2 hours ago</p>
+            </div>
+          </div>
+
+          <!-- Issue Task Item -->
+          <div
+            class="flex items-center space-x-4 p-4 bg-red-50 rounded-lg border-l-4 border-red-500"
+          >
+            <div class="flex-shrink-0">
+              <div
+                class="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center"
+              >
+                <i class="fas fa-exclamation-triangle text-error"></i>
+              </div>
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="text-sm font-medium text-primary">
+                Mobile Responsive Issues
+              </p>
+              <p class="text-sm text-secondary">Design QA Failed • QA-789</p>
+              <div class="flex items-center space-x-2 mt-1">
+                <span
+                  class="text-xs bg-red-100 text-red-800 px-2 py-1 rounded-full"
+                  >Needs Review</span
+                >
+              </div>
+            </div>
+            <div class="flex-shrink-0 text-right">
+              <p class="text-sm text-primary">Unassigned</p>
+              <p class="text-xs text-error">Needs attention</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Side Panel -->
+    <div class="space-y-6">
+      <!-- Team Activity Feed -->
+      <div class="card">
+        <div class="p-4 border-b border-light">
+          <h3 class="text-lg font-semibold text-primary">Team Activity Feed</h3>
+        </div>
+        <div class="p-4 space-y-3">
+          <div class="flex items-start space-x-3">
+            <div
+              class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0"
+            >
+              <i class="fas fa-check text-success text-xs"></i>
+            </div>
+            <div class="flex-1">
+              <p class="text-sm text-primary">Sarah completed Design QA</p>
+              <p class="text-xs text-secondary">2 minutes ago</p>
+            </div>
+          </div>
+
+          <div class="flex items-start space-x-3">
+            <div
+              class="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0"
+            >
+              <i class="fas fa-play text-primary text-xs"></i>
+            </div>
+            <div class="flex-1">
+              <p class="text-sm text-primary">Mike started functional tests</p>
+              <p class="text-xs text-secondary">15 minutes ago</p>
+            </div>
+          </div>
+
+          <div class="flex items-start space-x-3">
+            <div
+              class="w-6 h-6 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0"
+            >
+              <i class="fab fa-jira text-primary text-xs"></i>
+            </div>
+            <div class="flex-1">
+              <p class="text-sm text-primary">3 tickets created</p>
+              <p class="text-xs text-secondary">1 hour ago</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Workflow Quick Access -->
+      <div class="card">
+        <div class="p-4 border-b border-light">
+          <h3 class="text-lg font-semibold text-primary">Workflow Access</h3>
+        </div>
+        <div class="p-4 space-y-3">
+          <a
+            href="{{ url_for('workflow_new_suite') }}"
+            class="flex items-center space-x-3 p-3 bg-tertiary rounded-lg hover:bg-blue-50 transition-colors"
+          >
+            <i class="fas fa-plus text-primary"></i>
+            <span class="text-sm text-primary">New Test Suite</span>
+          </a>
+          <a
+            href="{{ url_for('workflow_active') }}"
+            class="flex items-center space-x-3 p-3 bg-tertiary rounded-lg hover:bg-green-50 transition-colors"
+          >
+            <i class="fas fa-tasks text-primary"></i>
+            <span class="text-sm text-primary">Active Management</span>
+          </a>
+          <a
+            href="{{ url_for('workflow_results') }}"
+            class="flex items-center space-x-3 p-3 bg-tertiary rounded-lg hover:bg-purple-50 transition-colors"
+          >
+            <i class="fas fa-chart-bar text-primary"></i>
+            <span class="text-sm text-primary">Results Analysis</span>
+          </a>
+          <a
+            href="{{ url_for('workflow_triage') }}"
+            class="flex items-center space-x-3 p-3 bg-tertiary rounded-lg hover:bg-red-50 transition-colors"
+          >
+            <i class="fas fa-exclamation-triangle text-primary"></i>
+            <span class="text-sm text-primary">Issue Triage</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- This Week Stats -->
+      <div class="card">
+        <div class="p-4 border-b border-light">
+          <h3 class="text-lg font-semibold text-primary">This Week</h3>
+        </div>
+        <div class="p-4 space-y-4">
+          <div class="flex justify-between items-center">
+            <span class="text-sm text-secondary">Tests Run</span>
+            <span class="font-semibold text-primary">47</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <span class="text-sm text-secondary">Issues Found</span>
+            <span class="font-semibold text-error">12</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <span class="text-sm text-secondary">Time Saved</span>
+            <span class="font-semibold text-success">23h</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

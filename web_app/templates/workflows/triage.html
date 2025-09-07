@@ -1,0 +1,289 @@
+{% extends "base.html" %} {% block title %}Issue Triage - Quali{% endblock %} {%
+block content %}
+<!-- Workflow Header -->
+<div class="bg-primary border-b border-light">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div class="flex items-center justify-between">
+      <div>
+        <h1 class="text-3xl font-bold text-primary mb-2">Issue Triage</h1>
+        <p class="text-secondary">
+          Queue-based interface for addressing failures and creating tickets
+        </p>
+      </div>
+      <div class="flex items-center space-x-4">
+        <div class="flex items-center space-x-2">
+          <i class="fas fa-filter text-secondary"></i>
+          <select
+            class="bg-tertiary border border-light rounded-lg px-3 py-2 text-sm text-primary"
+          >
+            <option>All Issues</option>
+            <option>High Priority</option>
+            <option>Medium Priority</option>
+            <option>Low Priority</option>
+          </select>
+        </div>
+        <button class="btn-primary px-4 py-2 text-sm">
+          <i class="fas fa-plus mr-2"></i>Create Ticket
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Issue Queue -->
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <!-- Issue Queue (Main Area) -->
+    <div class="lg:col-span-2">
+      <div class="card">
+        <div class="p-6 border-b border-light">
+          <div class="flex items-center justify-between">
+            <h3 class="text-lg font-semibold text-primary">Issue Queue</h3>
+            <div class="flex items-center space-x-2">
+              <span class="text-sm text-secondary">8 issues</span>
+              <i class="fas fa-sort text-secondary cursor-pointer"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-6 space-y-4">
+          <!-- High Priority Issue -->
+          <div class="issue-card high p-4">
+            <div class="flex items-start space-x-4">
+              <div class="flex-shrink-0">
+                <div
+                  class="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center"
+                >
+                  <i class="fas fa-exclamation-triangle text-error"></i>
+                </div>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center justify-between mb-2">
+                  <h4 class="text-sm font-medium text-primary">
+                    Mobile Responsive Layout Broken
+                  </h4>
+                  <span
+                    class="text-xs bg-red-100 text-red-800 px-2 py-1 rounded-full"
+                    >High Priority</span
+                  >
+                </div>
+                <p class="text-sm text-secondary mb-2">
+                  Design QA Failed • QA-789
+                </p>
+                <p class="text-xs text-secondary mb-3">
+                  Critical layout issues on mobile devices below 768px width.
+                  Affects user experience and conversion rates.
+                </p>
+                <div class="flex items-center space-x-4 text-xs text-secondary">
+                  <span><i class="fas fa-user mr-1"></i>Unassigned</span>
+                  <span><i class="fas fa-clock mr-1"></i>3 hours ago</span>
+                  <span><i class="fas fa-tag mr-1"></i>Design QA</span>
+                </div>
+              </div>
+              <div class="flex-shrink-0 flex flex-col space-y-2">
+                <button class="btn-primary px-3 py-1 text-xs">
+                  Assign to Me
+                </button>
+                <button class="btn-outline px-3 py-1 text-xs">
+                  Create Jira Ticket
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Medium Priority Issue -->
+          <div class="issue-card medium p-4">
+            <div class="flex items-start space-x-4">
+              <div class="flex-shrink-0">
+                <div
+                  class="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center"
+                >
+                  <i class="fas fa-exclamation-circle text-warning"></i>
+                </div>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center justify-between mb-2">
+                  <h4 class="text-sm font-medium text-primary">
+                    Login Form Validation Error
+                  </h4>
+                  <span
+                    class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full"
+                    >Medium Priority</span
+                  >
+                </div>
+                <p class="text-sm text-secondary mb-2">
+                  Functional Test Failed • QA-234
+                </p>
+                <p class="text-xs text-secondary mb-3">
+                  Email validation not working correctly for international
+                  domains. Users cannot login with certain email formats.
+                </p>
+                <div class="flex items-center space-x-4 text-xs text-secondary">
+                  <span><i class="fas fa-user mr-1"></i>Mike R.</span>
+                  <span><i class="fas fa-clock mr-1"></i>1 hour ago</span>
+                  <span><i class="fas fa-tag mr-1"></i>Functional</span>
+                </div>
+              </div>
+              <div class="flex-shrink-0 flex flex-col space-y-2">
+                <button class="btn-primary px-3 py-1 text-xs">
+                  View Details
+                </button>
+                <button class="btn-outline px-3 py-1 text-xs">
+                  Create Jira Ticket
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Low Priority Issue -->
+          <div class="issue-card low p-4">
+            <div class="flex items-start space-x-4">
+              <div class="flex-shrink-0">
+                <div
+                  class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center"
+                >
+                  <i class="fas fa-info-circle text-success"></i>
+                </div>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center justify-between mb-2">
+                  <h4 class="text-sm font-medium text-primary">
+                    Minor Color Inconsistency
+                  </h4>
+                  <span
+                    class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full"
+                    >Low Priority</span
+                  >
+                </div>
+                <p class="text-sm text-secondary mb-2">
+                  Design QA Warning • QA-456
+                </p>
+                <p class="text-xs text-secondary mb-3">
+                  Button hover state color differs slightly from design
+                  specification. Minor visual inconsistency.
+                </p>
+                <div class="flex items-center space-x-4 text-xs text-secondary">
+                  <span><i class="fas fa-user mr-1"></i>Sarah K.</span>
+                  <span><i class="fas fa-clock mr-1"></i>2 hours ago</span>
+                  <span><i class="fas fa-tag mr-1"></i>Design QA</span>
+                </div>
+              </div>
+              <div class="flex-shrink-0 flex flex-col space-y-2">
+                <button class="btn-primary px-3 py-1 text-xs">
+                  View Details
+                </button>
+                <button class="btn-outline px-3 py-1 text-xs">
+                  Create Jira Ticket
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Side Panel -->
+    <div class="space-y-6">
+      <!-- Triage Stats -->
+      <div class="card">
+        <div class="p-4 border-b border-light">
+          <h3 class="text-lg font-semibold text-primary">Triage Stats</h3>
+        </div>
+        <div class="p-4 space-y-4">
+          <div class="flex justify-between items-center">
+            <span class="text-sm text-secondary">Issues Today</span>
+            <span class="font-semibold text-primary">8</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <span class="text-sm text-secondary">High Priority</span>
+            <span class="font-semibold text-error">3</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <span class="text-sm text-secondary">Tickets Created</span>
+            <span class="font-semibold text-success">5</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <span class="text-sm text-secondary">Resolved</span>
+            <span class="font-semibold text-success">2</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="card">
+        <div class="p-4 border-b border-light">
+          <h3 class="text-lg font-semibold text-primary">Quick Actions</h3>
+        </div>
+        <div class="p-4 space-y-3">
+          <button
+            class="w-full flex items-center space-x-3 p-3 bg-tertiary rounded-lg hover:bg-blue-50 transition-colors"
+          >
+            <i class="fab fa-jira text-primary"></i>
+            <span class="text-sm text-primary">Create Jira Ticket</span>
+          </button>
+          <button
+            class="w-full flex items-center space-x-3 p-3 bg-tertiary rounded-lg hover:bg-green-50 transition-colors"
+          >
+            <i class="fas fa-user-plus text-primary"></i>
+            <span class="text-sm text-primary">Assign to Team Member</span>
+          </button>
+          <button
+            class="w-full flex items-center space-x-3 p-3 bg-tertiary rounded-lg hover:bg-purple-50 transition-colors"
+          >
+            <i class="fas fa-tags text-primary"></i>
+            <span class="text-sm text-primary">Bulk Update Priority</span>
+          </button>
+          <button
+            class="w-full flex items-center space-x-3 p-3 bg-tertiary rounded-lg hover:bg-red-50 transition-colors"
+          >
+            <i class="fas fa-archive text-primary"></i>
+            <span class="text-sm text-primary">Archive Resolved</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Team Members -->
+      <div class="card">
+        <div class="p-4 border-b border-light">
+          <h3 class="text-lg font-semibold text-primary">Team Members</h3>
+        </div>
+        <div class="p-4 space-y-3">
+          <div class="flex items-center space-x-3">
+            <div
+              class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center"
+            >
+              <i class="fas fa-user text-primary text-sm"></i>
+            </div>
+            <div class="flex-1">
+              <p class="text-sm font-medium text-primary">Sarah K.</p>
+              <p class="text-xs text-secondary">2 active issues</p>
+            </div>
+          </div>
+          <div class="flex items-center space-x-3">
+            <div
+              class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center"
+            >
+              <i class="fas fa-user text-success text-sm"></i>
+            </div>
+            <div class="flex-1">
+              <p class="text-sm font-medium text-primary">Mike R.</p>
+              <p class="text-xs text-secondary">1 active issue</p>
+            </div>
+          </div>
+          <div class="flex items-center space-x-3">
+            <div
+              class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center"
+            >
+              <i class="fas fa-user text-primary text-sm"></i>
+            </div>
+            <div class="flex-1">
+              <p class="text-sm font-medium text-primary">Alex T.</p>
+              <p class="text-xs text-secondary">Available</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,257 @@
+{% extends "base.html" %} {% block title %}Results Review & Analysis - Quali{%
+endblock %} {% block content %}
+<!-- Workflow Header -->
+<div class="bg-primary border-b border-light">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div class="flex items-center justify-between">
+      <div>
+        <h1 class="text-3xl font-bold text-primary mb-2">
+          Results Review & Analysis
+        </h1>
+        <p class="text-secondary">
+          Dedicated workspace for analyzing test results and generating insights
+        </p>
+      </div>
+      <div class="flex items-center space-x-4">
+        <div class="flex items-center space-x-2">
+          <i class="fas fa-calendar text-secondary"></i>
+          <select
+            class="bg-tertiary border border-light rounded-lg px-3 py-2 text-sm text-primary"
+          >
+            <option>Last 7 days</option>
+            <option>Last 30 days</option>
+            <option>Last 3 months</option>
+            <option>All time</option>
+          </select>
+        </div>
+        <button class="btn-primary px-4 py-2 text-sm">
+          <i class="fas fa-download mr-2"></i>Export Report
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Results Workspace -->
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+    <!-- Results Timeline (Right Panel) -->
+    <aside class="lg:col-span-1">
+      <div class="card p-6 sticky top-8">
+        <h2 class="font-semibold text-primary mb-4">Results Timeline</h2>
+        <div class="space-y-4">
+          <div class="p-3 bg-green-50 rounded-lg border-l-4 border-green-500">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-sm font-medium text-primary">Design QA</span>
+              <span class="text-xs text-success">✓ Passed</span>
+            </div>
+            <p class="text-xs text-secondary">Homepage validation</p>
+            <p class="text-xs text-secondary">2 hours ago</p>
+          </div>
+
+          <div class="p-3 bg-blue-50 rounded-lg border-l-4 border-blue-500">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-sm font-medium text-primary"
+                >Functional Tests</span
+              >
+              <span class="text-xs text-primary">Running</span>
+            </div>
+            <p class="text-xs text-secondary">Login flow validation</p>
+            <p class="text-xs text-secondary">1 hour ago</p>
+          </div>
+
+          <div class="p-3 bg-red-50 rounded-lg border-l-4 border-red-500">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-sm font-medium text-primary">Mobile Tests</span>
+              <span class="text-xs text-error">✗ Failed</span>
+            </div>
+            <p class="text-xs text-secondary">Responsive validation</p>
+            <p class="text-xs text-secondary">3 hours ago</p>
+          </div>
+        </div>
+
+        <div class="mt-6 pt-6 border-t border-light">
+          <h3 class="font-medium text-primary mb-3">Quick Filters</h3>
+          <div class="space-y-2">
+            <button
+              class="w-full text-left p-2 text-sm text-secondary hover:text-primary hover:bg-tertiary rounded-lg transition-colors"
+            >
+              <i class="fas fa-palette mr-2"></i>Design QA Results
+            </button>
+            <button
+              class="w-full text-left p-2 text-sm text-secondary hover:text-primary hover:bg-tertiary rounded-lg transition-colors"
+            >
+              <i class="fas fa-cogs mr-2"></i>Functional Results
+            </button>
+            <button
+              class="w-full text-left p-2 text-sm text-secondary hover:text-primary hover:bg-tertiary rounded-lg transition-colors"
+            >
+              <i class="fas fa-chart-line mr-2"></i>Analytics
+            </button>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Results Area (Center) -->
+    <div class="lg:col-span-3">
+      <!-- Results Summary -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div class="metric-card p-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm text-secondary">Total Tests</p>
+              <p class="text-2xl font-bold text-primary">127</p>
+              <p class="text-sm text-success">+12 this week</p>
+            </div>
+            <div
+              class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center"
+            >
+              <i class="fas fa-chart-bar text-primary text-xl"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="metric-card p-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm text-secondary">Success Rate</p>
+              <p class="text-2xl font-bold text-success">94.2%</p>
+              <p class="text-sm text-success">+2.1% improvement</p>
+            </div>
+            <div
+              class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center"
+            >
+              <i class="fas fa-check-circle text-success text-xl"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="metric-card p-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm text-secondary">Issues Found</p>
+              <p class="text-2xl font-bold text-error">8</p>
+              <p class="text-sm text-error">3 high priority</p>
+            </div>
+            <div
+              class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center"
+            >
+              <i class="fas fa-exclamation-triangle text-error text-xl"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabbed Interface -->
+      <div class="card">
+        <div class="border-b border-light">
+          <nav class="flex space-x-8 px-6">
+            <button
+              class="py-4 px-1 border-b-2 border-primary text-primary font-medium text-sm"
+            >
+              Design QA Results
+            </button>
+            <button
+              class="py-4 px-1 border-b-2 border-transparent text-secondary hover:text-primary font-medium text-sm"
+            >
+              Functional Results
+            </button>
+            <button
+              class="py-4 px-1 border-b-2 border-transparent text-secondary hover:text-primary font-medium text-sm"
+            >
+              Analytics
+            </button>
+          </nav>
+        </div>
+
+        <div class="p-6">
+          <!-- Design QA Results Tab Content -->
+          <div class="space-y-6">
+            <div class="flex items-center justify-between">
+              <h3 class="text-lg font-semibold text-primary">
+                Recent Design QA Results
+              </h3>
+              <div class="flex items-center space-x-2">
+                <i class="fas fa-search text-secondary"></i>
+                <input
+                  type="text"
+                  placeholder="Search results..."
+                  class="bg-tertiary border border-light rounded-lg px-3 py-2 text-sm text-primary"
+                />
+              </div>
+            </div>
+
+            <!-- Results List -->
+            <div class="space-y-4">
+              <div
+                class="flex items-center space-x-4 p-4 bg-green-50 rounded-lg border-l-4 border-green-500"
+              >
+                <div class="flex-shrink-0">
+                  <div
+                    class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center"
+                  >
+                    <i class="fas fa-check text-success"></i>
+                  </div>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <p class="text-sm font-medium text-primary">
+                    Homepage Design Validation
+                  </p>
+                  <p class="text-sm text-secondary">
+                    Figma vs Production • QA-456
+                  </p>
+                  <div class="flex items-center space-x-4 mt-1">
+                    <span class="text-xs text-success"
+                      >✓ 95% similarity score</span
+                    >
+                    <span class="text-xs text-secondary">Completed 2h ago</span>
+                  </div>
+                </div>
+                <div class="flex-shrink-0 text-right">
+                  <button class="text-xs text-primary hover:text-secondary">
+                    View Details
+                  </button>
+                </div>
+              </div>
+
+              <div
+                class="flex items-center space-x-4 p-4 bg-red-50 rounded-lg border-l-4 border-red-500"
+              >
+                <div class="flex-shrink-0">
+                  <div
+                    class="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center"
+                  >
+                    <i class="fas fa-exclamation-triangle text-error"></i>
+                  </div>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <p class="text-sm font-medium text-primary">
+                    Mobile Responsive Issues
+                  </p>
+                  <p class="text-sm text-secondary">
+                    Design QA Failed • QA-789
+                  </p>
+                  <div class="flex items-center space-x-4 mt-1">
+                    <span class="text-xs text-error"
+                      >✗ 3 visual differences</span
+                    >
+                    <span class="text-xs text-secondary">Failed 3h ago</span>
+                  </div>
+                </div>
+                <div class="flex-shrink-0 text-right">
+                  <a
+                    href="{{ url_for('workflow_triage') }}"
+                    class="text-xs text-error hover:text-primary"
+                    >Triage Issues</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

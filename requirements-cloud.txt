@@ -1,0 +1,39 @@
+# QA Brother - Streamlit Cloud Requirements
+# Core web framework
+streamlit>=1.28.0
+
+# HTTP requests
+requests>=2.31.0
+
+# Environment management
+python-dotenv>=1.0.0
+
+# AI and language models
+openai>=1.0.0
+groq>=0.3.0
+
+# Document processing
+PyPDF2>=3.0.1
+
+# Web automation (Streamlit Cloud compatible)
+playwright>=1.40.0
+beautifulsoup4>=4.12.0
+
+# Async support for Playwright
+nest-asyncio>=1.6.0
+
+# Jira integration
+jira>=3.5.0
+
+# Image processing
+pillow>=10.0.0
+opencv-python-headless>=4.8.0
+scikit-image>=0.21.0
+
+# Scientific computing
+numpy>=1.24.0
+scipy>=1.11.0
+imageio>=2.31.0
+
+# Note: Some packages removed for Streamlit Cloud compatibility
+# Full desktop version available in requirements.txt

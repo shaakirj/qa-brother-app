@@ -1,0 +1,185 @@
+{% extends "base.html" %} 
+{% block title %}Internal Documentation - Quali{% endblock %} 
+{% block content %}
+<div class="min-h-screen bg-gray-50 py-8">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Header -->
+    <div class="text-center mb-12">
+      <h1 class="text-4xl font-bold text-gray-900 mb-4">
+        <i class="fas fa-book text-indigo-600 mr-3"></i>
+        Internal Documentation
+      </h1>
+      <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+        Documentation and guidelines for using the Quali internal QA tool.
+      </p>
+    </div>
+
+    <!-- Quick Start -->
+    <div class="card p-8 mb-8">
+      <h2 class="text-2xl font-semibold text-gray-900 mb-6">
+        <i class="fas fa-rocket text-indigo-600 mr-2"></i>
+        Quick Start Guide
+      </h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div>
+          <h3 class="text-lg font-semibold text-gray-900 mb-4">Getting Started</h3>
+          <ol class="space-y-3 text-gray-600">
+            <li class="flex items-start">
+              <span class="bg-indigo-100 text-indigo-600 rounded-full w-6 h-6 flex items-center justify-center text-sm font-semibold mr-3 mt-0.5">1</span>
+              <div>
+                <strong>Design QA:</strong> Compare Figma designs with live implementations
+              </div>
+            </li>
+            <li class="flex items-start">
+              <span class="bg-indigo-100 text-indigo-600 rounded-full w-6 h-6 flex items-center justify-center text-sm font-semibold mr-3 mt-0.5">2</span>
+              <div>
+                <strong>Functional Testing:</strong> Generate and run automated test cases
+              </div>
+            </li>
+            <li class="flex items-start">
+              <span class="bg-indigo-100 text-indigo-600 rounded-full w-6 h-6 flex items-center justify-center text-sm font-semibold mr-3 mt-0.5">3</span>
+              <div>
+                <strong>Analytics:</strong> View team metrics and patterns
+              </div>
+            </li>
+          </ol>
+        </div>
+        
+        <div>
+          <h3 class="text-lg font-semibold text-gray-900 mb-4">Requirements</h3>
+          <ul class="space-y-2 text-gray-600">
+            <li class="flex items-center">
+              <i class="fas fa-check text-green-500 mr-2"></i>
+              Figma access token configured
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-check text-green-500 mr-2"></i>
+              Jira integration (optional)
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-check text-green-500 mr-2"></i>
+              OpenAI API key (optional)
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-check text-green-500 mr-2"></i>
+              Internal network access
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Features Overview -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+      <div class="card p-6">
+        <h3 class="text-xl font-semibold text-gray-900 mb-4">
+          <i class="fas fa-palette text-indigo-600 mr-2"></i>
+          Design QA
+        </h3>
+        <p class="text-gray-600 mb-4">
+          Automated visual comparison between Figma designs and live implementations.
+        </p>
+        <ul class="text-sm text-gray-600 space-y-1">
+          <li>• Visual similarity scoring</li>
+          <li>• Automated diff generation</li>
+          <li>• Responsive design validation</li>
+          <li>• Mobile device testing</li>
+        </ul>
+      </div>
+
+      <div class="card p-6">
+        <h3 class="text-xl font-semibold text-gray-900 mb-4">
+          <i class="fas fa-cogs text-indigo-600 mr-2"></i>
+          Functional Testing
+        </h3>
+        <p class="text-gray-600 mb-4">
+          AI-generated test cases and automated test execution.
+        </p>
+        <ul class="text-sm text-gray-600 space-y-1">
+          <li>• AI-generated test cases</li>
+          <li>• Automated test execution</li>
+          <li>• Cross-browser compatibility</li>
+          <li>• Jira ticket integration</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Team Guidelines -->
+    <div class="card p-8">
+      <h2 class="text-2xl font-semibold text-gray-900 mb-6">
+        <i class="fas fa-users text-indigo-600 mr-2"></i>
+        Team Guidelines
+      </h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div>
+          <h3 class="text-lg font-semibold text-gray-900 mb-4">Best Practices</h3>
+          <ul class="space-y-2 text-gray-600">
+            <li class="flex items-start">
+              <i class="fas fa-lightbulb text-yellow-500 mr-2 mt-1"></i>
+              <span>Always test on multiple devices and browsers</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-lightbulb text-yellow-500 mr-2 mt-1"></i>
+              <span>Use descriptive Jira ticket IDs for tracking</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-lightbulb text-yellow-500 mr-2 mt-1"></i>
+              <span>Review generated test cases before execution</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-lightbulb text-yellow-500 mr-2 mt-1"></i>
+              <span>Document any custom configurations</span>
+            </li>
+          </ul>
+        </div>
+        
+        <div>
+          <h3 class="text-lg font-semibold text-gray-900 mb-4">Troubleshooting</h3>
+          <ul class="space-y-2 text-gray-600">
+            <li class="flex items-start">
+              <i class="fas fa-exclamation-triangle text-red-500 mr-2 mt-1"></i>
+              <span>Check API keys if features aren't working</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-exclamation-triangle text-red-500 mr-2 mt-1"></i>
+              <span>Verify Figma URLs contain node-id parameter</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-exclamation-triangle text-red-500 mr-2 mt-1"></i>
+              <span>Ensure web URLs are accessible</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-exclamation-triangle text-red-500 mr-2 mt-1"></i>
+              <span>Contact team lead for configuration issues</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Environment Info -->
+    <div class="card p-6">
+      <h3 class="text-lg font-semibold text-gray-900 mb-4">
+        <i class="fas fa-info-circle text-indigo-600 mr-2"></i>
+        Environment Information
+      </h3>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+        <div>
+          <span class="font-medium text-gray-700">Version:</span>
+          <span class="text-gray-600 ml-2">{{ app_version }}</span>
+        </div>
+        <div>
+          <span class="font-medium text-gray-700">Environment:</span>
+          <span class="text-gray-600 ml-2">{{ environment }}</span>
+        </div>
+        <div>
+          <span class="font-medium text-gray-700">Status:</span>
+          <span class="text-green-600 ml-2">Running</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,286 @@
+{
+  "summary": {
+    "total_checks": 39,
+    "passed": 37,
+    "failed": 0,
+    "warnings": 1,
+    "skipped": 1,
+    "timestamp": "2025-09-04T19:47:29.274924",
+    "ready_for_testing": true
+  },
+  "results": [
+    {
+      "name": "Python Version",
+      "status": "\u2705 PASS",
+      "message": "Python 3.9.6",
+      "details": "Compatible Python version detected",
+      "fix_suggestion": null
+    },
+    {
+      "name": "Virtual Environment",
+      "status": "\u2705 PASS",
+      "message": "Virtual environment detected",
+      "details": "Using: /Users/Shaakir/Documents/project1/LT agent/qa_env",
+      "fix_suggestion": null
+    },
+    {
+      "name": "Working Directory",
+      "status": "\u2705 PASS",
+      "message": "Correct project directory",
+      "details": "Current: /Users/Shaakir/Documents/project1/LT agent",
+      "fix_suggestion": null
+    },
+    {
+      "name": "Package: streamlit",
+      "status": "\u2705 PASS",
+      "message": "Installed (v1.48.1)",
+      "details": "Streamlit web framework",
+      "fix_suggestion": null
+    },
+    {
+      "name": "Package: selenium",
+      "status": "\u2705 PASS",
+      "message": "Installed (v4.35.0)",
+      "details": "Web automation",
+      "fix_suggestion": null
+    },
+    {
+      "name": "Package: webdriver_manager",
+      "status": "\u2705 PASS",
+      "message": "Installed (v4.0.2)",
+      "details": "Chrome driver management",
+      "fix_suggestion": null
+    },
+    {
+      "name": "Package: requests",
+      "status": "\u2705 PASS",
+      "message": "Installed (v2.32.5)",
+      "details": "HTTP requests",
+      "fix_suggestion": null
+    },
+    {
+      "name": "Package: dotenv",
+      "status": "\u2705 PASS",
+      "message": "Installed (vUnknown)",
+      "details": "Environment variables",
+      "fix_suggestion": null
+    },
+    {
+      "name": "Package: PIL",
+      "status": "\u2705 PASS",
+      "message": "Installed (v11.3.0)",
+      "details": "Image processing",
+      "fix_suggestion": null
+    },
+    {
+      "name": "Package: groq",
+      "status": "\u2705 PASS",
+      "message": "Installed (v0.31.0)",
+      "details": "AI API client",
+      "fix_suggestion": null
+    },
+    {
+      "name": "Package: jira",
+      "status": "\u2705 PASS",
+      "message": "Installed (v3.8.0)",
+      "details": "Jira integration",
+      "fix_suggestion": null
+    },
+    {
+      "name": "Package: bs4",
+      "status": "\u2705 PASS",
+      "message": "Installed (v4.13.5)",
+      "details": "HTML parsing",
+      "fix_suggestion": null
+    },
+    {
+      "name": "Package: pandas",
+      "status": "\u2705 PASS",
+      "message": "Installed (v2.3.2)",
+      "details": "Data processing",
+      "fix_suggestion": null
+    },
+    {
+      "name": "Package: numpy",
+      "status": "\u2705 PASS",
+      "message": "Installed (v2.0.2)",
+      "details": "Numerical computing",
+      "fix_suggestion": null
+    },
+    {
+      "name": "Package: cv2",
+      "status": "\u2705 PASS",
+      "message": "Installed (v4.12.0)",
+      "details": "Computer vision",
+      "fix_suggestion": null
+    },
+    {
+      "name": "Package: skimage",
+      "status": "\u2705 PASS",
+      "message": "Installed (v0.24.0)",
+      "details": "Image processing",
+      "fix_suggestion": null
+    },
+    {
+      "name": "Package: matplotlib",
+      "status": "\u2705 PASS",
+      "message": "Installed (v3.9.4)",
+      "details": "Plotting",
+      "fix_suggestion": null
+    },
+    {
+      "name": "Environment File",
+      "status": "\u2705 PASS",
+      "message": ".env file loaded successfully",
+      "details": null,
+      "fix_suggestion": null
+    },
+    {
+      "name": "Env Var: GROQ_API_KEY",
+      "status": "\u2705 PASS",
+      "message": "Set (gsk_JEN4...)",
+      "details": "Groq AI API key for test generation",
+      "fix_suggestion": null
+    },
+    {
+      "name": "Env Var: FIGMA_ACCESS_TOKEN",
+      "status": "\u2705 PASS",
+      "message": "Set (figd_jnj...)",
+      "details": "Figma API token for design access",
+      "fix_suggestion": null
+    },
+    {
+      "name": "Env Var: JIRA_SERVER_URL",
+      "status": "\u2705 PASS",
+      "message": "Set (https://...)",
+      "details": "Jira server URL",
+      "fix_suggestion": null
+    },
+    {
+      "name": "Env Var: JIRA_EMAIL",
+      "status": "\u2705 PASS",
+      "message": "Set (shaakir@...)",
+      "details": "Jira account email",
+      "fix_suggestion": null
+    },
+    {
+      "name": "Env Var: JIRA_API_TOKEN",
+      "status": "\u2705 PASS",
+      "message": "Set (ATATT3xF...)",
+      "details": "Jira API token",
+      "fix_suggestion": null
+    },
+    {
+      "name": "Env Var: JIRA_PROJECT_KEY",
+      "status": "\u2705 PASS",
+      "message": "Set (***)",
+      "details": "Jira project key",
+      "fix_suggestion": null
+    },
+    {
+      "name": "Groq API Connection",
+      "status": "\u2705 PASS",
+      "message": "API connection successful",
+      "details": "Model: llama-3.1-8b-instant",
+      "fix_suggestion": null
+    },
+    {
+      "name": "Figma API Connection",
+      "status": "\u2705 PASS",
+      "message": "API connection successful",
+      "details": "User: dev@liquidthought.co.za",
+      "fix_suggestion": null
+    },
+    {
+      "name": "Jira API Connection",
+      "status": "\u2705 PASS",
+      "message": "API connection successful",
+      "details": "User: Shaakir Johaar",
+      "fix_suggestion": null
+    },
+    {
+      "name": "Jira Project Access",
+      "status": "\u2705 PASS",
+      "message": "Project access confirmed",
+      "details": "Project: QA (QA)",
+      "fix_suggestion": null
+    },
+    {
+      "name": "Chrome Browser",
+      "status": "\u2705 PASS",
+      "message": "Chrome installed",
+      "details": "Google Chrome 139.0.7258.155",
+      "fix_suggestion": null
+    },
+    {
+      "name": "ChromeDriver Manager",
+      "status": "\u2705 PASS",
+      "message": "Driver downloaded/cached",
+      "details": "Path: /Users/Shaakir/.wdm/drivers/chromedriver/mac64/139.0.7258.154/chromedriver-mac-arm64/chromedriver",
+      "fix_suggestion": null
+    },
+    {
+      "name": "WebDriver Initialization",
+      "status": "\u2705 PASS",
+      "message": "WebDriver working correctly",
+      "details": null,
+      "fix_suggestion": null
+    },
+    {
+      "name": "Available Memory",
+      "status": "\u26a0\ufe0f WARNING",
+      "message": "1.3GB available",
+      "details": "Low memory may affect performance",
+      "fix_suggestion": null
+    },
+    {
+      "name": "Disk Space Check",
+      "status": "\u23ed\ufe0f SKIP",
+      "message": "Could not check disk space",
+      "details": null,
+      "fix_suggestion": null
+    },
+    {
+      "name": "Connectivity: Google",
+      "status": "\u2705 PASS",
+      "message": "Reachable",
+      "details": "Status: 200",
+      "fix_suggestion": null
+    },
+    {
+      "name": "Connectivity: Figma API",
+      "status": "\u2705 PASS",
+      "message": "Reachable",
+      "details": "Status: 200",
+      "fix_suggestion": null
+    },
+    {
+      "name": "Connectivity: Groq API",
+      "status": "\u2705 PASS",
+      "message": "Reachable",
+      "details": "Status: 200",
+      "fix_suggestion": null
+    },
+    {
+      "name": "Connectivity: GitHub",
+      "status": "\u2705 PASS",
+      "message": "Reachable",
+      "details": "Status: 200",
+      "fix_suggestion": null
+    },
+    {
+      "name": "Temp Directory Write",
+      "status": "\u2705 PASS",
+      "message": "Can write to temp directory",
+      "details": null,
+      "fix_suggestion": null
+    },
+    {
+      "name": "Log File Creation",
+      "status": "\u2705 PASS",
+      "message": "Can create log files",
+      "details": null,
+      "fix_suggestion": null
+    }
+  ]
+}

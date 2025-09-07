@@ -1,0 +1,238 @@
+{% extends "base.html" %} {% block title %}Active Test Management - Quali{%
+endblock %} {% block content %}
+<!-- Workflow Header -->
+<div class="bg-primary border-b border-light">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div class="flex items-center justify-between">
+      <div>
+        <h1 class="text-3xl font-bold text-primary mb-2">
+          Active Test Management
+        </h1>
+        <p class="text-secondary">
+          Kanban-style board for managing ongoing test runs
+        </p>
+      </div>
+      <div class="flex items-center space-x-4">
+        <div class="flex items-center space-x-2">
+          <i class="fas fa-filter text-secondary"></i>
+          <select
+            class="bg-tertiary border border-light rounded-lg px-3 py-2 text-sm text-primary"
+          >
+            <option>All Tests</option>
+            <option>Design QA</option>
+            <option>Functional Tests</option>
+            <option>Responsive Tests</option>
+          </select>
+        </div>
+        <button class="btn-primary px-4 py-2 text-sm">
+          <i class="fas fa-plus mr-2"></i>New Test
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Kanban Board -->
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+    <!-- Running Column -->
+    <div class="bg-tertiary rounded-lg p-4">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="font-semibold text-primary">Running</h3>
+        <span class="bg-blue-100 text-blue-600 text-xs px-2 py-1 rounded-full"
+          >3</span
+        >
+      </div>
+      <div class="space-y-4">
+        <div class="card p-4">
+          <div class="flex items-center space-x-3 mb-3">
+            <div
+              class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center"
+            >
+              <i class="fas fa-palette text-primary text-sm"></i>
+            </div>
+            <div>
+              <p class="text-sm font-medium text-primary">Homepage Design QA</p>
+              <p class="text-xs text-secondary">QA-456</p>
+            </div>
+          </div>
+          <div class="w-full bg-tertiary rounded-full h-2 mb-2">
+            <div class="progress-bar h-2 rounded-full" style="width: 75%"></div>
+          </div>
+          <div class="flex items-center justify-between text-xs text-secondary">
+            <span>75% complete</span>
+            <span>Sarah K.</span>
+          </div>
+        </div>
+
+        <div class="card p-4">
+          <div class="flex items-center space-x-3 mb-3">
+            <div
+              class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center"
+            >
+              <i class="fas fa-cogs text-success text-sm"></i>
+            </div>
+            <div>
+              <p class="text-sm font-medium text-primary">Login Flow Tests</p>
+              <p class="text-xs text-secondary">QA-234</p>
+            </div>
+          </div>
+          <div class="w-full bg-tertiary rounded-full h-2 mb-2">
+            <div class="progress-bar h-2 rounded-full" style="width: 45%"></div>
+          </div>
+          <div class="flex items-center justify-between text-xs text-secondary">
+            <span>45% complete</span>
+            <span>Mike R.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pending Column -->
+    <div class="bg-tertiary rounded-lg p-4">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="font-semibold text-primary">Pending</h3>
+        <span
+          class="bg-yellow-100 text-yellow-600 text-xs px-2 py-1 rounded-full"
+          >2</span
+        >
+      </div>
+      <div class="space-y-4">
+        <div class="card p-4">
+          <div class="flex items-center space-x-3 mb-3">
+            <div
+              class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center"
+            >
+              <i class="fas fa-mobile-alt text-primary text-sm"></i>
+            </div>
+            <div>
+              <p class="text-sm font-medium text-primary">Mobile Responsive</p>
+              <p class="text-xs text-secondary">QA-789</p>
+            </div>
+          </div>
+          <div class="text-xs text-secondary mb-2">
+            <span>Waiting for resources</span>
+          </div>
+          <div class="flex items-center justify-between text-xs text-secondary">
+            <span>Priority: High</span>
+            <span>Unassigned</span>
+          </div>
+        </div>
+
+        <div class="card p-4">
+          <div class="flex items-center space-x-3 mb-3">
+            <div
+              class="w-8 h-8 bg-orange-100 rounded-full flex items-center justify-center"
+            >
+              <i class="fas fa-chart-bar text-primary text-sm"></i>
+            </div>
+            <div>
+              <p class="text-sm font-medium text-primary">Analytics Tests</p>
+              <p class="text-xs text-secondary">QA-123</p>
+            </div>
+          </div>
+          <div class="text-xs text-secondary mb-2">
+            <span>Scheduled for 2:00 PM</span>
+          </div>
+          <div class="flex items-center justify-between text-xs text-secondary">
+            <span>Priority: Medium</span>
+            <span>Alex T.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Completed Column -->
+    <div class="bg-tertiary rounded-lg p-4">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="font-semibold text-primary">Completed</h3>
+        <span class="bg-green-100 text-green-600 text-xs px-2 py-1 rounded-full"
+          >5</span
+        >
+      </div>
+      <div class="space-y-4">
+        <div class="card p-4">
+          <div class="flex items-center space-x-3 mb-3">
+            <div
+              class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center"
+            >
+              <i class="fas fa-check text-success text-sm"></i>
+            </div>
+            <div>
+              <p class="text-sm font-medium text-primary">API Integration</p>
+              <p class="text-xs text-secondary">QA-345</p>
+            </div>
+          </div>
+          <div class="text-xs text-success mb-2">
+            <span>✓ All tests passed</span>
+          </div>
+          <div class="flex items-center justify-between text-xs text-secondary">
+            <span>Completed 1h ago</span>
+            <span>Sarah K.</span>
+          </div>
+        </div>
+
+        <div class="card p-4">
+          <div class="flex items-center space-x-3 mb-3">
+            <div
+              class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center"
+            >
+              <i class="fas fa-check text-success text-sm"></i>
+            </div>
+            <div>
+              <p class="text-sm font-medium text-primary">User Registration</p>
+              <p class="text-xs text-secondary">QA-567</p>
+            </div>
+          </div>
+          <div class="text-xs text-success mb-2">
+            <span>✓ All tests passed</span>
+          </div>
+          <div class="flex items-center justify-between text-xs text-secondary">
+            <span>Completed 3h ago</span>
+            <span>Mike R.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Failed Column -->
+    <div class="bg-tertiary rounded-lg p-4">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="font-semibold text-primary">Failed</h3>
+        <span class="bg-red-100 text-red-600 text-xs px-2 py-1 rounded-full"
+          >1</span
+        >
+      </div>
+      <div class="space-y-4">
+        <div class="card p-4">
+          <div class="flex items-center space-x-3 mb-3">
+            <div
+              class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center"
+            >
+              <i class="fas fa-exclamation-triangle text-error text-sm"></i>
+            </div>
+            <div>
+              <p class="text-sm font-medium text-primary">Payment Flow</p>
+              <p class="text-xs text-secondary">QA-890</p>
+            </div>
+          </div>
+          <div class="text-xs text-error mb-2">
+            <span>✗ 3 tests failed</span>
+          </div>
+          <div class="flex items-center justify-between text-xs text-secondary">
+            <span>Failed 30m ago</span>
+            <span>Alex T.</span>
+          </div>
+          <div class="mt-2">
+            <a
+              href="{{ url_for('workflow_triage') }}"
+              class="text-xs text-error hover:text-primary"
+              >View Issues →</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

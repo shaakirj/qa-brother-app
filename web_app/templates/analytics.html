@@ -1,0 +1,732 @@
+{% extends "base.html" %} {% block title %}Analytics & Insights - Quali{%
+endblock %} {% block content %}
+<div class="min-h-screen bg-gray-50 py-8">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Header -->
+    <div class="text-center mb-12">
+      <h1 class="text-4xl font-bold text-gray-900 mb-4">
+        <i class="fas fa-chart-line text-indigo-600 mr-3"></i>
+        Analytics & Insights
+      </h1>
+      <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+        Comprehensive analytics, pattern detection, and intelligent
+        recommendations for improving your QA processes.
+      </p>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      <div class="card p-6 text-center">
+        <div
+          class="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center mx-auto mb-4"
+        >
+          <i class="fas fa-mobile-alt text-white text-2xl"></i>
+        </div>
+        <h3 class="text-lg font-semibold text-gray-900 mb-2">
+          Fluid Breakpoints
+        </h3>
+        <p class="text-gray-600 mb-4">Generate responsive design animations</p>
+        <button
+          id="fluid-breakpoints-btn"
+          class="btn-primary text-white px-4 py-2 rounded-lg font-semibold"
+        >
+          Generate Animation
+        </button>
+      </div>
+
+      <div class="card p-6 text-center">
+        <div
+          class="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg flex items-center justify-center mx-auto mb-4"
+        >
+          <i class="fas fa-brain text-white text-2xl"></i>
+        </div>
+        <h3 class="text-lg font-semibold text-gray-900 mb-2">AI Analysis</h3>
+        <p class="text-gray-600 mb-4">Run comprehensive AI-powered analysis</p>
+        <button
+          id="ai-analysis-btn"
+          class="btn-primary text-white px-4 py-2 rounded-lg font-semibold"
+        >
+          Start Analysis
+        </button>
+      </div>
+
+      <div class="card p-6 text-center">
+        <div
+          class="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center mx-auto mb-4"
+        >
+          <i class="fas fa-chart-pie text-white text-2xl"></i>
+        </div>
+        <h3 class="text-lg font-semibold text-gray-900 mb-2">
+          Pattern Detection
+        </h3>
+        <p class="text-gray-600 mb-4">Identify recurring issue patterns</p>
+        <button
+          id="pattern-detection-btn"
+          class="btn-primary text-white px-4 py-2 rounded-lg font-semibold"
+        >
+          Detect Patterns
+        </button>
+      </div>
+    </div>
+
+    <!-- Main Analytics Dashboard -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <!-- Left Column - Metrics and Charts -->
+      <div class="lg:col-span-2 space-y-8">
+        <!-- Key Metrics -->
+        <div class="card p-6">
+          <h3 class="text-xl font-semibold text-gray-900 mb-6">
+            <i class="fas fa-tachometer-alt text-indigo-600 mr-2"></i>
+            Key Performance Metrics
+          </h3>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="metric-card p-6">
+              <div class="flex items-center justify-between">
+                <div>
+                  <p class="text-sm font-medium text-gray-600">Total Tests</p>
+                  <p class="text-3xl font-bold text-gray-900">1,247</p>
+                  <p class="text-sm text-green-600">+12% from last month</p>
+                </div>
+                <div
+                  class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center"
+                >
+                  <i class="fas fa-list text-blue-600 text-xl"></i>
+                </div>
+              </div>
+            </div>
+
+            <div class="metric-card p-6">
+              <div class="flex items-center justify-between">
+                <div>
+                  <p class="text-sm font-medium text-gray-600">Success Rate</p>
+                  <p class="text-3xl font-bold text-green-600">94.2%</p>
+                  <p class="text-sm text-green-600">+2.1% from last month</p>
+                </div>
+                <div
+                  class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center"
+                >
+                  <i class="fas fa-check text-green-600 text-xl"></i>
+                </div>
+              </div>
+            </div>
+
+            <div class="metric-card p-6">
+              <div class="flex items-center justify-between">
+                <div>
+                  <p class="text-sm font-medium text-gray-600">
+                    Issues Detected
+                  </p>
+                  <p class="text-3xl font-bold text-red-600">73</p>
+                  <p class="text-sm text-red-600">-8% from last month</p>
+                </div>
+                <div
+                  class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center"
+                >
+                  <i
+                    class="fas fa-exclamation-triangle text-red-600 text-xl"
+                  ></i>
+                </div>
+              </div>
+            </div>
+
+            <div class="metric-card p-6">
+              <div class="flex items-center justify-between">
+                <div>
+                  <p class="text-sm font-medium text-gray-600">Time Saved</p>
+                  <p class="text-3xl font-bold text-indigo-600">127h</p>
+                  <p class="text-sm text-indigo-600">This month</p>
+                </div>
+                <div
+                  class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center"
+                >
+                  <i class="fas fa-clock text-indigo-600 text-xl"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Results Trend -->
+        <div class="card p-6">
+          <h3 class="text-xl font-semibold text-gray-900 mb-6">
+            <i class="fas fa-chart-line text-indigo-600 mr-2"></i>
+            Test Results Trend
+          </h3>
+
+          <div
+            class="h-64 bg-gray-50 rounded-lg flex items-center justify-center"
+          >
+            <div class="text-center">
+              <i class="fas fa-chart-line text-4xl text-gray-400 mb-4"></i>
+              <p class="text-gray-600">
+                Interactive chart will be displayed here
+              </p>
+              <p class="text-sm text-gray-500">
+                Powered by Chart.js or similar library
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Issue Categories -->
+        <div class="card p-6">
+          <h3 class="text-xl font-semibold text-gray-900 mb-6">
+            <i class="fas fa-pie-chart text-indigo-600 mr-2"></i>
+            Issue Categories Distribution
+          </h3>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="space-y-4">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                  <div class="w-4 h-4 bg-red-500 rounded-full mr-3"></div>
+                  <span class="text-sm font-medium text-gray-700"
+                    >Visual Design</span
+                  >
+                </div>
+                <span class="text-sm font-semibold text-gray-900">32%</span>
+              </div>
+              <div class="w-full bg-gray-200 rounded-full h-2">
+                <div
+                  class="bg-red-500 h-2 rounded-full"
+                  style="width: 32%"
+                ></div>
+              </div>
+
+              <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                  <div class="w-4 h-4 bg-orange-500 rounded-full mr-3"></div>
+                  <span class="text-sm font-medium text-gray-700"
+                    >Responsive Design</span
+                  >
+                </div>
+                <span class="text-sm font-semibold text-gray-900">24%</span>
+              </div>
+              <div class="w-full bg-gray-200 rounded-full h-2">
+                <div
+                  class="bg-orange-500 h-2 rounded-full"
+                  style="width: 24%"
+                ></div>
+              </div>
+
+              <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                  <div class="w-4 h-4 bg-yellow-500 rounded-full mr-3"></div>
+                  <span class="text-sm font-medium text-gray-700"
+                    >Accessibility</span
+                  >
+                </div>
+                <span class="text-sm font-semibold text-gray-900">18%</span>
+              </div>
+              <div class="w-full bg-gray-200 rounded-full h-2">
+                <div
+                  class="bg-yellow-500 h-2 rounded-full"
+                  style="width: 18%"
+                ></div>
+              </div>
+
+              <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                  <div class="w-4 h-4 bg-blue-500 rounded-full mr-3"></div>
+                  <span class="text-sm font-medium text-gray-700"
+                    >Performance</span
+                  >
+                </div>
+                <span class="text-sm font-semibold text-gray-900">15%</span>
+              </div>
+              <div class="w-full bg-gray-200 rounded-full h-2">
+                <div
+                  class="bg-blue-500 h-2 rounded-full"
+                  style="width: 15%"
+                ></div>
+              </div>
+
+              <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                  <div class="w-4 h-4 bg-green-500 rounded-full mr-3"></div>
+                  <span class="text-sm font-medium text-gray-700">Other</span>
+                </div>
+                <span class="text-sm font-semibold text-gray-900">11%</span>
+              </div>
+              <div class="w-full bg-gray-200 rounded-full h-2">
+                <div
+                  class="bg-green-500 h-2 rounded-full"
+                  style="width: 11%"
+                ></div>
+              </div>
+            </div>
+
+            <div
+              class="h-48 bg-gray-50 rounded-lg flex items-center justify-center"
+            >
+              <div class="text-center">
+                <i class="fas fa-pie-chart text-4xl text-gray-400 mb-2"></i>
+                <p class="text-gray-600 text-sm">Pie chart visualization</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="card p-6">
+          <h3 class="text-xl font-semibold text-gray-900 mb-6">
+            <i class="fas fa-history text-indigo-600 mr-2"></i>
+            Recent Activity
+          </h3>
+
+          <div class="space-y-4">
+            <div class="flex items-start space-x-3">
+              <div
+                class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0"
+              >
+                <i class="fas fa-check text-green-600 text-sm"></i>
+              </div>
+              <div class="flex-1">
+                <p class="text-sm font-medium text-gray-900">
+                  Design QA completed for homepage
+                </p>
+                <p class="text-sm text-gray-500">
+                  Similarity score: 96.2% • 2 minutes ago
+                </p>
+              </div>
+            </div>
+
+            <div class="flex items-start space-x-3">
+              <div
+                class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0"
+              >
+                <i class="fas fa-times text-red-600 text-sm"></i>
+              </div>
+              <div class="flex-1">
+                <p class="text-sm font-medium text-gray-900">
+                  Functional test failed: Login validation
+                </p>
+                <p class="text-sm text-gray-500">
+                  Jira ticket QA-456 created • 15 minutes ago
+                </p>
+              </div>
+            </div>
+
+            <div class="flex items-start space-x-3">
+              <div
+                class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0"
+              >
+                <i class="fas fa-mobile-alt text-blue-600 text-sm"></i>
+              </div>
+              <div class="flex-1">
+                <p class="text-sm font-medium text-gray-900">
+                  Fluid breakpoint animation generated
+                </p>
+                <p class="text-sm text-gray-500">
+                  320px to 1200px range • 1 hour ago
+                </p>
+              </div>
+            </div>
+
+            <div class="flex items-start space-x-3">
+              <div
+                class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0"
+              >
+                <i class="fas fa-brain text-purple-600 text-sm"></i>
+              </div>
+              <div class="flex-1">
+                <p class="text-sm font-medium text-gray-900">
+                  AI pattern detection completed
+                </p>
+                <p class="text-sm text-gray-500">
+                  3 patterns identified • 2 hours ago
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column - Tools and Actions -->
+      <div class="space-y-8">
+        <!-- Fluid Breakpoints Tool -->
+        <div class="card p-6">
+          <h3 class="text-xl font-semibold text-gray-900 mb-4">
+            <i class="fas fa-mobile-alt text-indigo-600 mr-2"></i>
+            Fluid Breakpoints
+          </h3>
+          <p class="text-gray-600 mb-4">
+            Generate responsive design animations to visualize how your design
+            adapts across screen sizes.
+          </p>
+
+          <form id="fluid-breakpoints-form" class="space-y-4">
+            <div>
+              <label
+                for="web-url-fluid"
+                class="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Web URL
+              </label>
+              <input
+                type="url"
+                id="web-url-fluid"
+                name="web_url"
+                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                placeholder="https://your-website.com"
+                required
+              />
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label
+                  for="start-width"
+                  class="block text-sm font-medium text-gray-700 mb-2"
+                >
+                  Start Width
+                </label>
+                <input
+                  type="number"
+                  id="start-width"
+                  name="start_width"
+                  value="320"
+                  min="320"
+                  max="2000"
+                  class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                />
+              </div>
+              <div>
+                <label
+                  for="end-width"
+                  class="block text-sm font-medium text-gray-700 mb-2"
+                >
+                  End Width
+                </label>
+                <input
+                  type="number"
+                  id="end-width"
+                  name="end_width"
+                  value="1200"
+                  min="320"
+                  max="2000"
+                  class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                />
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              class="w-full btn-primary text-white py-2 px-4 rounded-lg font-semibold"
+            >
+              <i class="fas fa-play mr-2"></i>
+              Generate Animation
+            </button>
+          </form>
+        </div>
+
+        <!-- AI Recommendations -->
+        <div class="card p-6">
+          <h3 class="text-xl font-semibold text-gray-900 mb-4">
+            <i class="fas fa-lightbulb text-indigo-600 mr-2"></i>
+            AI Recommendations
+          </h3>
+
+          <div class="space-y-4">
+            <div class="border-l-4 border-blue-500 pl-4">
+              <h4 class="font-medium text-gray-900">
+                Improve Typography Consistency
+              </h4>
+              <p class="text-sm text-gray-600 mt-1">
+                Consider standardizing font sizes across components. 12
+                instances of inconsistent typography detected.
+              </p>
+            </div>
+
+            <div class="border-l-4 border-green-500 pl-4">
+              <h4 class="font-medium text-gray-900">
+                Enhance Mobile Experience
+              </h4>
+              <p class="text-sm text-gray-600 mt-1">
+                Mobile breakpoint testing shows 3 components need responsive
+                improvements.
+              </p>
+            </div>
+
+            <div class="border-l-4 border-yellow-500 pl-4">
+              <h4 class="font-medium text-gray-900">
+                Accessibility Improvements
+              </h4>
+              <p class="text-sm text-gray-600 mt-1">
+                Add ARIA labels to 5 interactive elements for better screen
+                reader support.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pattern Detection -->
+        <div class="card p-6">
+          <h3 class="text-xl font-semibold text-gray-900 mb-4">
+            <i class="fas fa-search text-indigo-600 mr-2"></i>
+            Pattern Detection
+          </h3>
+
+          <div class="space-y-3">
+            <div
+              class="flex items-center justify-between p-3 bg-red-50 rounded-lg"
+            >
+              <div>
+                <p class="font-medium text-gray-900">Color Inconsistency</p>
+                <p class="text-sm text-gray-600">8 occurrences</p>
+              </div>
+              <span
+                class="text-xs bg-red-100 text-red-800 px-2 py-1 rounded-full"
+                >High</span
+              >
+            </div>
+
+            <div
+              class="flex items-center justify-between p-3 bg-orange-50 rounded-lg"
+            >
+              <div>
+                <p class="font-medium text-gray-900">Spacing Issues</p>
+                <p class="text-sm text-gray-600">5 occurrences</p>
+              </div>
+              <span
+                class="text-xs bg-orange-100 text-orange-800 px-2 py-1 rounded-full"
+                >Medium</span
+              >
+            </div>
+
+            <div
+              class="flex items-center justify-between p-3 bg-yellow-50 rounded-lg"
+            >
+              <div>
+                <p class="font-medium text-gray-900">Button Styling</p>
+                <p class="text-sm text-gray-600">3 occurrences</p>
+              </div>
+              <span
+                class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full"
+                >Low</span
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- Export Options -->
+        <div class="card p-6">
+          <h3 class="text-xl font-semibold text-gray-900 mb-4">
+            <i class="fas fa-download text-indigo-600 mr-2"></i>
+            Export Data
+          </h3>
+
+          <div class="space-y-3">
+            <button
+              class="w-full bg-gray-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-gray-700 transition-colors"
+            >
+              <i class="fas fa-file-pdf mr-2"></i>
+              Download PDF Report
+            </button>
+            <button
+              class="w-full bg-green-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-green-700 transition-colors"
+            >
+              <i class="fas fa-file-excel mr-2"></i>
+              Export to Excel
+            </button>
+            <button
+              class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+            >
+              <i class="fas fa-file-csv mr-2"></i>
+              Export CSV Data
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %} {% block extra_js %}
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Load analytics data on page load
+    loadAnalyticsData();
+
+    // Fluid breakpoints form
+    const fluidForm = document.getElementById("fluid-breakpoints-form");
+    fluidForm.addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const formData = new FormData(fluidForm);
+      const data = Object.fromEntries(formData.entries());
+
+      // Convert to numbers
+      data.start_width = parseInt(data.start_width);
+      data.end_width = parseInt(data.end_width);
+
+      try {
+        showNotification("Generating fluid breakpoint animation...", "info");
+
+        const response = await fetch("/api/fluid-breakpoints", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          showNotification(
+            "Fluid breakpoint animation generated successfully!",
+            "success"
+          );
+          // You could display the GIF here or provide a download link
+        } else {
+          showNotification(
+            "Failed to generate animation: " +
+              (result.error || "Unknown error"),
+            "error"
+          );
+        }
+      } catch (error) {
+        showNotification("An error occurred: " + error.message, "error");
+      }
+    });
+
+    // Quick action buttons
+    document
+      .getElementById("ai-analysis-btn")
+      .addEventListener("click", function () {
+        showNotification("AI analysis feature coming soon!", "info");
+      });
+
+    document
+      .getElementById("pattern-detection-btn")
+      .addEventListener("click", function () {
+        showNotification("Pattern detection feature coming soon!", "info");
+      });
+
+    // Export buttons
+    document.querySelectorAll(".card button").forEach((button) => {
+      if (
+        button.textContent.includes("Download") ||
+        button.textContent.includes("Export")
+      ) {
+        button.addEventListener("click", function () {
+          showNotification("Export feature coming soon!", "info");
+        });
+      }
+    });
+
+    // Simulate real-time data updates
+    setInterval(() => {
+      // Update metrics with slight variations
+      const metrics = document.querySelectorAll(".text-3xl.font-bold");
+      metrics.forEach((metric) => {
+        const currentValue = parseInt(metric.textContent.replace(/[^\d]/g, ""));
+        if (currentValue && Math.random() > 0.8) {
+          const variation = Math.floor(Math.random() * 3) - 1; // -1, 0, or 1
+          const newValue = Math.max(0, currentValue + variation);
+          metric.textContent = metric.textContent.replace(/\d+/, newValue);
+        }
+      });
+    }, 10000); // Update every 10 seconds
+
+    // Function to load analytics data
+    async function loadAnalyticsData() {
+      try {
+        // Load metrics
+        const metricsResponse = await fetch("/api/analytics/metrics");
+        const metricsData = await metricsResponse.json();
+
+        if (metricsData.success) {
+          updateMetricsDisplay(metricsData.metrics);
+        }
+
+        // Load patterns
+        const patternsResponse = await fetch("/api/analytics/patterns");
+        const patternsData = await patternsResponse.json();
+
+        if (patternsData.success) {
+          updatePatternsDisplay(patternsData.patterns);
+        }
+      } catch (error) {
+        console.error("Failed to load analytics data:", error);
+        showNotification("Failed to load analytics data", "error");
+      }
+    }
+
+    function updateMetricsDisplay(metrics) {
+      // Update the metrics cards with real data
+      const totalTestsEl = document.querySelector(
+        ".metric-card:nth-child(1) .text-3xl"
+      );
+      const successRateEl = document.querySelector(
+        ".metric-card:nth-child(2) .text-3xl"
+      );
+      const issuesEl = document.querySelector(
+        ".metric-card:nth-child(3) .text-3xl"
+      );
+      const timeSavedEl = document.querySelector(
+        ".metric-card:nth-child(4) .text-3xl"
+      );
+
+      if (totalTestsEl)
+        totalTestsEl.textContent = metrics.total_tests || "1,247";
+      if (successRateEl)
+        successRateEl.textContent = (metrics.success_rate || 94.2) + "%";
+      if (issuesEl) issuesEl.textContent = metrics.issues_detected || 73;
+      if (timeSavedEl)
+        timeSavedEl.textContent = (metrics.time_saved || 127) + "h";
+    }
+
+    function updatePatternsDisplay(patterns) {
+      // Update pattern detection section with real data
+      const patternsContainer = document.querySelector(".space-y-3");
+      if (patternsContainer && patterns.patterns) {
+        patternsContainer.innerHTML = patterns.patterns
+          .map(
+            (pattern) => `
+           <div class="flex items-center justify-between p-3 ${getPriorityClass(
+             pattern.priority
+           )} rounded-lg">
+             <div>
+               <p class="font-medium text-gray-900">${pattern.name}</p>
+               <p class="text-sm text-gray-600">${pattern.count} occurrences</p>
+             </div>
+             <span class="text-xs ${getPriorityBadgeClass(
+               pattern.priority
+             )} px-2 py-1 rounded-full">${pattern.priority}</span>
+           </div>
+         `
+          )
+          .join("");
+      }
+    }
+
+    function getPriorityClass(priority) {
+      switch (priority.toLowerCase()) {
+        case "high":
+          return "bg-red-50";
+        case "medium":
+          return "bg-orange-50";
+        case "low":
+          return "bg-yellow-50";
+        default:
+          return "bg-gray-50";
+      }
+    }
+
+    function getPriorityBadgeClass(priority) {
+      switch (priority.toLowerCase()) {
+        case "high":
+          return "bg-red-100 text-red-800";
+        case "medium":
+          return "bg-orange-100 text-orange-800";
+        case "low":
+          return "bg-yellow-100 text-yellow-800";
+        default:
+          return "bg-gray-100 text-gray-800";
+      }
+    }
+  });
+</script>
+{% endblock %}

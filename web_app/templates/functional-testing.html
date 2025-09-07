@@ -1,0 +1,789 @@
+{% extends "base.html" %} {% block title %}Functional Testing - Quali{% endblock
+%} {% block content %}
+<div class="min-h-screen bg-secondary py-8">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Header -->
+    <div class="text-center mb-12">
+      <h1 class="text-4xl font-bold text-primary mb-4">
+        <i class="fas fa-cogs text-primary mr-3"></i>
+        Functional Testing
+      </h1>
+      <p class="text-xl text-secondary max-w-3xl mx-auto">
+        Generate and execute comprehensive test cases using AI, with automated
+        test case creation from requirements and designs.
+      </p>
+    </div>
+
+    <!-- Main Content -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <!-- Input Form -->
+      <div class="lg:col-span-1">
+        <div class="card p-6 sticky top-8">
+          <h2 class="text-2xl font-semibold text-primary mb-6">
+            <i class="fas fa-cog text-primary mr-2"></i>
+            Test Configuration
+          </h2>
+
+          <form id="functional-testing-form" class="space-y-6">
+            <!-- Figma URL -->
+            <div>
+              <label
+                for="figma-url"
+                class="block text-sm font-medium text-primary mb-2"
+              >
+                Figma Design URL <span class="text-error">*</span>
+              </label>
+              <input
+                type="url"
+                id="figma-url"
+                name="figma_url"
+                class="w-full px-4 py-3 border border-light rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent bg-tertiary text-primary"
+                placeholder="https://www.figma.com/file/..."
+                required
+              />
+            </div>
+
+            <!-- Web URL -->
+            <div>
+              <label
+                for="web-url"
+                class="block text-sm font-medium text-primary mb-2"
+              >
+                Web Implementation URL <span class="text-error">*</span>
+              </label>
+              <input
+                type="url"
+                id="web-url"
+                name="web_url"
+                class="w-full px-4 py-3 border border-light rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent bg-tertiary text-primary"
+                placeholder="https://your-website.com"
+                required
+              />
+            </div>
+
+            <!-- Jira Ticket ID -->
+            <div>
+              <label
+                for="jira-ticket-id"
+                class="block text-sm font-medium text-primary mb-2"
+              >
+                Jira Ticket ID <span class="text-error">*</span>
+              </label>
+              <input
+                type="text"
+                id="jira-ticket-id"
+                name="jira_ticket_id"
+                class="w-full px-4 py-3 border border-light rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent bg-tertiary text-primary"
+                placeholder="QA-123"
+                required
+              />
+              <p class="text-xs text-secondary mt-1">
+                The Jira ticket containing requirements and acceptance criteria
+              </p>
+            </div>
+
+            <!-- Figma UX URL (Optional) -->
+            <div>
+              <label
+                for="figma-ux-url"
+                class="block text-sm font-medium text-primary mb-2"
+              >
+                Figma UX URL (Optional)
+              </label>
+              <input
+                type="url"
+                id="figma-ux-url"
+                name="figma_ux_url"
+                class="w-full px-4 py-3 border border-light rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent bg-tertiary text-primary"
+                placeholder="https://www.figma.com/file/.../UX-Documentation"
+              />
+              <p class="text-xs text-secondary mt-1">
+                Additional UX documentation from Figma
+              </p>
+            </div>
+
+            <!-- UX File Upload -->
+            <div>
+              <label
+                for="ux-file"
+                class="block text-sm font-medium text-primary mb-2"
+              >
+                Upload UX Document (Optional)
+              </label>
+              <input
+                type="file"
+                id="ux-file"
+                name="ux_file"
+                accept=".txt,.pdf,.docx"
+                class="w-full px-4 py-3 border border-light rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent bg-tertiary text-primary"
+              />
+              <p class="text-xs text-secondary mt-1">
+                Upload requirements, user stories, or UX documentation
+              </p>
+            </div>
+
+            <!-- Test Options -->
+            <div class="space-y-4">
+              <h3 class="text-lg font-medium text-primary">Test Options</h3>
+
+              <div class="flex items-center">
+                <input
+                  type="checkbox"
+                  id="attach-reports"
+                  name="attach_reports"
+                  checked
+                  class="h-4 w-4 text-primary focus:ring-primary border-light rounded bg-tertiary"
+                />
+                <label for="attach-reports" class="ml-2 text-sm text-primary">
+                  Attach reports to Jira tickets
+                </label>
+              </div>
+
+              <div class="flex items-center">
+                <input
+                  type="checkbox"
+                  id="create-bugs"
+                  name="create_bugs"
+                  checked
+                  class="h-4 w-4 text-primary focus:ring-primary border-light rounded bg-tertiary"
+                />
+                <label for="create-bugs" class="ml-2 text-sm text-primary">
+                  Create bug tickets for failed tests
+                </label>
+              </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button
+              type="submit"
+              class="w-full btn-primary text-white py-3 px-6 rounded-lg font-semibold text-lg"
+            >
+              <i class="fas fa-play mr-2"></i>
+              Start Testing
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Results Area -->
+      <div class="lg:col-span-2">
+        <!-- Progress Section -->
+        <div id="progress-section" class="hidden mb-8">
+          <div class="card p-6">
+            <h3 class="text-xl font-semibold text-primary mb-4">
+              <i class="fas fa-tasks text-primary mr-2"></i>
+              Test Execution Progress
+            </h3>
+
+            <div id="progress-steps" class="space-y-4">
+              <!-- Progress steps will be dynamically added here -->
+            </div>
+
+            <div class="mt-6">
+              <div class="flex justify-between text-sm text-secondary mb-2">
+                <span>Progress</span>
+                <span id="progress-percentage">0%</span>
+              </div>
+              <div class="w-full bg-tertiary rounded-full h-2">
+                <div
+                  id="progress-bar"
+                  class="progress-bar h-2 rounded-full"
+                  style="width: 0%"
+                ></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Results Section -->
+        <div id="results-section" class="hidden">
+          <div class="card p-6 mb-8">
+            <h3 class="text-xl font-semibold text-primary mb-6">
+              <i class="fas fa-chart-bar text-primary mr-2"></i>
+              Test Results
+            </h3>
+
+            <!-- Metrics -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+              <div class="metric-card p-6">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <p class="text-sm font-medium text-secondary">
+                      Total Tests
+                    </p>
+                    <p id="total-tests" class="text-3xl font-bold text-primary">
+                      --
+                    </p>
+                  </div>
+                  <div
+                    class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center"
+                  >
+                    <i class="fas fa-list text-primary text-xl"></i>
+                  </div>
+                </div>
+              </div>
+
+              <div class="metric-card p-6">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <p class="text-sm font-medium text-secondary">Passed</p>
+                    <p
+                      id="passed-tests"
+                      class="text-3xl font-bold text-success"
+                    >
+                      --
+                    </p>
+                  </div>
+                  <div
+                    class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center"
+                  >
+                    <i class="fas fa-check text-success text-xl"></i>
+                  </div>
+                </div>
+              </div>
+
+              <div class="metric-card p-6">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <p class="text-sm font-medium text-secondary">Failed</p>
+                    <p id="failed-tests" class="text-3xl font-bold text-error">
+                      --
+                    </p>
+                  </div>
+                  <div
+                    class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center"
+                  >
+                    <i class="fas fa-times text-error text-xl"></i>
+                  </div>
+                </div>
+              </div>
+
+              <div class="metric-card p-6">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <p class="text-sm font-medium text-secondary">
+                      Success Rate
+                    </p>
+                    <p
+                      id="success-rate"
+                      class="text-3xl font-bold text-primary"
+                    >
+                      --
+                    </p>
+                  </div>
+                  <div
+                    class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center"
+                  >
+                    <i class="fas fa-percentage text-primary text-xl"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Test Results Table -->
+            <div id="test-results-table" class="mb-8">
+              <h4 class="text-lg font-semibold text-primary mb-4">
+                Test Execution Details
+              </h4>
+              <div class="overflow-x-auto">
+                <table
+                  class="min-w-full bg-primary border border-light rounded-lg"
+                >
+                  <thead class="bg-tertiary">
+                    <tr>
+                      <th
+                        class="px-6 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider"
+                      >
+                        Test
+                      </th>
+                      <th
+                        class="px-6 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider"
+                      >
+                        Status
+                      </th>
+                      <th
+                        class="px-6 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider"
+                      >
+                        Duration
+                      </th>
+                      <th
+                        class="px-6 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider"
+                      >
+                        Error
+                      </th>
+                      <th
+                        class="px-6 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider"
+                      >
+                        Screenshot
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody
+                    id="test-results-tbody"
+                    class="bg-primary divide-y divide-light"
+                  >
+                    <!-- Test results will be dynamically added here -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- User Stories -->
+            <div id="user-stories" class="mb-8 hidden">
+              <h4 class="text-lg font-semibold text-primary mb-4">
+                Generated User Stories
+              </h4>
+              <div id="user-stories-container" class="space-y-4">
+                <!-- User stories will be dynamically added here -->
+              </div>
+            </div>
+
+            <!-- Jira Tickets -->
+            <div id="jira-tickets" class="hidden">
+              <h4 class="text-lg font-semibold text-primary mb-4">
+                Jira Tickets Created
+              </h4>
+              <div id="tickets-container" class="space-y-4">
+                <!-- Tickets will be dynamically added here -->
+              </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="flex flex-wrap gap-4 mt-8">
+              <button
+                id="download-report"
+                class="bg-secondary text-primary px-6 py-3 rounded-lg font-semibold hover:bg-tertiary transition-colors border border-light"
+              >
+                <i class="fas fa-download mr-2"></i>
+                Download Report
+              </button>
+              <button
+                id="view-artifacts"
+                class="btn-primary text-white px-6 py-3 rounded-lg font-semibold hover:opacity-90 transition-colors"
+              >
+                <i class="fas fa-folder mr-2"></i>
+                View Artifacts
+              </button>
+              <button
+                id="run-again"
+                class="bg-success text-white px-6 py-3 rounded-lg font-semibold hover:opacity-90 transition-colors"
+              >
+                <i class="fas fa-redo mr-2"></i>
+                Run Again
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Instructions -->
+        <div id="instructions-section" class="card p-6">
+          <h3 class="text-xl font-semibold text-primary mb-4">
+            <i class="fas fa-info-circle text-primary mr-2"></i>
+            How Functional Testing Works
+          </h3>
+          <div class="space-y-4 text-secondary">
+            <div class="flex items-start">
+              <div
+                class="w-8 h-8 bg-primary rounded-full flex items-center justify-center flex-shrink-0 mr-3 mt-1"
+              >
+                <span class="text-white font-semibold text-sm">1</span>
+              </div>
+              <div>
+                <p class="font-medium text-primary">AI analyzes your inputs</p>
+                <p class="text-sm text-secondary">
+                  Our AI processes Figma designs, Jira tickets, and UX documents
+                  to understand requirements
+                </p>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <div
+                class="w-8 h-8 bg-primary rounded-full flex items-center justify-center flex-shrink-0 mr-3 mt-1"
+              >
+                <span class="text-white font-semibold text-sm">2</span>
+              </div>
+              <div>
+                <p class="font-medium text-primary">Generate test cases</p>
+                <p class="text-sm text-secondary">
+                  AI creates comprehensive test cases covering positive,
+                  negative, and edge cases
+                </p>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <div
+                class="w-8 h-8 bg-primary rounded-full flex items-center justify-center flex-shrink-0 mr-3 mt-1"
+              >
+                <span class="text-white font-semibold text-sm">3</span>
+              </div>
+              <div>
+                <p class="font-medium text-primary">
+                  Execute tests automatically
+                </p>
+                <p class="text-sm text-secondary">
+                  Tests run using Playwright with real browser automation and
+                  screenshots
+                </p>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <div
+                class="w-8 h-8 bg-primary rounded-full flex items-center justify-center flex-shrink-0 mr-3 mt-1"
+              >
+                <span class="text-white font-semibold text-sm">4</span>
+              </div>
+              <div>
+                <p class="font-medium text-primary">Create Jira tickets</p>
+                <p class="text-sm text-secondary">
+                  Failed tests automatically create detailed bug tickets with
+                  screenshots
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %} {% block extra_js %}
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("functional-testing-form");
+    const progressSection = document.getElementById("progress-section");
+    const resultsSection = document.getElementById("results-section");
+    const instructionsSection = document.getElementById("instructions-section");
+
+    // Form submission
+    form.addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+
+      // Convert checkbox values
+      data.attach_reports = formData.has("attach_reports");
+      data.create_bugs = formData.has("create_bugs");
+
+      // Handle file upload
+      const uxFile = document.getElementById("ux-file").files[0];
+      if (uxFile) {
+        data.ux_file_content = await readFileAsText(uxFile);
+      }
+
+      // Show progress section
+      progressSection.classList.remove("hidden");
+      resultsSection.classList.add("hidden");
+      instructionsSection.classList.add("hidden");
+
+      // Initialize progress
+      initializeProgress();
+
+      try {
+        const response = await fetch("/api/functional-testing/run", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          displayResults(result);
+        } else {
+          showError(result.error || "Functional testing failed");
+        }
+      } catch (error) {
+        showError(
+          "An error occurred while running the tests: " + error.message
+        );
+      }
+    });
+
+    function readFileAsText(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = (e) => resolve(e.target.result);
+        reader.onerror = (e) => reject(e);
+        reader.readAsText(file);
+      });
+    }
+
+    function initializeProgress() {
+      const steps = [
+        { name: "Fetch Jira Requirements", icon: "📋" },
+        { name: "Analyze UX Documents", icon: "📄" },
+        { name: "Generate User Stories", icon: "👥" },
+        { name: "Create Test Cases", icon: "🧪" },
+        { name: "Execute Test Suite", icon: "⚡" },
+        { name: "Analyze Results", icon: "📊" },
+        { name: "Create Jira Tickets", icon: "🎟️" },
+      ];
+
+      const progressSteps = document.getElementById("progress-steps");
+      progressSteps.innerHTML = "";
+
+      steps.forEach((step, index) => {
+        const stepElement = document.createElement("div");
+        stepElement.className = "flex items-center space-x-3";
+        stepElement.innerHTML = `
+                <div class="w-8 h-8 bg-tertiary rounded-full flex items-center justify-center">
+                    <i class="fas fa-clock text-secondary"></i>
+                </div>
+                <div class="flex-1">
+                    <p class="font-medium text-primary">${step.name}</p>
+                    <p class="text-sm text-secondary">Waiting...</p>
+                </div>
+            `;
+        stepElement.id = `step-${index}`;
+        progressSteps.appendChild(stepElement);
+      });
+
+      // Simulate progress updates
+      simulateProgress();
+    }
+
+    function simulateProgress() {
+      const steps = document.querySelectorAll("#progress-steps > div");
+      let currentStep = 0;
+
+      const updateStep = () => {
+        if (currentStep < steps.length) {
+          const step = steps[currentStep];
+          const icon = step.querySelector(".w-8.h-8");
+          const status = step.querySelector("p:last-child");
+
+          // Update to running
+          icon.innerHTML =
+            '<i class="fas fa-spinner fa-spin text-primary"></i>';
+          status.textContent = "Running...";
+          status.className = "text-sm text-primary";
+
+          // Update progress bar
+          const progress = ((currentStep + 1) / steps.length) * 100;
+          document.getElementById("progress-bar").style.width = progress + "%";
+          document.getElementById("progress-percentage").textContent =
+            Math.round(progress) + "%";
+
+          currentStep++;
+
+          if (currentStep < steps.length) {
+            setTimeout(updateStep, 3000);
+          } else {
+            // All steps completed
+            setTimeout(() => {
+              steps.forEach((step) => {
+                const icon = step.querySelector(".w-8.h-8");
+                const status = step.querySelector("p:last-child");
+                icon.innerHTML = '<i class="fas fa-check text-success"></i>';
+                status.textContent = "Completed";
+                status.className = "text-sm text-success";
+              });
+            }, 1000);
+          }
+        }
+      };
+
+      updateStep();
+    }
+
+    function displayResults(result) {
+      // Hide progress, show results
+      progressSection.classList.add("hidden");
+      resultsSection.classList.remove("hidden");
+
+      const testResults = result.test_results || [];
+      const totalTests = testResults.length;
+      const passedTests = testResults.filter((t) => t.passed).length;
+      const failedTests = totalTests - passedTests;
+      const successRate = totalTests > 0 ? (passedTests / totalTests) * 100 : 0;
+
+      // Update metrics
+      document.getElementById("total-tests").textContent = totalTests;
+      document.getElementById("passed-tests").textContent = passedTests;
+      document.getElementById("failed-tests").textContent = failedTests;
+      document.getElementById("success-rate").textContent =
+        Math.round(successRate) + "%";
+
+      // Display test results table
+      displayTestResultsTable(testResults);
+
+      // Display user stories if available
+      if (result.user_stories_generated) {
+        displayUserStories(result.user_stories_generated);
+      }
+
+      // Display Jira tickets if any
+      if (
+        result.jira_tickets_created &&
+        result.jira_tickets_created.length > 0
+      ) {
+        displayJiraTickets(result.jira_tickets_created);
+      }
+    }
+
+    function displayTestResultsTable(testResults) {
+      const tbody = document.getElementById("test-results-tbody");
+      tbody.innerHTML = "";
+
+      testResults.forEach((test, index) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-primary">
+                    ${test.description || `Test ${index + 1}`}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                      test.passed
+                        ? "bg-green-100 text-green-800"
+                        : "bg-red-100 text-red-800"
+                    }">
+                        ${test.passed ? "PASS" : "FAIL"}
+                    </span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-secondary">
+                    ${
+                      test.execution_time
+                        ? test.execution_time.toFixed(2) + "s"
+                        : "--"
+                    }
+                </td>
+                <td class="px-6 py-4 text-sm text-secondary">
+                    ${test.failure_reason || "--"}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-secondary">
+                    ${
+                      test.screenshot
+                        ? '<i class="fas fa-image text-primary"></i>'
+                        : "--"
+                    }
+                </td>
+            `;
+        tbody.appendChild(row);
+      });
+    }
+
+    function displayUserStories(userStories) {
+      const userStoriesDiv = document.getElementById("user-stories");
+      const container = document.getElementById("user-stories-container");
+
+      userStoriesDiv.classList.remove("hidden");
+
+      if (userStories.user_stories && userStories.user_stories.length > 0) {
+        container.innerHTML = userStories.user_stories
+          .map(
+            (story) => `
+                <div class="border border-light rounded-lg p-4">
+                    <h5 class="font-semibold text-primary mb-2">${
+                      story.as || "User Story"
+                    }</h5>
+                    <p class="text-sm text-secondary mb-2">${
+                      story.i_want || ""
+                    }</p>
+                    <p class="text-sm text-muted">${story.so_that || ""}</p>
+                    ${
+                      story.acceptance_criteria &&
+                      story.acceptance_criteria.length > 0
+                        ? `
+                        <div class="mt-3">
+                            <h6 class="text-sm font-medium text-primary mb-2">Acceptance Criteria:</h6>
+                            <ul class="text-sm text-secondary space-y-1">
+                                ${story.acceptance_criteria
+                                  .map((criteria) => `<li>• ${criteria}</li>`)
+                                  .join("")}
+                            </ul>
+                        </div>
+                    `
+                        : ""
+                    }
+                </div>
+            `
+          )
+          .join("");
+      } else {
+        container.innerHTML =
+          '<p class="text-secondary">No user stories generated.</p>';
+      }
+    }
+
+    function displayJiraTickets(tickets) {
+      const jiraTickets = document.getElementById("jira-tickets");
+      const ticketsContainer = document.getElementById("tickets-container");
+
+      jiraTickets.classList.remove("hidden");
+
+      ticketsContainer.innerHTML = tickets
+        .map(
+          (ticket) => `
+            <div class="border border-light rounded-lg p-4">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h5 class="font-semibold text-primary">${
+                          ticket.ticket_key || "Ticket"
+                        }</h5>
+                        <p class="text-sm text-secondary">Status: ${
+                          ticket.success ? "Created" : "Failed"
+                        }</p>
+                        ${
+                          ticket.error
+                            ? `<p class="text-sm text-error">Error: ${ticket.error}</p>`
+                            : ""
+                        }
+                    </div>
+                    ${
+                      ticket.ticket_url
+                        ? `<a href="${ticket.ticket_url}" target="_blank" class="text-primary hover:text-secondary">
+                        <i class="fas fa-external-link-alt"></i>
+                    </a>`
+                        : ""
+                    }
+                </div>
+            </div>
+        `
+        )
+        .join("");
+    }
+
+    function showError(message) {
+      progressSection.classList.add("hidden");
+      resultsSection.classList.remove("hidden");
+
+      const resultsContainer = document.querySelector("#results-section .card");
+      resultsContainer.innerHTML = `
+            <div class="text-center py-12">
+                <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-exclamation-triangle text-error text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-primary mb-2">Test Execution Failed</h3>
+                <p class="text-secondary mb-6">${message}</p>
+                <button onclick="location.reload()" class="btn-primary text-white px-6 py-3 rounded-lg font-semibold hover:opacity-90 transition-colors">
+                    <i class="fas fa-redo mr-2"></i>
+                    Try Again
+                </button>
+            </div>
+        `;
+    }
+
+    // Action buttons
+    document
+      .getElementById("download-report")
+      .addEventListener("click", function () {
+        showNotification("Report download feature coming soon!", "info");
+      });
+
+    document
+      .getElementById("view-artifacts")
+      .addEventListener("click", function () {
+        showNotification("Artifacts viewer coming soon!", "info");
+      });
+
+    document.getElementById("run-again").addEventListener("click", function () {
+      resultsSection.classList.add("hidden");
+      instructionsSection.classList.remove("hidden");
+      form.reset();
+    });
+  });
+</script>
+{% endblock %}

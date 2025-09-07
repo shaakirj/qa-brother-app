@@ -1,0 +1,189 @@
+{% extends "base.html" %} {% block title %}New Test Suite Creation - Quali{%
+endblock %} {% block content %}
+<!-- Workflow Header -->
+<div class="bg-primary border-b border-light">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div class="flex items-center justify-between">
+      <div>
+        <h1 class="text-3xl font-bold text-primary mb-2">
+          New Test Suite Creation
+        </h1>
+        <p class="text-secondary">
+          Multi-step wizard to create comprehensive test suites
+        </p>
+      </div>
+      <div class="flex items-center space-x-4">
+        <div class="text-sm text-secondary">
+          <span class="font-medium">Step 1 of 3</span>
+        </div>
+        <div class="w-32 bg-tertiary rounded-full h-2">
+          <div class="progress-bar h-2 rounded-full" style="width: 33%"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Multi-step Wizard -->
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+    <!-- Configuration Panel (Left Sidebar) -->
+    <aside class="lg:col-span-1">
+      <div class="card p-6 sticky top-8">
+        <h2 class="font-semibold text-primary mb-4">Configuration Steps</h2>
+        <div class="space-y-4">
+          <div
+            class="flex items-center space-x-3 p-3 bg-blue-50 rounded-lg border-l-4 border-blue-500"
+          >
+            <div
+              class="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center"
+            >
+              <span class="text-xs font-medium text-blue-600">1</span>
+            </div>
+            <span class="text-sm font-medium text-primary"
+              >Select Workflow</span
+            >
+          </div>
+          <div class="flex items-center space-x-3 p-3 bg-tertiary rounded-lg">
+            <div
+              class="w-6 h-6 bg-tertiary rounded-full flex items-center justify-center"
+            >
+              <span class="text-xs font-medium text-secondary">2</span>
+            </div>
+            <span class="text-sm text-secondary">Provide Inputs</span>
+          </div>
+          <div class="flex items-center space-x-3 p-3 bg-tertiary rounded-lg">
+            <div
+              class="w-6 h-6 bg-tertiary rounded-full flex items-center justify-center"
+            >
+              <span class="text-xs font-medium text-secondary">3</span>
+            </div>
+            <span class="text-sm text-secondary">Review & Run</span>
+          </div>
+        </div>
+
+        <div class="mt-6 pt-6 border-t border-light">
+          <h3 class="font-medium text-primary mb-3">Quick Templates</h3>
+          <div class="space-y-2">
+            <button
+              class="w-full text-left p-2 text-sm text-secondary hover:text-primary hover:bg-tertiary rounded-lg transition-colors"
+            >
+              <i class="fas fa-palette mr-2"></i>Design QA Suite
+            </button>
+            <button
+              class="w-full text-left p-2 text-sm text-secondary hover:text-primary hover:bg-tertiary rounded-lg transition-colors"
+            >
+              <i class="fas fa-cogs mr-2"></i>Functional Test Suite
+            </button>
+            <button
+              class="w-full text-left p-2 text-sm text-secondary hover:text-primary hover:bg-tertiary rounded-lg transition-colors"
+            >
+              <i class="fas fa-mobile-alt mr-2"></i>Responsive Test Suite
+            </button>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Workspace (Center) -->
+    <div class="lg:col-span-3">
+      <div class="card">
+        <div class="p-6 border-b border-light">
+          <h3 class="text-lg font-semibold text-primary">
+            Step 1: Select Workflow Type
+          </h3>
+          <p class="text-sm text-secondary mt-1">
+            Choose the type of test suite you want to create
+          </p>
+        </div>
+
+        <div class="p-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Design QA Option -->
+            <div
+              class="border border-light rounded-lg p-6 hover:border-primary transition-colors cursor-pointer"
+            >
+              <div class="flex items-center space-x-4 mb-4">
+                <div
+                  class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center"
+                >
+                  <i class="fas fa-palette text-primary text-xl"></i>
+                </div>
+                <div>
+                  <h4 class="font-semibold text-primary">Design QA Suite</h4>
+                  <p class="text-sm text-secondary">
+                    Visual validation and design comparison
+                  </p>
+                </div>
+              </div>
+              <ul class="space-y-2 text-sm text-secondary">
+                <li class="flex items-center">
+                  <i class="fas fa-check text-success mr-2"></i>
+                  Figma design comparison
+                </li>
+                <li class="flex items-center">
+                  <i class="fas fa-check text-success mr-2"></i>
+                  Visual regression testing
+                </li>
+                <li class="flex items-center">
+                  <i class="fas fa-check text-success mr-2"></i>
+                  Responsive design validation
+                </li>
+              </ul>
+              <div class="mt-4">
+                <a
+                  href="{{ url_for('design_qa') }}"
+                  class="btn-primary px-4 py-2 text-sm"
+                  >Select Design QA</a
+                >
+              </div>
+            </div>
+
+            <!-- Functional Testing Option -->
+            <div
+              class="border border-light rounded-lg p-6 hover:border-primary transition-colors cursor-pointer"
+            >
+              <div class="flex items-center space-x-4 mb-4">
+                <div
+                  class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center"
+                >
+                  <i class="fas fa-cogs text-success text-xl"></i>
+                </div>
+                <div>
+                  <h4 class="font-semibold text-primary">
+                    Functional Test Suite
+                  </h4>
+                  <p class="text-sm text-secondary">
+                    Automated functional testing
+                  </p>
+                </div>
+              </div>
+              <ul class="space-y-2 text-sm text-secondary">
+                <li class="flex items-center">
+                  <i class="fas fa-check text-success mr-2"></i>
+                  AI-generated test cases
+                </li>
+                <li class="flex items-center">
+                  <i class="fas fa-check text-success mr-2"></i>
+                  Cross-browser testing
+                </li>
+                <li class="flex items-center">
+                  <i class="fas fa-check text-success mr-2"></i>
+                  Automated execution
+                </li>
+              </ul>
+              <div class="mt-4">
+                <a
+                  href="{{ url_for('functional_testing') }}"
+                  class="btn-primary px-4 py-2 text-sm"
+                  >Select Functional</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

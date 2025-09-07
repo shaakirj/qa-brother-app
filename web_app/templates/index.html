@@ -1,0 +1,344 @@
+{% extends "base.html" %} {% block title %}Quali - AI Quality Assurance Buddy{%
+endblock %} {% block content %}
+<!-- Hero Section -->
+<section class="hero-section py-20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center">
+      <h1 class="text-4xl md:text-6xl font-bold text-primary mb-6">
+        Internal QA
+        <span class="gradient-text">Automation</span>
+      </h1>
+      <p class="text-xl text-secondary mb-8 max-w-3xl mx-auto">
+        Streamline your team's quality assurance process with AI-powered design validation, 
+        functional testing, and comprehensive analysis tools.
+      </p>
+      <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-8 max-w-2xl mx-auto">
+        <div class="flex items-center">
+          <i class="fas fa-info-circle text-blue-600 mr-2"></i>
+          <span class="text-sm text-blue-800">
+            <strong>Internal Tool:</strong> This application is for development team use only.
+          </span>
+        </div>
+      </div>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a
+          href="/design-qa"
+          class="btn-primary px-8 py-4 rounded-lg font-semibold text-lg inline-flex items-center justify-center"
+        >
+          <i class="fas fa-palette mr-2"></i>
+          Start Design QA
+        </a>
+        <a
+          href="/functional-testing"
+          class="btn-outline px-8 py-4 rounded-lg font-semibold text-lg inline-flex items-center justify-center"
+        >
+          <i class="fas fa-cogs mr-2"></i>
+          Run Tests
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-20 bg-primary">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl md:text-4xl font-bold text-primary mb-4">
+        Team QA Tools
+      </h2>
+      <p class="text-xl text-secondary max-w-2xl mx-auto">
+        Internal quality assurance tools designed for your development workflow
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <!-- Design QA Feature -->
+      <div class="feature-card p-8">
+        <div class="feature-icon mb-6">
+          <i class="fas fa-palette text-2xl"></i>
+        </div>
+        <h3 class="text-xl font-semibold text-primary mb-4">Design QA</h3>
+        <p class="text-secondary mb-6">
+          Compare Figma designs with live implementations using advanced
+          computer vision and AI-powered visual analysis.
+        </p>
+        <ul class="space-y-2 text-sm text-muted">
+          <li class="flex items-center">
+            <i class="fas fa-check text-success mr-2"></i>
+            Visual similarity scoring
+          </li>
+          <li class="flex items-center">
+            <i class="fas fa-check text-success mr-2"></i>
+            Automated diff generation
+          </li>
+          <li class="flex items-center">
+            <i class="fas fa-check text-success mr-2"></i>
+            Responsive design validation
+          </li>
+        </ul>
+        <a
+          href="/design-qa"
+          class="inline-flex items-center text-primary font-semibold mt-4 hover:text-primary-blue-dark transition-colors"
+        >
+          Try Design QA
+          <i class="fas fa-arrow-right ml-2"></i>
+        </a>
+      </div>
+
+      <!-- Functional Testing Feature -->
+      <div class="feature-card p-8">
+        <div class="feature-icon mb-6">
+          <i class="fas fa-cogs text-2xl"></i>
+        </div>
+        <h3 class="text-xl font-semibold text-primary mb-4">
+          Functional Testing
+        </h3>
+        <p class="text-secondary mb-6">
+          Generate and execute comprehensive test cases using AI, with automated
+          test case creation from requirements and designs.
+        </p>
+        <ul class="space-y-2 text-sm text-muted">
+          <li class="flex items-center">
+            <i class="fas fa-check text-success mr-2"></i>
+            AI-generated test cases
+          </li>
+          <li class="flex items-center">
+            <i class="fas fa-check text-success mr-2"></i>
+            Automated test execution
+          </li>
+          <li class="flex items-center">
+            <i class="fas fa-check text-success mr-2"></i>
+            Cross-browser compatibility
+          </li>
+        </ul>
+        <a
+          href="/functional-testing"
+          class="inline-flex items-center text-primary font-semibold mt-4 hover:text-primary-blue-dark transition-colors"
+        >
+          Start Testing
+          <i class="fas fa-arrow-right ml-2"></i>
+        </a>
+      </div>
+
+      <!-- Analytics Feature -->
+      <div class="feature-card p-8">
+        <div class="feature-icon mb-6">
+          <i class="fas fa-chart-line text-2xl"></i>
+        </div>
+        <h3 class="text-xl font-semibold text-primary mb-4">
+          Analytics & Insights
+        </h3>
+        <p class="text-secondary mb-6">
+          Get comprehensive analytics, pattern detection, and intelligent
+          recommendations for improving your QA processes.
+        </p>
+        <ul class="space-y-2 text-sm text-muted">
+          <li class="flex items-center">
+            <i class="fas fa-check text-success mr-2"></i>
+            Pattern detection
+          </li>
+          <li class="flex items-center">
+            <i class="fas fa-check text-success mr-2"></i>
+            Performance metrics
+          </li>
+          <li class="flex items-center">
+            <i class="fas fa-check text-success mr-2"></i>
+            Smart recommendations
+          </li>
+        </ul>
+        <a
+          href="/analytics"
+          class="inline-flex items-center text-primary font-semibold mt-4 hover:text-primary-blue-dark transition-colors"
+        >
+          View Analytics
+          <i class="fas fa-arrow-right ml-2"></i>
+        </a>
+      </div>
+
+      <!-- Jira Integration Feature -->
+      <div class="feature-card p-8">
+        <div class="feature-icon mb-6">
+          <i class="fab fa-jira text-2xl"></i>
+        </div>
+        <h3 class="text-xl font-semibold text-primary mb-4">
+          Jira Integration
+        </h3>
+        <p class="text-secondary mb-6">
+          Seamlessly integrate with Jira to automatically create tickets, track
+          issues, and manage your QA workflow.
+        </p>
+        <ul class="space-y-2 text-sm text-muted">
+          <li class="flex items-center">
+            <i class="fas fa-check text-success mr-2"></i>
+            Auto-ticket creation
+          </li>
+          <li class="flex items-center">
+            <i class="fas fa-check text-success mr-2"></i>
+            Issue tracking
+          </li>
+          <li class="flex items-center">
+            <i class="fas fa-check text-success mr-2"></i>
+            Workflow automation
+          </li>
+        </ul>
+      </div>
+
+      <!-- Fluid Breakpoints Feature -->
+      <div class="feature-card p-8">
+        <div class="feature-icon mb-6">
+          <i class="fas fa-mobile-alt text-2xl"></i>
+        </div>
+        <h3 class="text-xl font-semibold text-primary mb-4">
+          Responsive Testing
+        </h3>
+        <p class="text-secondary mb-6">
+          Generate fluid breakpoint animations to visualize how your design
+          adapts across different screen sizes.
+        </p>
+        <ul class="space-y-2 text-sm text-muted">
+          <li class="flex items-center">
+            <i class="fas fa-check text-success mr-2"></i>
+            Fluid animations
+          </li>
+          <li class="flex items-center">
+            <i class="fas fa-check text-success mr-2"></i>
+            Multi-device testing
+          </li>
+          <li class="flex items-center">
+            <i class="fas fa-check text-success mr-2"></i>
+            Visual regression detection
+          </li>
+        </ul>
+      </div>
+
+      <!-- AI-Powered Analysis Feature -->
+      <div class="feature-card p-8">
+        <div class="feature-icon mb-6">
+          <i class="fas fa-brain text-2xl"></i>
+        </div>
+        <h3 class="text-xl font-semibold text-primary mb-4">
+          AI-Powered Analysis
+        </h3>
+        <p class="text-secondary mb-6">
+          Leverage advanced AI models to analyze designs, detect patterns, and
+          provide intelligent recommendations.
+        </p>
+        <ul class="space-y-2 text-sm text-muted">
+          <li class="flex items-center">
+            <i class="fas fa-check text-success mr-2"></i>
+            Computer vision
+          </li>
+          <li class="flex items-center">
+            <i class="fas fa-check text-success mr-2"></i>
+            Pattern recognition
+          </li>
+          <li class="flex items-center">
+            <i class="fas fa-check text-success mr-2"></i>
+            Smart suggestions
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Stats Section -->
+<section class="py-20 bg-secondary">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl md:text-4xl font-bold text-primary mb-4">
+        Development Team Stats
+      </h2>
+      <p class="text-xl text-secondary">
+        Track your team's QA progress and improvements
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div class="text-center">
+        <div class="text-4xl font-bold text-primary mb-2">10K+</div>
+        <div class="text-secondary">Tests Executed</div>
+      </div>
+      <div class="text-center">
+        <div class="text-4xl font-bold text-primary mb-2">500+</div>
+        <div class="text-secondary">Issues Detected</div>
+      </div>
+      <div class="text-center">
+        <div class="text-4xl font-bold text-primary mb-2">95%</div>
+        <div class="text-secondary">Accuracy Rate</div>
+      </div>
+      <div class="text-center">
+        <div class="text-4xl font-bold text-primary mb-2">50+</div>
+        <div class="text-secondary">Hours Saved</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-20 gradient-bg">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">
+      Ready to Streamline Team QA?
+    </h2>
+    <p class="text-xl text-white mb-8 max-w-2xl mx-auto opacity-90">
+      Start using our internal QA automation tools to improve your team's 
+      development workflow and code quality.
+    </p>
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <a
+        href="/design-qa"
+        class="bg-white text-primary px-8 py-4 rounded-lg font-semibold text-lg inline-flex items-center justify-center hover:bg-gray-100 transition-colors"
+      >
+        <i class="fas fa-rocket mr-2"></i>
+        Get Started Now
+      </a>
+      <a
+        href="/analytics"
+        class="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg inline-flex items-center justify-center hover:bg-white hover:text-primary transition-colors"
+      >
+        <i class="fas fa-play mr-2"></i>
+        Watch Demo
+      </a>
+    </div>
+  </div>
+</section>
+{% endblock %} {% block extra_js %}
+<script>
+  // Add any page-specific JavaScript here
+  document.addEventListener("DOMContentLoaded", function () {
+    // Animate counters on scroll
+    const counters = document.querySelectorAll(".text-4xl.font-bold");
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const counter = entry.target;
+          const target = parseInt(counter.textContent.replace(/[^\d]/g, ""));
+          let current = 0;
+          const increment = target / 50;
+
+          const updateCounter = () => {
+            if (current < target) {
+              current += increment;
+              counter.textContent =
+                Math.floor(current) +
+                counter.textContent.replace(/[\d]/g, "").replace(/[^\D]/g, "");
+              requestAnimationFrame(updateCounter);
+            } else {
+              counter.textContent =
+                target +
+                counter.textContent.replace(/[\d]/g, "").replace(/[^\D]/g, "");
+            }
+          };
+
+          updateCounter();
+          observer.unobserve(counter);
+        }
+      });
+    });
+
+    counters.forEach((counter) => observer.observe(counter));
+  });
+</script>
+{% endblock %}

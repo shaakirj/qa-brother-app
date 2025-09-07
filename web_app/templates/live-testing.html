@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+{% block title %}Live Test Execution - Quali{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50 py-8">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Header -->
+    <div class="text-center mb-12">
+      <h1 class="text-4xl font-bold text-gray-900 mb-4">
+        <i class="fas fa-video text-indigo-600 mr-3"></i>
+        Live Test Execution
+      </h1>
+      <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+        Watch your AI agent perform tests in real-time.
+      </p>
+    </div>
+
+    <!-- Main Content -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <!-- Control Panel -->
+      <div class="lg:col-span-1">
+        <div class="card p-6 sticky top-8">
+          <h2 class="text-2xl font-semibold text-gray-900 mb-6">
+            <i class="fas fa-cogs mr-2"></i>Controls
+          </h2>
+          <form id="live-test-form" class="space-y-6">
+            <div>
+              <label for="url" class="block text-sm font-medium text-gray-700">URL to Test</label>
+              <input type="url" id="url" name="url" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="https://example.com" required>
+            </div>
+            <button type="submit" id="start-test-btn" class="btn-primary w-full py-2">
+              <i class="fas fa-play mr-2"></i>Start Live Test
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Live View and Logs -->
+      <div class="lg:col-span-2">
+        <!-- Live Video Feed -->
+        <div id="live-view-section" class="card p-6 mb-8 hidden">
+          <h3 class="text-xl font-semibold text-gray-900 mb-4">
+            <i class="fas fa-desktop mr-2"></i>Live View
+          </h3>
+          <div id="video-container" class="bg-gray-200 rounded-lg overflow-hidden">
+            <img id="screenshot-img" src="" alt="Live test view" class="w-full">
+          </div>
+           <p id="status-text" class="mt-4 text-center text-gray-600"></p>
+        </div>
+
+        <!-- Action Logs -->
+        <div id="logs-section" class="card p-6 hidden">
+          <h3 class="text-xl font-semibold text-gray-900 mb-4">
+            <i class="fas fa-history mr-2"></i>Action Log
+          </h3>
+          <div id="action-log" class="space-y-2 h-64 overflow-y-auto bg-gray-100 p-4 rounded-lg">
+            <!-- Log entries will be added here -->
+          </div>
+        </div>
+        
+        <!-- Instructions -->
+        <div id="instructions-section" class="card p-6">
+          <h3 class="text-xl font-semibold text-gray-900 mb-4">
+            <i class="fas fa-info-circle mr-2"></i>How to Start
+          </h3>
+          <p class="text-gray-600">
+            Enter a URL in the control panel and click "Start Live Test" to begin a real-time testing session. You will see the agent's actions on this screen.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.5/socket.io.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const socket = io();
+
+    const form = document.getElementById('live-test-form');
+    const startBtn = document.getElementById('start-test-btn');
+    const urlInput = document.getElementById('url');
+    
+    const liveViewSection = document.getElementById('live-view-section');
+    const logsSection = document.getElementById('logs-section');
+    const instructionsSection = document.getElementById('instructions-section');
+    
+    const screenshotImg = document.getElementById('screenshot-img');
+    const statusText = document.getElementById('status-text');
+    const actionLog = document.getElementById('action-log');
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const url = urlInput.value;
+        if (url) {
+            socket.emit('start_live_test', { url: url });
+            startBtn.disabled = true;
+            startBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Starting...';
+            instructionsSection.classList.add('hidden');
+            liveViewSection.classList.remove('hidden');
+            logsSection.classList.remove('hidden');
+            statusText.textContent = 'Connecting to the test agent...';
+        }
+    });
+
+    socket.on('connect', function() {
+        console.log('Connected to server');
+    });
+
+    socket.on('test_started', function(data) {
+        console.log('Test started:', data);
+        statusText.textContent = `Test running on ${data.url}`;
+    });
+
+    socket.on('screenshot_update', function(data) {
+        // Add a cache-busting query parameter to force image reload
+        screenshotImg.src = data.screenshot_path + '?t=' + new Date().getTime();
+    });
+
+    socket.on('action_update', function(data) {
+        const logEntry = document.createElement('p');
+        logEntry.className = 'text-sm text-gray-700';
+        logEntry.innerHTML = `<i class="fas fa-mouse-pointer mr-2"></i>${data.action}`;
+        actionLog.appendChild(logEntry);
+        actionLog.scrollTop = actionLog.scrollHeight; // Auto-scroll
+    });
+
+    socket.on('test_stopped', function(data) {
+        console.log('Test stopped:', data);
+        statusText.textContent = 'Test session finished.';
+        startBtn.disabled = false;
+        startBtn.innerHTML = '<i class="fas fa-play mr-2"></i>Start Live Test';
+    });
+
+    socket.on('test_error', function(data) {
+        console.error('Test error:', data.error);
+        statusText.textContent = `Error: ${data.error}`;
+        showNotification(`Test Error: ${data.error}`, 'error');
+        startBtn.disabled = false;
+        startBtn.innerHTML = '<i class="fas fa-play mr-2"></i>Start Live Test';
+    });
+});
+</script>
+{% endblock %}

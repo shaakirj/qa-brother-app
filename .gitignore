@@ -1,0 +1,27 @@
+# Environment and secrets
+.env
+*.env
+.streamlit/secrets.toml
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+
+# Local development
+qa_env/
+.vscode/
+.DS_Store
+*.log
+
+# Reports and uploads (too large for git)
+reports/
+uploads/
+*.webm
+*.mp4
+*.gif
+
+# Temporary files
+*.tmp
+temp/

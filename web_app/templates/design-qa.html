@@ -1,0 +1,649 @@
+{% extends "base.html" %} {% block title %}Design QA - Quali{% endblock %} {%
+block content %}
+<div class="min-h-screen bg-gray-50 py-8">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Header -->
+    <div class="text-center mb-12">
+      <h1 class="text-4xl font-bold text-gray-900 mb-4">
+        <i class="fas fa-palette text-indigo-600 mr-3"></i>
+        Design QA Analysis
+      </h1>
+      <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+        Compare your Figma designs with live implementations using advanced
+        computer vision and AI-powered visual analysis.
+      </p>
+    </div>
+
+    <!-- Main Content -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <!-- Input Form -->
+      <div class="lg:col-span-1">
+        <div class="card p-6 sticky top-8">
+          <h2 class="text-2xl font-semibold text-gray-900 mb-6">
+            <i class="fas fa-cog text-indigo-600 mr-2"></i>
+            Configuration
+          </h2>
+
+          <form id="design-qa-form" class="space-y-6">
+            <!-- Figma URL -->
+            <div>
+              <label
+                for="figma-url"
+                class="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Figma Design URL <span class="text-red-500">*</span>
+              </label>
+              <input
+                type="url"
+                id="figma-url"
+                name="figma_url"
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                placeholder="https://www.figma.com/file/..."
+                required
+              />
+              <p class="text-xs text-gray-500 mt-1">
+                Must contain a node-id parameter
+              </p>
+            </div>
+
+            <!-- Web URL -->
+            <div>
+              <label
+                for="web-url"
+                class="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Web Implementation URL <span class="text-red-500">*</span>
+              </label>
+              <input
+                type="url"
+                id="web-url"
+                name="web_url"
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                placeholder="https://your-website.com"
+                required
+              />
+            </div>
+
+            <!-- Similarity Threshold -->
+            <div>
+              <label
+                for="similarity-threshold"
+                class="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Similarity Threshold: <span id="threshold-value">95%</span>
+              </label>
+              <input
+                type="range"
+                id="similarity-threshold"
+                name="similarity_threshold"
+                min="50"
+                max="100"
+                value="95"
+                class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+              />
+              <div class="flex justify-between text-xs text-gray-500 mt-1">
+                <span>50%</span>
+                <span>100%</span>
+              </div>
+            </div>
+
+            <!-- Mobile Device -->
+            <div>
+              <label
+                for="mobile-device"
+                class="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Device Type
+              </label>
+              <select
+                id="mobile-device"
+                name="mobile_device"
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              >
+                <option value="">Desktop (Default)</option>
+                <option value="iPhone 12 Pro">iPhone 12 Pro</option>
+                <option value="Pixel 5">Pixel 5</option>
+                <option value="Samsung Galaxy S21">Samsung Galaxy S21</option>
+                <option value="iPad Pro">iPad Pro</option>
+              </select>
+            </div>
+
+            <!-- Options -->
+            <div class="space-y-4">
+              <h3 class="text-lg font-medium text-gray-900">Options</h3>
+
+              <div class="flex items-center">
+                <input
+                  type="checkbox"
+                  id="full-page"
+                  name="full_page"
+                  checked
+                  class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                />
+                <label for="full-page" class="ml-2 text-sm text-gray-700">
+                  Full page screenshot
+                </label>
+              </div>
+
+              <div class="flex items-center">
+                <input
+                  type="checkbox"
+                  id="overlay-grid"
+                  name="overlay_grid"
+                  class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                />
+                <label for="overlay-grid" class="ml-2 text-sm text-gray-700">
+                  Overlay grid for alignment
+                </label>
+              </div>
+            </div>
+
+            <!-- Jira Assignee -->
+            <div>
+              <label
+                for="jira-assignee"
+                class="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Jira Assignee (Optional)
+              </label>
+              <input
+                type="text"
+                id="jira-assignee"
+                name="jira_assignee"
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                placeholder="user@company.com"
+              />
+            </div>
+
+            <!-- Submit Button -->
+            <button
+              type="submit"
+              class="w-full btn-primary text-white py-3 px-6 rounded-lg font-semibold text-lg"
+            >
+              <i class="fas fa-play mr-2"></i>
+              Start Analysis
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Results Area -->
+      <div class="lg:col-span-2">
+        <!-- Progress Section -->
+        <div id="progress-section" class="hidden mb-8">
+          <div class="card p-6">
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">
+              <i class="fas fa-tasks text-indigo-600 mr-2"></i>
+              Analysis Progress
+            </h3>
+
+            <div id="progress-steps" class="space-y-4">
+              <!-- Progress steps will be dynamically added here -->
+            </div>
+
+            <div class="mt-6">
+              <div class="flex justify-between text-sm text-gray-600 mb-2">
+                <span>Progress</span>
+                <span id="progress-percentage">0%</span>
+              </div>
+              <div class="w-full bg-gray-200 rounded-full h-2">
+                <div
+                  id="progress-bar"
+                  class="progress-bar h-2 rounded-full"
+                  style="width: 0%"
+                ></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Results Section -->
+        <div id="results-section" class="hidden">
+          <div class="card p-6 mb-8">
+            <h3 class="text-xl font-semibold text-gray-900 mb-6">
+              <i class="fas fa-chart-bar text-indigo-600 mr-2"></i>
+              Analysis Results
+            </h3>
+
+            <!-- Metrics -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+              <div class="metric-card p-6">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <p class="text-sm font-medium text-gray-600">
+                      Similarity Score
+                    </p>
+                    <p
+                      id="similarity-score"
+                      class="text-3xl font-bold text-gray-900"
+                    >
+                      --
+                    </p>
+                  </div>
+                  <div
+                    class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center"
+                  >
+                    <i class="fas fa-percentage text-indigo-600 text-xl"></i>
+                  </div>
+                </div>
+              </div>
+
+              <div class="metric-card p-6">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <p class="text-sm font-medium text-gray-600">
+                      Issues Found
+                    </p>
+                    <p
+                      id="issues-count"
+                      class="text-3xl font-bold text-gray-900"
+                    >
+                      --
+                    </p>
+                  </div>
+                  <div
+                    class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center"
+                  >
+                    <i
+                      class="fas fa-exclamation-triangle text-red-600 text-xl"
+                    ></i>
+                  </div>
+                </div>
+              </div>
+
+              <div class="metric-card p-6">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <p class="text-sm font-medium text-gray-600">
+                      Tickets Created
+                    </p>
+                    <p
+                      id="tickets-created"
+                      class="text-3xl font-bold text-gray-900"
+                    >
+                      --
+                    </p>
+                  </div>
+                  <div
+                    class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center"
+                  >
+                    <i class="fab fa-jira text-green-600 text-xl"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Comparison Images -->
+            <div id="comparison-images" class="mb-8">
+              <!-- Images will be dynamically added here -->
+            </div>
+
+            <!-- Issues List -->
+            <div id="issues-list" class="hidden">
+              <h4 class="text-lg font-semibold text-gray-900 mb-4">
+                Detected Issues
+              </h4>
+              <div id="issues-container" class="space-y-4">
+                <!-- Issues will be dynamically added here -->
+              </div>
+            </div>
+
+            <!-- Jira Tickets -->
+            <div id="jira-tickets" class="hidden">
+              <h4 class="text-lg font-semibold text-gray-900 mb-4">
+                Jira Tickets
+              </h4>
+              <div id="tickets-container" class="space-y-4">
+                <!-- Tickets will be dynamically added here -->
+              </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="flex flex-wrap gap-4 mt-8">
+              <button
+                id="download-report"
+                class="bg-gray-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-700 transition-colors"
+              >
+                <i class="fas fa-download mr-2"></i>
+                Download Report
+              </button>
+              <button
+                id="run-again"
+                class="bg-indigo-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-indigo-700 transition-colors"
+              >
+                <i class="fas fa-redo mr-2"></i>
+                Run Again
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Instructions -->
+        <div id="instructions-section" class="card p-6">
+          <h3 class="text-xl font-semibold text-gray-900 mb-4">
+            <i class="fas fa-info-circle text-indigo-600 mr-2"></i>
+            How to Use Design QA
+          </h3>
+          <div class="space-y-4 text-gray-600">
+            <div class="flex items-start">
+              <div
+                class="w-8 h-8 bg-indigo-100 rounded-full flex items-center justify-center flex-shrink-0 mr-3 mt-1"
+              >
+                <span class="text-indigo-600 font-semibold text-sm">1</span>
+              </div>
+              <div>
+                <p class="font-medium">Get your Figma URL</p>
+                <p class="text-sm">
+                  Copy the Figma design URL that contains a node-id parameter
+                </p>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <div
+                class="w-8 h-8 bg-indigo-100 rounded-full flex items-center justify-center flex-shrink-0 mr-3 mt-1"
+              >
+                <span class="text-indigo-600 font-semibold text-sm">2</span>
+              </div>
+              <div>
+                <p class="font-medium">Enter your web URL</p>
+                <p class="text-sm">
+                  Provide the live URL of your implemented design
+                </p>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <div
+                class="w-8 h-8 bg-indigo-100 rounded-full flex items-center justify-center flex-shrink-0 mr-3 mt-1"
+              >
+                <span class="text-indigo-600 font-semibold text-sm">3</span>
+              </div>
+              <div>
+                <p class="font-medium">Configure options</p>
+                <p class="text-sm">
+                  Set similarity threshold, device type, and other preferences
+                </p>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <div
+                class="w-8 h-8 bg-indigo-100 rounded-full flex items-center justify-center flex-shrink-0 mr-3 mt-1"
+              >
+                <span class="text-indigo-600 font-semibold text-sm">4</span>
+              </div>
+              <div>
+                <p class="font-medium">Start analysis</p>
+                <p class="text-sm">
+                  Click "Start Analysis" to begin the automated comparison
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %} {% block extra_js %}
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("design-qa-form");
+    const progressSection = document.getElementById("progress-section");
+    const resultsSection = document.getElementById("results-section");
+    const instructionsSection = document.getElementById("instructions-section");
+    const thresholdSlider = document.getElementById("similarity-threshold");
+    const thresholdValue = document.getElementById("threshold-value");
+
+    // Update threshold display
+    thresholdSlider.addEventListener("input", function () {
+      thresholdValue.textContent = this.value + "%";
+    });
+
+    // Form submission
+    form.addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+
+      // Convert checkbox values
+      data.full_page = formData.has("full_page");
+      data.overlay_grid = formData.has("overlay_grid");
+      data.similarity_threshold = parseFloat(data.similarity_threshold) / 100;
+
+      // Show progress section
+      progressSection.classList.remove("hidden");
+      resultsSection.classList.add("hidden");
+      instructionsSection.classList.add("hidden");
+
+      // Initialize progress
+      initializeProgress();
+
+      try {
+        const response = await fetch("/api/design-qa/analyze", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          displayResults(result);
+        } else {
+          showError(result.error || "Analysis failed");
+        }
+      } catch (error) {
+        showError(
+          "An error occurred while running the analysis: " + error.message
+        );
+      }
+    });
+
+    function initializeProgress() {
+      const steps = [
+        { name: "Parse & Validate Inputs", icon: "📝" },
+        { name: "Retrieve Figma Design", icon: "🎨" },
+        { name: "Capture Web Page Screenshot", icon: "📸" },
+        { name: "Compare Design vs. Web", icon: "🔍" },
+        { name: "Run Functional Validations", icon: "⚙️" },
+        { name: "Create Jira Tickets", icon: "🎟️" },
+        { name: "Generate Final Report", icon: "📊" },
+      ];
+
+      const progressSteps = document.getElementById("progress-steps");
+      progressSteps.innerHTML = "";
+
+      steps.forEach((step, index) => {
+        const stepElement = document.createElement("div");
+        stepElement.className = "flex items-center space-x-3";
+        stepElement.innerHTML = `
+                <div class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
+                    <i class="fas fa-clock text-gray-500"></i>
+                </div>
+                <div class="flex-1">
+                    <p class="font-medium text-gray-900">${step.name}</p>
+                    <p class="text-sm text-gray-500">Waiting...</p>
+                </div>
+            `;
+        stepElement.id = `step-${index}`;
+        progressSteps.appendChild(stepElement);
+      });
+
+      // Simulate progress updates
+      simulateProgress();
+    }
+
+    function simulateProgress() {
+      const steps = document.querySelectorAll("#progress-steps > div");
+      let currentStep = 0;
+
+      const updateStep = () => {
+        if (currentStep < steps.length) {
+          const step = steps[currentStep];
+          const icon = step.querySelector(".w-8.h-8");
+          const status = step.querySelector("p:last-child");
+
+          // Update to running
+          icon.innerHTML =
+            '<i class="fas fa-spinner fa-spin text-indigo-600"></i>';
+          status.textContent = "Running...";
+          status.className = "text-sm text-indigo-600";
+
+          // Update progress bar
+          const progress = ((currentStep + 1) / steps.length) * 100;
+          document.getElementById("progress-bar").style.width = progress + "%";
+          document.getElementById("progress-percentage").textContent =
+            Math.round(progress) + "%";
+
+          currentStep++;
+
+          if (currentStep < steps.length) {
+            setTimeout(updateStep, 2000);
+          } else {
+            // All steps completed
+            setTimeout(() => {
+              steps.forEach((step) => {
+                const icon = step.querySelector(".w-8.h-8");
+                const status = step.querySelector("p:last-child");
+                icon.innerHTML = '<i class="fas fa-check text-green-600"></i>';
+                status.textContent = "Completed";
+                status.className = "text-sm text-green-600";
+              });
+            }, 1000);
+          }
+        }
+      };
+
+      updateStep();
+    }
+
+    function displayResults(result) {
+      // Hide progress, show results
+      progressSection.classList.add("hidden");
+      resultsSection.classList.remove("hidden");
+
+      // Update metrics
+      document.getElementById("similarity-score").textContent =
+        formatPercentage(result.similarity_score || 0);
+      document.getElementById("issues-count").textContent =
+        result.functional_issues_found || 0;
+      document.getElementById("tickets-created").textContent =
+        result.tickets_created
+          ? result.tickets_created.filter((t) => t.success).length
+          : 0;
+
+      // Display comparison images if available
+      if (result.comparison_image_path) {
+        displayComparisonImages(result);
+      }
+
+      // Display issues if any
+      if (result.functional_issues_found > 0) {
+        displayIssues(result);
+      }
+
+      // Display Jira tickets if any
+      if (result.tickets_created && result.tickets_created.length > 0) {
+        displayJiraTickets(result.tickets_created);
+      }
+
+      // Show success notification
+      showNotification("Design QA analysis completed successfully!", "success");
+    }
+
+    function displayComparisonImages(result) {
+      const container = document.getElementById("comparison-images");
+      container.innerHTML = `
+            <h4 class="text-lg font-semibold text-gray-900 mb-4">Visual Comparison</h4>
+            <div class="bg-gray-100 p-4 rounded-lg">
+                <img src="/api/reports/${result.comparison_image_path
+                  .split("/")
+                  .pop()}" 
+                     alt="Design Comparison" 
+                     class="max-w-full h-auto rounded-lg shadow-lg">
+            </div>
+        `;
+    }
+
+    function displayIssues(result) {
+      const issuesList = document.getElementById("issues-list");
+      const issuesContainer = document.getElementById("issues-container");
+
+      issuesList.classList.remove("hidden");
+      issuesContainer.innerHTML =
+        '<p class="text-gray-600">Issues will be displayed here when detected.</p>';
+    }
+
+    function displayJiraTickets(tickets) {
+      const jiraTickets = document.getElementById("jira-tickets");
+      const ticketsContainer = document.getElementById("tickets-container");
+
+      jiraTickets.classList.remove("hidden");
+
+      ticketsContainer.innerHTML = tickets
+        .map(
+          (ticket) => `
+            <div class="border border-gray-200 rounded-lg p-4">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h5 class="font-semibold text-gray-900">${
+                          ticket.ticket_key || "Ticket"
+                        }</h5>
+                        <p class="text-sm text-gray-600">Status: ${
+                          ticket.success ? "Created" : "Failed"
+                        }</p>
+                    </div>
+                    ${
+                      ticket.ticket_url
+                        ? `<a href="${ticket.ticket_url}" target="_blank" class="text-indigo-600 hover:text-indigo-700">
+                        <i class="fas fa-external-link-alt"></i>
+                    </a>`
+                        : ""
+                    }
+                </div>
+            </div>
+        `
+        )
+        .join("");
+    }
+
+    function showError(message) {
+      progressSection.classList.add("hidden");
+      resultsSection.classList.remove("hidden");
+
+      const resultsContainer = document.querySelector("#results-section .card");
+      resultsContainer.innerHTML = `
+            <div class="text-center py-12">
+                <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-exclamation-triangle text-red-600 text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">Analysis Failed</h3>
+                <p class="text-gray-600 mb-6">${message}</p>
+                <button onclick="location.reload()" class="bg-indigo-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-indigo-700 transition-colors">
+                    <i class="fas fa-redo mr-2"></i>
+                    Try Again
+                </button>
+            </div>
+        `;
+    }
+
+    // Download report functionality
+    document
+      .getElementById("download-report")
+      .addEventListener("click", function () {
+        // This would trigger a download of the generated report
+        showNotification("Report download feature coming soon!", "info");
+      });
+
+    // Run again functionality
+    document.getElementById("run-again").addEventListener("click", function () {
+      resultsSection.classList.add("hidden");
+      instructionsSection.classList.remove("hidden");
+      form.reset();
+      thresholdValue.textContent = "95%";
+    });
+  });
+</script>
+{% endblock %}

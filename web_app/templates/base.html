@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Quali - Internal QA Tool{% endblock %}</title>
+
+    <!-- Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Icons -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Custom CSS - TestSprite Inspired -->
+    <style>
+      :root {
+        --primary-blue: #2563eb;
+        --primary-blue-dark: #1d4ed8;
+        --secondary-blue: #3b82f6;
+        --accent-blue: #60a5fa;
+        --text-primary: #1f2937;
+        --text-secondary: #6b7280;
+        --text-muted: #9ca3af;
+        --bg-primary: #ffffff;
+        --bg-secondary: #f9fafb;
+        --bg-tertiary: #f3f4f6;
+        --border-light: #e5e7eb;
+        --border-medium: #d1d5db;
+        --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+          0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+          0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+          0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        --success: #10b981;
+        --warning: #f59e0b;
+        --error: #ef4444;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: var(--bg-secondary);
+        min-height: 100vh;
+        color: var(--text-primary);
+      }
+
+      .gradient-bg {
+        background: linear-gradient(
+          135deg,
+          var(--primary-blue) 0%,
+          var(--secondary-blue) 100%
+        );
+      }
+
+      .card {
+        background: var(--bg-primary);
+        border: 1px solid var(--border-light);
+        border-radius: 12px;
+        box-shadow: var(--shadow-sm);
+        transition: all 0.2s ease;
+      }
+
+      .card:hover {
+        box-shadow: var(--shadow-md);
+        transform: translateY(-2px);
+      }
+
+      .btn-primary {
+        background-color: var(--primary-blue);
+        border-color: var(--primary-blue);
+        color: white;
+        transition: all 0.2s ease;
+        border-radius: 8px;
+        font-weight: 500;
+      }
+
+      .btn-primary:hover {
+        background-color: var(--primary-blue-dark);
+        border-color: var(--primary-blue-dark);
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-md);
+      }
+
+      .btn-outline {
+        background-color: transparent;
+        border: 2px solid var(--primary-blue);
+        color: var(--primary-blue);
+        transition: all 0.2s ease;
+        border-radius: 8px;
+        font-weight: 500;
+      }
+
+      .btn-outline:hover {
+        background-color: var(--primary-blue);
+        color: white;
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-md);
+      }
+
+      .feature-card {
+        transition: all 0.2s ease;
+        border: 1px solid var(--border-light);
+        background: var(--bg-primary);
+        border-radius: 12px;
+        box-shadow: var(--shadow-sm);
+      }
+
+      .feature-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-lg);
+        border-color: var(--primary-blue);
+      }
+
+      .progress-bar {
+        background: linear-gradient(
+          90deg,
+          var(--primary-blue) 0%,
+          var(--secondary-blue) 100%
+        );
+        transition: width 0.3s ease;
+        border-radius: 4px;
+      }
+
+      .status-running {
+        animation: pulse 2s infinite;
+      }
+
+      .status-success {
+        color: var(--success);
+      }
+
+      .status-error {
+        color: var(--error);
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.5;
+        }
+      }
+
+      .loading-spinner {
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .metric-card {
+        background: var(--bg-primary);
+        border-left: 4px solid var(--primary-blue);
+        border-radius: 12px;
+        box-shadow: var(--shadow-sm);
+      }
+
+      .issue-card {
+        border-left: 4px solid var(--error);
+        transition: all 0.2s ease;
+        background: var(--bg-primary);
+        border-radius: 8px;
+        box-shadow: var(--shadow-sm);
+      }
+
+      .issue-card.high {
+        border-left-color: var(--warning);
+      }
+      .issue-card.medium {
+        border-left-color: #f59e0b;
+      }
+      .issue-card.low {
+        border-left-color: var(--success);
+      }
+
+      .navbar {
+        background: var(--bg-primary);
+        border-bottom: 1px solid var(--border-light);
+        box-shadow: var(--shadow-sm);
+      }
+
+      .hero-section {
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      }
+
+      .feature-icon {
+        width: 48px;
+        height: 48px;
+        background: linear-gradient(
+          135deg,
+          var(--primary-blue) 0%,
+          var(--secondary-blue) 100%
+        );
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.5rem;
+      }
+
+      .text-primary {
+        color: var(--text-primary);
+      }
+
+      .text-secondary {
+        color: var(--text-secondary);
+      }
+
+      .text-muted {
+        color: var(--text-muted);
+      }
+
+      .bg-primary {
+        background-color: var(--bg-primary);
+      }
+
+      .bg-secondary {
+        background-color: var(--bg-secondary);
+      }
+
+      .bg-tertiary {
+        background-color: var(--bg-tertiary);
+      }
+
+      .border-light {
+        border-color: var(--border-light);
+      }
+
+      .shadow-custom {
+        box-shadow: var(--shadow-lg);
+      }
+
+      .gradient-text {
+        background: linear-gradient(
+          135deg,
+          var(--primary-blue) 0%,
+          var(--secondary-blue) 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+    </style>
+
+    <!-- Optional theme: Envole-inspired (original) -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/theme-envole.css') }}"
+    />
+    <!-- Optional: Evolve overrides -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/theme-evolve.css') }}"
+    />
+
+    {% block extra_css %}{% endblock %}
+  </head>
+  <body class="min-h-screen theme-envole">
+    <!-- Navigation -->
+    <nav class="navbar fixed w-full top-0 z-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+          <div class="flex items-center">
+            <div class="flex-shrink-0">
+              <a
+                href="{{ url_for('dashboard') }}"
+                class="flex items-center space-x-3"
+              >
+                <div class="feature-icon">
+                  <i class="fas fa-robot text-sm"></i>
+                </div>
+                <span class="text-primary font-bold text-xl">Quali</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="hidden md:block">
+            <div class="ml-10 flex items-baseline space-x-8">
+              <a
+                href="{{ url_for('dashboard') }}"
+                class="text-secondary hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                >Dashboard</a
+              >
+              <a
+                href="{{ url_for('workflow_new_suite') }}"
+                class="text-secondary hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                >New Suite</a
+              >
+              <a
+                href="{{ url_for('workflow_active') }}"
+                class="text-secondary hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                >Active</a
+              >
+              <a
+                href="{{ url_for('workflow_results') }}"
+                class="text-secondary hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                >Results</a
+              >
+              <a
+                href="{{ url_for('workflow_triage') }}"
+                class="text-secondary hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                >Triage</a
+              >
+              <a
+                href="{{ url_for('design_qa') }}"
+                class="text-secondary hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                >Design QA</a
+              >
+              <a
+                href="{{ url_for('functional_testing') }}"
+                class="text-secondary hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                >Functional Testing</a
+              >
+              <a
+                href="{{ url_for('analytics') }}"
+                class="text-secondary hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                >Analytics</a
+              >
+              <a
+                href="{{ url_for('internal_docs') }}"
+                class="text-secondary hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                >Docs</a
+              >
+            </div>
+          </div>
+
+          <div class="md:hidden">
+            <button
+              id="mobile-menu-button"
+              class="text-secondary hover:text-primary focus:outline-none focus:text-primary"
+            >
+              <i class="fas fa-bars text-xl"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile menu -->
+      <div id="mobile-menu" class="md:hidden hidden">
+        <div
+          class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-primary border-t border-light"
+        >
+          <a
+            href="{{ url_for('dashboard') }}"
+            class="text-secondary hover:text-primary block px-3 py-2 rounded-md text-base font-medium"
+            >Dashboard</a
+          >
+          <a
+            href="{{ url_for('workflow_new_suite') }}"
+            class="text-secondary hover:text-primary block px-3 py-2 rounded-md text-base font-medium"
+            >New Suite</a
+          >
+          <a
+            href="{{ url_for('workflow_active') }}"
+            class="text-secondary hover:text-primary block px-3 py-2 rounded-md text-base font-medium"
+            >Active</a
+          >
+          <a
+            href="{{ url_for('workflow_results') }}"
+            class="text-secondary hover:text-primary block px-3 py-2 rounded-md text-base font-medium"
+            >Results</a
+          >
+          <a
+            href="{{ url_for('workflow_triage') }}"
+            class="text-secondary hover:text-primary block px-3 py-2 rounded-md text-base font-medium"
+            >Triage</a
+          >
+          <a
+            href="{{ url_for('design_qa') }}"
+            class="text-secondary hover:text-primary block px-3 py-2 rounded-md text-base font-medium"
+            >Design QA</a
+          >
+          <a
+            href="{{ url_for('functional_testing') }}"
+            class="text-secondary hover:text-primary block px-3 py-2 rounded-md text-base font-medium"
+            >Functional Testing</a
+          >
+          <a
+            href="{{ url_for('analytics') }}"
+            class="text-secondary hover:text-primary block px-3 py-2 rounded-md text-base font-medium"
+            >Analytics</a
+          >
+          <a
+            href="{{ url_for('internal_docs') }}"
+            class="text-secondary hover:text-primary block px-3 py-2 rounded-md text-base font-medium"
+            >Docs</a
+          >
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-20">{% block content %}{% endblock %}</main>
+
+    <!-- Footer -->
+    <footer class="bg-primary border-t border-light py-12 mt-20">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div>
+            <div class="flex items-center space-x-3 mb-4">
+              <div class="feature-icon">
+                <i class="fas fa-robot text-sm"></i>
+              </div>
+              <span class="text-primary font-bold text-xl">Quali</span>
+            </div>
+            <p class="text-muted mb-4 max-w-md">
+              Internal AI-powered Quality Assurance tool for the development
+              team. Automate design validation, functional testing, and
+              comprehensive QA analysis.
+            </p>
+            <div class="flex space-x-4">
+              <a
+                href="{{ url_for('internal_docs') }}"
+                class="text-muted hover:text-primary transition-colors"
+                title="Internal Documentation"
+              >
+                <i class="fas fa-book text-xl"></i>
+              </a>
+              <a
+                href="#"
+                class="text-muted hover:text-primary transition-colors"
+                title="Team Slack"
+              >
+                <i class="fab fa-slack text-xl"></i>
+              </a>
+              <a
+                href="#"
+                class="text-muted hover:text-primary transition-colors"
+                title="Internal Wiki"
+              >
+                <i class="fas fa-circle-info text-xl"></i>
+              </a>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="text-lg font-semibold mb-4 text-primary">Features</h3>
+            <ul class="space-y-2 text-muted">
+              <li>
+                <a
+                  href="{{ url_for('design_qa') }}"
+                  class="hover:text-primary transition-colors"
+                  >Design QA</a
+                >
+              </li>
+              <li>
+                <a
+                  href="{{ url_for('functional_testing') }}"
+                  class="hover:text-primary transition-colors"
+                  >Functional Testing</a
+                >
+              </li>
+              <li>
+                <a
+                  href="{{ url_for('analytics') }}"
+                  class="hover:text-primary transition-colors"
+                  >Analytics</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-primary transition-colors"
+                  >API Integration</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 class="text-lg font-semibold mb-4 text-primary">Support</h3>
+            <ul class="space-y-2 text-muted">
+              <li>
+                <a href="#" class="hover:text-primary transition-colors"
+                  >Documentation</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-primary transition-colors"
+                  >Help Center</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-primary transition-colors"
+                  >Contact Us</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-primary transition-colors"
+                  >Status</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="border-t border-light mt-8 pt-8 text-center text-muted">
+          <p>
+            &copy; 2024 Quali - Internal Development Tool. Built for the team
+            with ❤️ for quality assurance.
+          </p>
+          <p class="text-xs mt-2 text-gray-500">
+            <i class="fas fa-lock mr-1"></i>
+            Internal Use Only
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+      // Mobile menu toggle
+      document
+        .getElementById("mobile-menu-button")
+        .addEventListener("click", function () {
+          const mobileMenu = document.getElementById("mobile-menu");
+          mobileMenu.classList.toggle("hidden");
+        });
+
+      // Close mobile menu when clicking outside
+      document.addEventListener("click", function (event) {
+        const mobileMenu = document.getElementById("mobile-menu");
+        const mobileMenuButton = document.getElementById("mobile-menu-button");
+
+        if (
+          !mobileMenu.contains(event.target) &&
+          !mobileMenuButton.contains(event.target)
+        ) {
+          mobileMenu.classList.add("hidden");
+        }
+      });
+
+      // Utility functions
+      function showNotification(message, type = "info") {
+        const notification = document.createElement("div");
+        notification.className = `fixed top-20 right-4 z-50 p-4 rounded-lg shadow-lg text-white ${
+          type === "success"
+            ? "bg-green-500"
+            : type === "error"
+            ? "bg-red-500"
+            : type === "warning"
+            ? "bg-yellow-500"
+            : "bg-blue-500"
+        }`;
+        notification.textContent = message;
+
+        document.body.appendChild(notification);
+
+        setTimeout(() => {
+          notification.remove();
+        }, 5000);
+      }
+
+      function formatNumber(num) {
+        return new Intl.NumberFormat().format(num);
+      }
+
+      function formatPercentage(num) {
+        return new Intl.NumberFormat("en-US", {
+          style: "percent",
+          minimumFractionDigits: 1,
+          maximumFractionDigits: 1,
+        }).format(num);
+      }
+
+      function formatDate(date) {
+        return new Intl.DateTimeFormat("en-US", {
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+        }).format(new Date(date));
+      }
+    </script>
+
+    {% block extra_js %}{% endblock %}
+  </body>
+</html>
