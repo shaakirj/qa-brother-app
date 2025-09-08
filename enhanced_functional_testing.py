@@ -91,35 +91,81 @@ class PlaywrightRecorder:
     def start_session(self, url: str, device_type: str = "desktop", browser_type: str = "chromium") -> bool:
         """Start a new recording session (Streamlit-compatible synchronous wrapper)"""
         try:
-            # Enable nested event loops for Streamlit compatibility if available
+            # Check environment capabilities
+            is_cloud = os.getenv("STREAMLIT_SHARING_MODE") is not None
+            
+            # Try full browser automation first (local environments only)
+            if not is_cloud and self._can_launch_browser():
+                try:
+                    return self._start_full_automation(url, device_type, browser_type)
+                except Exception as e:
+                    logger.warning(f"Browser automation failed: {e}")
+            
+            # Fall back to guided manual recording
+            return self._start_guided_session(url, device_type, browser_type)
+            
+        except Exception as e:
+            logger.error(f"Failed to start recording session: {e}")
+            return False
+    
+    def _can_launch_browser(self) -> bool:
+        """Check if we can launch a browser for automation"""
+        try:
+            # Check for Playwright browser installation
+            import subprocess
+            result = subprocess.run(['playwright', '--version'], 
+                                  capture_output=True, text=True, timeout=5)
+            return result.returncode == 0
+        except:
+            return False
+    
+    def _start_full_automation(self, url: str, device_type: str, browser_type: str) -> bool:
+        """Start full browser automation with Playwright"""
+        try:
             if NEST_ASYNCIO_AVAILABLE:
                 import nest_asyncio
                 nest_asyncio.apply()
             
-            # Check if we're in a Streamlit Cloud environment
-            is_cloud = os.getenv("STREAMLIT_SHARING_MODE") is not None
+            import asyncio
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
             
-            if is_cloud or not NEST_ASYNCIO_AVAILABLE:
-                # For cloud environments or when nest_asyncio is not available, create a basic session
-                return self._start_demo_session(url, device_type, browser_type)
-            
-            # For local environments, try full Playwright automation
             try:
-                import asyncio
-                loop = asyncio.new_event_loop()
-                asyncio.set_event_loop(loop)
-                
                 session = loop.run_until_complete(self._start_async_session(url, device_type, browser_type))
+                logger.info("Full browser automation started successfully")
                 return True
-            except Exception as e:
-                logger.warning(f"Full Playwright automation failed: {e}, falling back to demo mode")
-                return self._start_demo_session(url, device_type, browser_type)
             finally:
-                if 'loop' in locals():
-                    loop.close()
+                loop.close()
                 
         except Exception as e:
-            logger.error(f"Failed to start recording session: {e}")
+            logger.error(f"Full automation failed: {e}")
+            raise
+    
+    def _start_guided_session(self, url: str, device_type: str, browser_type: str) -> bool:
+        """Start guided manual recording session"""
+        try:
+            # Create session tracking
+            self.screenshots_dir = Path(tempfile.mkdtemp(prefix="quali_guided_"))
+            
+            session = TestSession(
+                session_id=f"guided_{int(time.time())}",
+                url=url,
+                device_type=device_type,
+                browser_type=browser_type,
+                viewport_size={"width": 1920, "height": 1080} if device_type == "desktop" else {"width": 375, "height": 667},
+                start_time=datetime.now().isoformat(),
+                steps=[],
+                console_errors=[],
+                performance_summary={}
+            )
+            
+            self.current_session = session
+            self.is_recording = True
+            logger.info(f"Guided recording session started: {session.session_id}")
+            return True
+            
+        except Exception as e:
+            logger.error(f"Failed to create guided session: {e}")
             return False
     
     def _start_demo_session(self, url: str, device_type: str, browser_type: str) -> bool:
