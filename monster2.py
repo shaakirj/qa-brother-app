@@ -1377,12 +1377,31 @@ def main():
     # Include welcome tab for teams
     try:
         from team_features import render_team_welcome_tab
-        tab0, tab1, tab4, tab3, tab2, tab5 = st.tabs(["👋 Welcome", "🤖 Design QA", "📝 Test Case Generation", "🎯 Enhanced Functional Testing", "🌊 Fluid Breakpoints", "📡 Live Preview"])
+        tab0, tab1, tab4, tab3, tab6, tab7, tab8, tab2, tab5 = st.tabs([
+            "👋 Welcome", 
+            "🤖 Design QA", 
+            "📝 Test Case Generation", 
+            "🎯 Enhanced Functional Testing", 
+            "�️ Solutions Architecture",
+            "📋 User Story Generation", 
+            "💬 AI Chat Assistant",
+            "�🌊 Fluid Breakpoints", 
+            "📡 Live Preview"
+        ])
         
         with tab0:
             render_team_welcome_tab()
     except ImportError:
-        tab1, tab4, tab3, tab2, tab5 = st.tabs(["🤖 Design QA", "📝 Test Case Generation", "🎯 Enhanced Functional Testing", "🌊 Fluid Breakpoints", "📡 Live Preview"])
+        tab1, tab4, tab3, tab6, tab7, tab8, tab2, tab5 = st.tabs([
+            "🤖 Design QA", 
+            "📝 Test Case Generation", 
+            "🎯 Enhanced Functional Testing", 
+            "🏗️ Solutions Architecture",
+            "📋 User Story Generation",
+            "💬 AI Chat Assistant",
+            "🌊 Fluid Breakpoints", 
+            "📡 Live Preview"
+        ])
 
     with tab1:
         render_design_qa_tab(st.session_state.agent)
@@ -1398,6 +1417,36 @@ def main():
         except ImportError:
             # Fallback to basic functional testing if enhanced version not available
             render_functional_qa_tab(st.session_state.functional_agent)
+    
+    with tab6:
+        # Solutions Architecture - Phase 3
+        try:
+            from solutions_architecture import render_solutions_architecture_tab
+            render_solutions_architecture_tab()
+        except ImportError as e:
+            st.error("❌ Solutions Architecture module not available")
+            st.info("🚧 This feature requires the solutions_architecture module")
+            st.code(f"Import error: {e}")
+    
+    with tab7:
+        # User Story Generation - Phase 3
+        try:
+            from user_story_generation import render_user_story_generation_tab
+            render_user_story_generation_tab()
+        except ImportError as e:
+            st.error("❌ User Story Generation module not available")
+            st.info("🚧 This feature requires the user_story_generation module")
+            st.code(f"Import error: {e}")
+    
+    with tab8:
+        # AI Chat Assistant - Phase 3
+        try:
+            from chat_assistant import render_chat_assistant_tab
+            render_chat_assistant_tab()
+        except ImportError as e:
+            st.error("❌ AI Chat Assistant module not available")
+            st.info("🚧 This feature requires the chat_assistant module")
+            st.code(f"Import error: {e}")
 
     with tab4:
         render_test_case_generation_tab(st.session_state.functional_agent)
