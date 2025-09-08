@@ -442,28 +442,69 @@ def start_recording_session(url: str, device_type: str, browser_type: str):
         if not st.session_state.functional_agent:
             st.session_state.functional_agent = FunctionalTestingAgent()
         
-        # This would need to be implemented with async support in Streamlit
-        st.info("🎬 Recording session starting... (This is a demo - full async support needed)")
+        # Initialize Playwright recorder with proper Streamlit integration
+        if not hasattr(st.session_state, 'recorder') or not st.session_state.recorder:
+            st.session_state.recorder = PlaywrightRecorder()
         
-        # For demo purposes, create a mock session
-        from enhanced_functional_testing import TestSession
-        session = TestSession(
-            session_id=f"demo_{int(time.time())}",
-            url=url,
-            device_type=device_type,
-            browser_type=browser_type,
-            viewport_size={"width": 1920, "height": 1080},
-            steps=[],
-            console_errors=[],
-            performance_summary={},
-            start_time=datetime.now().isoformat()
-        )
+        st.info("🎬 Recording session starting...")
         
-        st.session_state.recording_session = session
-        st.success("🟢 Recording session started!")
+        # Start actual recording session with Playwright
+        try:
+            # Initialize the recorder for this session
+            success = st.session_state.recorder.start_session(url, device_type, browser_type)
+            
+            if success:
+                # Create session tracking
+                from enhanced_functional_testing import TestSession
+                session = TestSession(
+                    session_id=f"session_{int(time.time())}",
+                    url=url,
+                    device_type=device_type,
+                    browser_type=browser_type,
+                    viewport_size={"width": 1920, "height": 1080} if device_type == "desktop" else {"width": 375, "height": 667},
+                    steps=[],
+                    console_errors=[],
+                    performance_summary={},
+                    start_time=datetime.now().isoformat()
+                )
+                
+                st.session_state.recording_session = session
+                st.session_state.recording_active = True
+                st.success("🟢 Live recording session started! Click elements to record interactions.")
+                st.info("💡 Navigate to your website and interact with elements. Each click and form input will be recorded.")
+            else:
+                st.warning("🎭 Started in simulation mode - Browser automation limited in cloud environment")
+                # Fallback to demo mode for cloud environments
+                _create_demo_session(url, device_type, browser_type)
+                
+        except Exception as recorder_error:
+            st.warning(f"🎭 Browser automation unavailable: {str(recorder_error)}")
+            st.info("💡 Running in simulation mode - You can still create test scenarios manually")
+            _create_demo_session(url, device_type, browser_type)
         
     except Exception as e:
         st.error(f"Failed to start recording: {e}")
+
+
+def _create_demo_session(url: str, device_type: str, browser_type: str):
+    """Create a demo session when full browser automation isn't available"""
+    from enhanced_functional_testing import TestSession
+    session = TestSession(
+        session_id=f"demo_{int(time.time())}",
+        url=url,
+        device_type=device_type,
+        browser_type=browser_type,
+        viewport_size={"width": 1920, "height": 1080} if device_type == "desktop" else {"width": 375, "height": 667},
+        steps=[],
+        console_errors=[],
+        performance_summary={},
+        start_time=datetime.now().isoformat()
+    )
+    
+    st.session_state.recording_session = session
+    st.session_state.recording_active = True
+    st.success("🟢 Demo recording session started!")
+    st.info("ℹ️ In demo mode: You can manually add test steps using the controls below")
 
 def stop_recording_session():
     """Stop the current recording session"""

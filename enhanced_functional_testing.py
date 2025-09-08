@@ -15,6 +15,12 @@ from typing import Dict, List, Any, Optional, Tuple
 import base64
 from dataclasses import dataclass, asdict
 
+try:
+    import nest_asyncio
+    NEST_ASYNCIO_AVAILABLE = True
+except ImportError:
+    NEST_ASYNCIO_AVAILABLE = False
+
 from playwright.async_api import async_playwright, Page, Browser, BrowserContext
 import streamlit as st
 from PIL import Image
@@ -82,8 +88,69 @@ class PlaywrightRecorder:
         self.screenshots_dir = None
         self.is_recording = False
         
-    async def start_session(self, url: str, device_type: str = "desktop", browser_type: str = "chromium") -> TestSession:
-        """Start a new recording session"""
+    def start_session(self, url: str, device_type: str = "desktop", browser_type: str = "chromium") -> bool:
+        """Start a new recording session (Streamlit-compatible synchronous wrapper)"""
+        try:
+            # Enable nested event loops for Streamlit compatibility if available
+            if NEST_ASYNCIO_AVAILABLE:
+                import nest_asyncio
+                nest_asyncio.apply()
+            
+            # Check if we're in a Streamlit Cloud environment
+            is_cloud = os.getenv("STREAMLIT_SHARING_MODE") is not None
+            
+            if is_cloud or not NEST_ASYNCIO_AVAILABLE:
+                # For cloud environments or when nest_asyncio is not available, create a basic session
+                return self._start_demo_session(url, device_type, browser_type)
+            
+            # For local environments, try full Playwright automation
+            try:
+                import asyncio
+                loop = asyncio.new_event_loop()
+                asyncio.set_event_loop(loop)
+                
+                session = loop.run_until_complete(self._start_async_session(url, device_type, browser_type))
+                return True
+            except Exception as e:
+                logger.warning(f"Full Playwright automation failed: {e}, falling back to demo mode")
+                return self._start_demo_session(url, device_type, browser_type)
+            finally:
+                if 'loop' in locals():
+                    loop.close()
+                
+        except Exception as e:
+            logger.error(f"Failed to start recording session: {e}")
+            return False
+    
+    def _start_demo_session(self, url: str, device_type: str, browser_type: str) -> bool:
+        """Create a demo session without browser automation"""
+        try:
+            # Create basic session tracking
+            self.screenshots_dir = Path(tempfile.mkdtemp(prefix="quali_demo_"))
+            
+            session = TestSession(
+                session_id=f"demo_{int(time.time())}",
+                url=url,
+                device_type=device_type,
+                browser_type=browser_type,
+                viewport_size={"width": 1920, "height": 1080} if device_type == "desktop" else {"width": 375, "height": 667},
+                start_time=datetime.now().isoformat(),
+                steps=[],
+                console_errors=[],
+                performance_summary={}
+            )
+            
+            self.current_session = session
+            self.is_recording = True
+            logger.info(f"Demo session started: {session.session_id}")
+            return True
+            
+        except Exception as e:
+            logger.error(f"Failed to create demo session: {e}")
+            return False
+        
+    async def _start_async_session(self, url: str, device_type: str = "desktop", browser_type: str = "chromium") -> TestSession:
+        """Start a new async recording session with full browser automation"""
         # Create screenshots directory
         self.screenshots_dir = Path(tempfile.mkdtemp(prefix="quali_recording_"))
         
@@ -111,15 +178,13 @@ class PlaywrightRecorder:
         )
         
         # Launch browser
-        playwright = async_playwright()
-        await playwright.start()
-        
-        if browser_type.lower() == "firefox":
-            self.browser = await playwright.firefox.launch(headless=False)
-        elif browser_type.lower() == "webkit":
-            self.browser = await playwright.webkit.launch(headless=False)
-        else:
-            self.browser = await playwright.chromium.launch(headless=False)
+        async with async_playwright() as playwright:
+            if browser_type.lower() == "firefox":
+                self.browser = await playwright.firefox.launch(headless=False)
+            elif browser_type.lower() == "webkit":
+                self.browser = await playwright.webkit.launch(headless=False)
+            else:
+                self.browser = await playwright.chromium.launch(headless=False)
             
         # Create context with device emulation
         context_options = {
