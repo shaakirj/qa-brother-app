@@ -6,6 +6,57 @@ This creates a favicon from the QualiAI logo for use in Streamlit
 from PIL import Image, ImageDraw, ImageFont
 import os
 
+def create_favicon_from_image(input_image_path):
+    """Create favicon from an existing image (like the QualiAI logo)"""
+    if not os.path.exists(input_image_path):
+        print(f"Image not found: {input_image_path}")
+        return create_favicon()  # Fallback to generated favicon
+    
+    try:
+        # Open and process the original image
+        original = Image.open(input_image_path)
+        
+        # Convert to RGBA if needed
+        if original.mode != 'RGBA':
+            original = original.convert('RGBA')
+        
+        # Create static directory if it doesn't exist
+        static_dir = os.path.join(os.path.dirname(__file__), "static")
+        os.makedirs(static_dir, exist_ok=True)
+        
+        # Create multiple sizes
+        sizes = [(16, 16), (32, 32), (48, 48), (64, 64)]
+        images = []
+        
+        for size in sizes:
+            # Resize with high quality resampling
+            resized = original.resize(size, Image.Resampling.LANCZOS)
+            
+            # Save individual size
+            size_path = os.path.join(static_dir, f"favicon_{size[0]}x{size[1]}.png")
+            resized.save(size_path, 'PNG')
+            images.append(resized)
+        
+        # Save main favicon (32x32)
+        main_favicon = os.path.join(static_dir, "favicon.png")
+        images[1].save(main_favicon, 'PNG')  # Use 32x32 as main
+        
+        # Create ICO file
+        try:
+            ico_path = os.path.join(static_dir, "favicon.ico")
+            images[0].save(ico_path, format='ICO', 
+                         sizes=[(img.size[0], img.size[1]) for img in images])
+            print(f"Created favicon.ico from {input_image_path}")
+        except Exception as e:
+            print(f"ICO creation failed: {e}")
+        
+        print(f"Favicon created from {input_image_path}")
+        return main_favicon
+        
+    except Exception as e:
+        print(f"Error processing image: {e}")
+        return create_favicon()  # Fallback to generated favicon
+
 def create_favicon():
     """Create a QA-themed favicon"""
     # Create static directory if it doesn't exist
@@ -83,6 +134,22 @@ def create_favicon():
     return main_favicon
 
 if __name__ == "__main__":
-    favicon_path = create_favicon()
+    # Check for command line arguments to use custom logo
+    import sys
+    
+    if len(sys.argv) > 1:
+        # Use custom image provided as argument
+        custom_logo_path = sys.argv[1]
+        print(f"Using custom logo: {custom_logo_path}")
+        favicon_path = create_favicon_from_image(custom_logo_path)
+    else:
+        # Generate default favicon
+        print("Generating default Q logo favicon...")
+        favicon_path = create_favicon()
+    
     print(f"Favicon created at: {favicon_path}")
-    print("You can replace static/favicon.png with your actual QualiAI logo for a custom favicon.")
+    print("\nUsage options:")
+    print("1. Default: python create_favicon.py")
+    print("2. Custom logo: python create_favicon.py path/to/your/logo.png")
+    print("3. Replace static/favicon.png manually with your QualiAI logo")
+    print("\nThe favicon will automatically appear in the Streamlit app!")
