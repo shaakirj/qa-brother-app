@@ -239,6 +239,26 @@ def render_design_qa_tab(agent):
     """Renders the UI for the Design QA feature."""
     st.header("Design QA Testing")
     st.markdown("Compare a Figma design with its live web implementation across different devices.")
+    
+    # DEBUG SECTION - Remove after fixing cloud deployment
+    with st.expander("🔍 Figma Configuration Debug", expanded=False):
+        figma_token = os.getenv("FIGMA_ACCESS_TOKEN")
+        if figma_token:
+            st.success(f"✅ FIGMA_ACCESS_TOKEN configured (length: {len(figma_token)})")
+            masked_token = figma_token[:8] + "*" * max(0, len(figma_token) - 12) + figma_token[-4:] if len(figma_token) > 12 else figma_token[:4] + "*" * max(0, len(figma_token) - 4)
+            st.code(f"Token: {masked_token}")
+        else:
+            st.error("❌ FIGMA_ACCESS_TOKEN not configured in environment")
+            st.markdown("""
+            **For Streamlit Cloud:**
+            1. Go to your app dashboard
+            2. Settings → Secrets
+            3. Add: `FIGMA_ACCESS_TOKEN = "your_token_here"`
+            """)
+        
+        st.info("📋 Your problematic URL: `https://www.figma.com/design/SjpnyFLxV6cCgAtRtpbpTc/Cross-Switch-Branding-and-Website?node-id=3039-12414&m=dev`")
+        st.info(f"📄 Configured test URL: `{os.getenv('FIGMA_TEST_URL', 'Not configured')}`")
+    
     # Initialize defaults in session state to avoid conflicts between widget default values and programmatic state updates
     if 'figma_url_input' not in st.session_state:
         st.session_state.figma_url_input = os.getenv("FIGMA_TEST_URL", "")
