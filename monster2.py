@@ -1359,7 +1359,22 @@ def render_fluid_breakpoint_tab(agent):
                 st.error("Failed to generate the breakpoint animation. Please check the application logs for more details.")
 
 def main():
-    st.set_page_config(page_title="Quali - Your QA Buddy", page_icon="🎨", layout="wide")
+    # Configure page with favicon
+    favicon_path = os.path.join(os.path.dirname(__file__), "static", "favicon.png")
+    
+    # Use the custom favicon if available, otherwise fallback to emoji
+    if os.path.exists(favicon_path):
+        st.set_page_config(
+            page_title="Quali - Your QA Buddy", 
+            page_icon=favicon_path, 
+            layout="wide"
+        )
+    else:
+        st.set_page_config(
+            page_title="Quali - Your QA Buddy", 
+            page_icon="🎨", 
+            layout="wide"
+        )
 
     # Load and inject custom CSS theme
     try:
@@ -1370,6 +1385,30 @@ def main():
             st.markdown(f"<style>{css_content}</style>", unsafe_allow_html=True)
     except Exception as e:
         logger.warning(f"Could not load custom CSS theme: {e}")
+
+    # Add header with logo
+    favicon_path = os.path.join(os.path.dirname(__file__), "static", "favicon.png")
+    if os.path.exists(favicon_path):
+        # Convert favicon to base64 for embedding
+        import base64
+        with open(favicon_path, "rb") as f:
+            favicon_b64 = base64.b64encode(f.read()).decode()
+        
+        # Create header with favicon logo
+        st.markdown(f"""
+        <div style="display: flex; align-items: center; margin-bottom: 2rem; padding: 1rem 0;">
+            <img src="data:image/png;base64,{favicon_b64}" 
+                 style="width: 48px; height: 48px; margin-right: 1rem; border-radius: 8px;">
+            <div>
+                <h1 style="margin: 0; color: #40e0d0; font-size: 2.5rem; font-weight: 700;">
+                    Quali AI
+                </h1>
+                <p style="margin: 0; color: #888; font-size: 1.1rem;">
+                    Your Intelligent QA Testing Companion
+                </p>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
 
     # Import team features
     try:
