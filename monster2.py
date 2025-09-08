@@ -1377,12 +1377,12 @@ def main():
     # Include welcome tab for teams
     try:
         from team_features import render_team_welcome_tab
-        tab0, tab1, tab4, tab3, tab2, tab5 = st.tabs(["👋 Welcome", "🤖 Design QA", "📝 Test Case Generation", "⚙️ Functional Testing", "🌊 Fluid Breakpoints", "📡 Live Preview"])
+        tab0, tab1, tab4, tab3, tab2, tab5 = st.tabs(["👋 Welcome", "🤖 Design QA", "📝 Test Case Generation", "🎯 Enhanced Functional Testing", "🌊 Fluid Breakpoints", "📡 Live Preview"])
         
         with tab0:
             render_team_welcome_tab()
     except ImportError:
-        tab1, tab4, tab3, tab2, tab5 = st.tabs(["🤖 Design QA", "📝 Test Case Generation", "⚙️ Functional Testing", "🌊 Fluid Breakpoints", "📡 Live Preview"])
+        tab1, tab4, tab3, tab2, tab5 = st.tabs(["🤖 Design QA", "📝 Test Case Generation", "🎯 Enhanced Functional Testing", "🌊 Fluid Breakpoints", "📡 Live Preview"])
 
     with tab1:
         render_design_qa_tab(st.session_state.agent)
@@ -1391,7 +1391,13 @@ def main():
         render_fluid_breakpoint_tab(st.session_state.agent)
 
     with tab3:
-        render_functional_qa_tab(st.session_state.functional_agent)
+        # Enhanced Functional Testing - Phase 2
+        try:
+            from functional_testing_ui import render_functional_testing_ui
+            render_functional_testing_ui()
+        except ImportError:
+            # Fallback to basic functional testing if enhanced version not available
+            render_functional_qa_tab(st.session_state.functional_agent)
 
     with tab4:
         render_test_case_generation_tab(st.session_state.functional_agent)
