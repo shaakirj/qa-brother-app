@@ -242,22 +242,56 @@ def render_design_qa_tab(agent):
     
     # DEBUG SECTION - Remove after fixing cloud deployment
     with st.expander("🔍 Figma Configuration Debug", expanded=False):
-        figma_token = os.getenv("FIGMA_ACCESS_TOKEN")
-        if figma_token:
-            st.success(f"✅ FIGMA_ACCESS_TOKEN configured (length: {len(figma_token)})")
-            masked_token = figma_token[:8] + "*" * max(0, len(figma_token) - 12) + figma_token[-4:] if len(figma_token) > 12 else figma_token[:4] + "*" * max(0, len(figma_token) - 4)
+        st.markdown("**Environment Variable Check:**")
+        figma_token_env = os.getenv("FIGMA_ACCESS_TOKEN")
+        if figma_token_env:
+            st.success(f"✅ FIGMA_ACCESS_TOKEN in environment (length: {len(figma_token_env)})")
+            masked_token = figma_token_env[:8] + "*" * max(0, len(figma_token_env) - 12) + figma_token_env[-4:] if len(figma_token_env) > 12 else figma_token_env[:4] + "*" * max(0, len(figma_token_env) - 4)
             st.code(f"Token: {masked_token}")
         else:
-            st.error("❌ FIGMA_ACCESS_TOKEN not configured in environment")
-            st.markdown("""
-            **For Streamlit Cloud:**
-            1. Go to your app dashboard
-            2. Settings → Secrets
-            3. Add: `FIGMA_ACCESS_TOKEN = "your_token_here"`
-            """)
+            st.error("❌ FIGMA_ACCESS_TOKEN not found in environment")
         
-        st.info("📋 Your problematic URL: `https://www.figma.com/design/SjpnyFLxV6cCgAtRtpbpTc/Cross-Switch-Branding-and-Website?node-id=3039-12414&m=dev`")
-        st.info(f"📄 Configured test URL: `{os.getenv('FIGMA_TEST_URL', 'Not configured')}`")
+        st.markdown("**Streamlit Secrets Check:**")
+        try:
+            if hasattr(st, 'secrets'):
+                # Check direct access
+                if 'FIGMA_ACCESS_TOKEN' in st.secrets:
+                    token = st.secrets['FIGMA_ACCESS_TOKEN']
+                    st.success(f"✅ Found in st.secrets (length: {len(token)})")
+                elif 'api_keys' in st.secrets:
+                    st.info("📋 Found api_keys section")
+                    if 'figma_token' in st.secrets['api_keys']:
+                        token = st.secrets['api_keys']['figma_token']
+                        st.success(f"✅ Found in api_keys.figma_token (length: {len(token)})")
+                    else:
+                        st.warning("⚠️ No figma_token in api_keys section")
+                        st.json(list(st.secrets['api_keys'].keys()))
+                else:
+                    st.warning("⚠️ No FIGMA_ACCESS_TOKEN or api_keys in secrets")
+                    st.json(list(st.secrets.keys()))
+            else:
+                st.error("❌ st.secrets not available")
+        except Exception as e:
+            st.error(f"❌ Error accessing secrets: {e}")
+        
+        st.markdown("**Test URLs:**")
+        st.info("📋 Your problematic URL:")
+        st.code("https://www.figma.com/design/SjpnyFLxV6cCgAtRtpbpTc/Cross-Switch-Branding-and-Website?node-id=3039-12414&m=dev")
+        st.info(f"📄 Configured test URL:")
+        st.code(f"{os.getenv('FIGMA_TEST_URL', 'Not configured')}")
+        
+        # Quick test button
+        if st.button("🧪 Test Token Access", key="figma_token_test"):
+            try:
+                from design8 import FigmaDesignComparator
+                comparator = FigmaDesignComparator()
+                if comparator.figma_token:
+                    st.success(f"✅ FigmaDesignComparator loaded token (length: {len(comparator.figma_token)})")
+                else:
+                    st.error("❌ FigmaDesignComparator could not load token")
+            except Exception as e:
+                st.error(f"❌ Error testing: {e}")
+    
     
     # Initialize defaults in session state to avoid conflicts between widget default values and programmatic state updates
     if 'figma_url_input' not in st.session_state:

@@ -833,10 +833,49 @@ class EnhancedJiraIntegration:
 
 class FigmaDesignComparator:
     def __init__(self):
-        self.figma_token = os.getenv("FIGMA_ACCESS_TOKEN")
+        # Try multiple ways to get Figma token (for Streamlit Cloud compatibility)
+        self.figma_token = self._get_figma_token()
         self.base_url = "https://api.figma.com/v1"
         self.headers = {"X-Figma-Token": self.figma_token} if self.figma_token else {}
         logger.info(f"Figma token configured: {'Yes' if self.figma_token else 'No'}")
+        if self.figma_token:
+            logger.info(f"Token length: {len(self.figma_token)}")
+    
+    def _get_figma_token(self):
+        """Try multiple ways to get Figma token for Streamlit Cloud compatibility"""
+        
+        # Method 1: Direct environment variable
+        token = os.getenv("FIGMA_ACCESS_TOKEN")
+        if token:
+            logger.info("Figma token loaded from environment variable")
+            return token
+        
+        # Method 2: Try Streamlit secrets if available
+        try:
+            import streamlit as st
+            
+            # Direct access
+            if hasattr(st, 'secrets') and 'FIGMA_ACCESS_TOKEN' in st.secrets:
+                logger.info("Figma token loaded from Streamlit secrets (direct)")
+                return st.secrets['FIGMA_ACCESS_TOKEN']
+            
+            # Nested in figma section
+            if hasattr(st, 'secrets') and 'figma' in st.secrets and 'FIGMA_ACCESS_TOKEN' in st.secrets['figma']:
+                logger.info("Figma token loaded from Streamlit secrets (figma section)")
+                return st.secrets['figma']['FIGMA_ACCESS_TOKEN']
+                
+            # Check api_keys section
+            if hasattr(st, 'secrets') and 'api_keys' in st.secrets:
+                for key in ['figma_token', 'FIGMA_ACCESS_TOKEN', 'figma_access_token']:
+                    if key in st.secrets['api_keys']:
+                        logger.info(f"Figma token loaded from Streamlit secrets (api_keys.{key})")
+                        return st.secrets['api_keys'][key]
+                        
+        except Exception as e:
+            logger.debug(f"Could not access Streamlit secrets: {e}")
+        
+        logger.warning("Figma token not found in any configuration source")
+        return None
 
     def get_specific_node_from_url(self, figma_url: str):
         try:
