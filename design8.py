@@ -3,6 +3,7 @@ import requests
 import warnings
 import sys
 import platform
+import time  # Added missing import
 
 # Suppress urllib3 SSL warnings for macOS LibreSSL compatibility
 warnings.filterwarnings("ignore", category=UserWarning, module="urllib3")
@@ -16,6 +17,7 @@ import numpy as np
 import cv2  # Import OpenCV
 from datetime import datetime as _dt
 from scipy import ndimage
+from skimage.metrics import structural_similarity as ssim  # Added missing import
 import re
 try:
     import logging
@@ -848,18 +850,50 @@ class FigmaDesignComparator:
         except Exception: return None
 
     def get_node_image(self, file_id, node_id, scale=3):
-        if not self.figma_token or not file_id: return None
+        if not self.figma_token:
+            logger.error("Figma access token not configured. Please set FIGMA_ACCESS_TOKEN environment variable.")
+            return None
+        if not file_id:
+            logger.error("Figma file ID is required but not provided.")
+            return None
+            
         try:
             api_url = f"{self.base_url}/images/{file_id}"
             params = {'ids': node_id, 'scale': scale, 'format': 'png'}
             response = requests.get(api_url, headers=self.headers, params=params, timeout=60)
+            
+            # Enhanced error handling for different HTTP status codes
+            if response.status_code == 403:
+                logger.error(f"Figma API access denied (403). Token may not have permission for file: {file_id}")
+                return None
+            elif response.status_code == 404:
+                logger.error(f"Figma file not found (404). File ID may be invalid or private: {file_id}")
+                return None
+            elif response.status_code == 401:
+                logger.error(f"Figma API unauthorized (401). Token may be invalid or expired.")
+                return None
+                
             response.raise_for_status()
             data = response.json()
-            if data.get('err') or not data.get('images', {}).get(node_id): return None
+            
+            # Check for Figma API-specific errors
+            if data.get('err'):
+                logger.error(f"Figma API error: {data.get('err')}")
+                return None
+            if not data.get('images', {}).get(node_id):
+                logger.error(f"No image returned for node {node_id} in file {file_id}. Node may not exist or be visible.")
+                return None
+                
             img_response = requests.get(data['images'][node_id], timeout=60)
             img_response.raise_for_status()
             return Image.open(BytesIO(img_response.content))
-        except Exception: return None
+            
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Network error accessing Figma API: {e}")
+            return None
+        except Exception as e:
+            logger.error(f"Unexpected error retrieving Figma image: {e}")
+            return None
 
     def _traverse_and_extract(self, node: Dict[str, Any]) -> Optional[Dict[str, Any]]:
         if not node:
@@ -890,23 +924,62 @@ class FigmaDesignComparator:
         return props if props else None
 
     def get_node_properties(self, file_id: str, node_id: str) -> str:
-        if not self.figma_token or not file_id or not node_id:
-            return "Could not get Figma properties: missing token, file_id, or node_id."
+        if not self.figma_token:
+            error_msg = "Figma access token not configured. Please set FIGMA_ACCESS_TOKEN environment variable."
+            logger.error(error_msg)
+            return f"Could not get Figma properties: {error_msg}"
+        if not file_id or not node_id:
+            error_msg = "Missing file_id or node_id parameters."
+            logger.error(error_msg)
+            return f"Could not get Figma properties: {error_msg}"
+            
         api_url = f"{self.base_url}/files/{file_id}/nodes"
         params = {'ids': node_id, 'geometry': 'paths'}
+        
         try:
             response = requests.get(api_url, headers=self.headers, params=params, timeout=30)
+            
+            # Enhanced error handling for different HTTP status codes
+            if response.status_code == 403:
+                error_msg = f"Figma API access denied (403). Token may not have permission for file: {file_id}"
+                logger.error(error_msg)
+                return f"Error getting Figma properties: {error_msg}"
+            elif response.status_code == 404:
+                error_msg = f"Figma file not found (404). File ID may be invalid or private: {file_id}"
+                logger.error(error_msg)
+                return f"Error getting Figma properties: {error_msg}"
+            elif response.status_code == 401:
+                error_msg = "Figma API unauthorized (401). Token may be invalid or expired."
+                logger.error(error_msg)
+                return f"Error getting Figma properties: {error_msg}"
+                
             response.raise_for_status()
             data = response.json()
+            
+            # Check for Figma API-specific errors
+            if data.get('err'):
+                error_msg = f"Figma API error: {data.get('err')}"
+                logger.error(error_msg)
+                return f"Error getting Figma properties: {error_msg}"
+                
             root_node = data.get('nodes', {}).get(node_id, {}).get('document')
             if not root_node:
-                return "Node data not found in Figma API response."
+                error_msg = f"Node {node_id} not found in file {file_id}. Node may not exist or be accessible."
+                logger.error(error_msg)
+                return f"Error getting Figma properties: {error_msg}"
+                
             extracted_properties = self._traverse_and_extract(root_node)
             logger.info("✅ Extracted rich 'Inspect' property tree from Figma API.")
             return json.dumps(extracted_properties, indent=2)
+            
+        except requests.exceptions.RequestException as e:
+            error_msg = f"Network error accessing Figma API: {e}"
+            logger.error(error_msg)
+            return f"Error getting Figma properties: {error_msg}"
         except Exception as e:
-            logger.error(f"❌ Failed to get Figma node properties: {e}")
-            return f"Error getting Figma properties: {e}"
+            error_msg = f"Unexpected error retrieving Figma properties: {e}"
+            logger.error(error_msg)
+            return f"Error getting Figma properties: {error_msg}"
 
     def compare_images(self, image1, image2, diff_color=(255, 50, 50)):
         """
@@ -2261,8 +2334,8 @@ Provide a concise bulleted list of key differences found."""
             figma_image = self.figma_comparator.get_node_image(node_info['file_id'], node_info['node_id'])
             figma_properties = self.figma_comparator.get_node_properties(node_info['file_id'], node_info['node_id'])
             if not figma_image:
-                update_step("Retrieve Figma Design", "error", "Failed to retrieve Figma image. Check API token and node permissions.")
-                return {"success": False, "error": "ERROR_STEP_FIGMA_IMG: Failed to retrieve Figma image."}
+                update_step("Retrieve Figma Design", "error", "❌ Failed to retrieve Figma image. This typically happens when:\n• The Figma URL is from a different organization than the configured token\n• The file is private and token lacks access\n• The node ID doesn't exist\n• The Figma API token is invalid or expired")
+                return {"success": False, "error": "ERROR_STEP_FIGMA_IMG: Failed to retrieve Figma image. The configured token may not have access to this file."}
             update_step("Retrieve Figma Design", "success", "Figma design image and properties retrieved.")
 
             update_phase("Capturing web page screenshot...")
