@@ -24,33 +24,48 @@ def create_favicon_from_image(input_image_path):
         static_dir = os.path.join(os.path.dirname(__file__), "static")
         os.makedirs(static_dir, exist_ok=True)
         
-        # Create multiple sizes
+        # Create multiple sizes with enhanced quality
         sizes = [(16, 16), (32, 32), (48, 48), (64, 64)]
         images = []
         
         for size in sizes:
-            # Resize with high quality resampling
+            # Use high-quality resampling with anti-aliasing
             resized = original.resize(size, Image.Resampling.LANCZOS)
             
-            # Save individual size
+            # Enhance contrast and sharpness for small sizes
+            if size[0] <= 32:
+                from PIL import ImageEnhance
+                # Slight sharpness enhancement for small sizes
+                enhancer = ImageEnhance.Sharpness(resized)
+                resized = enhancer.enhance(1.2)
+                
+                # Slight contrast enhancement for small sizes
+                enhancer = ImageEnhance.Contrast(resized)
+                resized = enhancer.enhance(1.1)
+            
+            # Save individual size with high quality
             size_path = os.path.join(static_dir, f"favicon_{size[0]}x{size[1]}.png")
-            resized.save(size_path, 'PNG')
+            resized.save(size_path, 'PNG', optimize=True)
             images.append(resized)
+            print(f"Created {size[0]}x{size[1]} favicon")
         
-        # Save main favicon (32x32)
+        # Save main favicon (32x32) with high quality
         main_favicon = os.path.join(static_dir, "favicon.png")
-        images[1].save(main_favicon, 'PNG')  # Use 32x32 as main
+        images[1].save(main_favicon, 'PNG', optimize=True)
         
-        # Create ICO file
+        # Create high-quality ICO file
         try:
             ico_path = os.path.join(static_dir, "favicon.ico")
+            # Use all sizes for ICO
             images[0].save(ico_path, format='ICO', 
-                         sizes=[(img.size[0], img.size[1]) for img in images])
-            print(f"Created favicon.ico from {input_image_path}")
+                         sizes=[(img.size[0], img.size[1]) for img in images],
+                         optimize=True)
+            print(f"Created high-quality favicon.ico from {input_image_path}")
         except Exception as e:
             print(f"ICO creation failed: {e}")
         
-        print(f"Favicon created from {input_image_path}")
+        print(f"High-quality favicon created from {input_image_path}")
+        print("Your beautiful gradient logo is now optimized for all favicon sizes!")
         return main_favicon
         
     except Exception as e:

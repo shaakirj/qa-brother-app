@@ -1386,24 +1386,61 @@ def main():
     except Exception as e:
         logger.warning(f"Could not load custom CSS theme: {e}")
 
-    # Add header with logo
-    favicon_path = os.path.join(os.path.dirname(__file__), "static", "favicon.png")
-    if os.path.exists(favicon_path):
-        # Convert favicon to base64 for embedding
+    # Add header with high-quality logo
+    favicon_path = os.path.join(os.path.dirname(__file__), "static", "favicon_64x64.png")
+    large_logo_path = os.path.join(os.path.dirname(__file__), "quali_logo.png")
+    
+    # Use the original logo if available for better quality in header
+    logo_to_use = large_logo_path if os.path.exists(large_logo_path) else favicon_path
+    
+    if os.path.exists(logo_to_use):
+        # Convert logo to base64 for embedding
         import base64
-        with open(favicon_path, "rb") as f:
-            favicon_b64 = base64.b64encode(f.read()).decode()
+        with open(logo_to_use, "rb") as f:
+            logo_b64 = base64.b64encode(f.read()).decode()
         
-        # Create header with favicon logo
+        # Determine logo size based on which file we're using
+        logo_size = "80px" if logo_to_use == large_logo_path else "48px"
+        
+        # Create header with high-quality logo
         st.markdown(f"""
-        <div style="display: flex; align-items: center; margin-bottom: 2rem; padding: 1rem 0;">
-            <img src="data:image/png;base64,{favicon_b64}" 
-                 style="width: 48px; height: 48px; margin-right: 1rem; border-radius: 8px;">
+        <div style="
+            display: flex; 
+            align-items: center; 
+            margin-bottom: 2rem; 
+            padding: 1.5rem 0;
+            background: linear-gradient(135deg, rgba(64, 224, 208, 0.05), rgba(138, 92, 246, 0.05));
+            border-radius: 12px;
+            border: 1px solid rgba(64, 224, 208, 0.2);
+        ">
+            <img src="data:image/png;base64,{logo_b64}" 
+                 style="
+                     width: {logo_size}; 
+                     height: {logo_size}; 
+                     margin-right: 1.5rem; 
+                     margin-left: 1rem;
+                     border-radius: 12px;
+                     box-shadow: 0 4px 12px rgba(64, 224, 208, 0.3);
+                 ">
             <div>
-                <h1 style="margin: 0; color: #40e0d0; font-size: 2.5rem; font-weight: 700;">
+                <h1 style="
+                    margin: 0; 
+                    background: linear-gradient(135deg, #40e0d0, #8a5cf6);
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    background-clip: text;
+                    font-size: 2.8rem; 
+                    font-weight: 800;
+                    letter-spacing: -0.5px;
+                ">
                     Quali AI
                 </h1>
-                <p style="margin: 0; color: #888; font-size: 1.1rem;">
+                <p style="
+                    margin: 0; 
+                    color: #a0a0a0; 
+                    font-size: 1.2rem;
+                    font-weight: 500;
+                ">
                     Your Intelligent QA Testing Companion
                 </p>
             </div>
