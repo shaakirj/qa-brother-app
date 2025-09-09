@@ -241,23 +241,46 @@ def render_design_qa_tab(agent):
     st.markdown("Compare a Figma design with its live web implementation across different devices.")
     
     # DEBUG SECTION - Remove after fixing cloud deployment
-    with st.expander("🔍 Figma Configuration Debug", expanded=False):
-        st.markdown("**Environment Variable Check:**")
+    with st.expander("🔍 API Keys Configuration Debug", expanded=False):
+        st.markdown("### OpenAI API Key Check")
+        
+        # Check OpenAI API key in different locations
+        openai_found = False
+        if hasattr(st, 'secrets') and 'OPENAI_API_KEY' in st.secrets:
+            token = st.secrets['OPENAI_API_KEY']
+            st.success(f"✅ OpenAI key in top-level secrets (length: {len(token)})")
+            openai_found = True
+        elif hasattr(st, 'secrets') and 'api_keys' in st.secrets and 'openai_api_key' in st.secrets['api_keys']:
+            token = st.secrets['api_keys']['openai_api_key']
+            st.success(f"✅ OpenAI key in api_keys.openai_api_key (length: {len(token)})")
+            openai_found = True
+        elif 'OPENAI_API_KEY' in os.environ:
+            token = os.environ['OPENAI_API_KEY']
+            st.success(f"✅ OpenAI key in environment (length: {len(token)})")
+            openai_found = True
+        else:
+            st.error("❌ OpenAI API key not found in any location")
+        
+        if openai_found:
+            masked_token = token[:8] + "*" * max(0, len(token) - 12) + token[-4:] if len(token) > 12 else token[:4] + "*" * max(0, len(token) - 4)
+            st.code(f"OpenAI Token: {masked_token}")
+        
+        st.markdown("### Figma API Token Check")
         figma_token_env = os.getenv("FIGMA_ACCESS_TOKEN")
         if figma_token_env:
             st.success(f"✅ FIGMA_ACCESS_TOKEN in environment (length: {len(figma_token_env)})")
             masked_token = figma_token_env[:8] + "*" * max(0, len(figma_token_env) - 12) + figma_token_env[-4:] if len(figma_token_env) > 12 else figma_token_env[:4] + "*" * max(0, len(figma_token_env) - 4)
-            st.code(f"Token: {masked_token}")
+            st.code(f"Figma Token: {masked_token}")
         else:
             st.error("❌ FIGMA_ACCESS_TOKEN not found in environment")
         
-        st.markdown("**Streamlit Secrets Check:**")
+        st.markdown("**Streamlit Secrets Structure:**")
         try:
             if hasattr(st, 'secrets'):
                 # Check direct access
                 if 'FIGMA_ACCESS_TOKEN' in st.secrets:
                     token = st.secrets['FIGMA_ACCESS_TOKEN']
-                    st.success(f"✅ Found in st.secrets (length: {len(token)})")
+                    st.success(f"✅ Figma in top-level secrets (length: {len(token)})")
                 elif 'api_keys' in st.secrets:
                     st.info("📋 Found api_keys section")
                     if 'figma_token' in st.secrets['api_keys']:

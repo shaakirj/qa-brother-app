@@ -95,18 +95,32 @@ class AIAnalyzer:
     def __init__(self):
         # Get OpenAI API key from environment or Streamlit secrets
         try:
+            # Check multiple locations for the API key
+            api_key = None
+            
+            # Method 1: Direct access (top-level secrets)
             if hasattr(st, 'secrets') and 'OPENAI_API_KEY' in st.secrets:
-                openai.api_key = st.secrets['OPENAI_API_KEY']
+                api_key = st.secrets['OPENAI_API_KEY']
+            # Method 2: Nested in api_keys section
+            elif hasattr(st, 'secrets') and 'api_keys' in st.secrets and 'openai_api_key' in st.secrets['api_keys']:
+                api_key = st.secrets['api_keys']['openai_api_key']
+            # Method 3: Environment variables
             elif 'OPENAI_API_KEY' in os.environ:
-                openai.api_key = os.environ['OPENAI_API_KEY']
+                api_key = os.environ['OPENAI_API_KEY']
+            
+            if api_key:
+                openai.api_key = api_key
+                self.api_key_available = True
+                logger.info("OpenAI API key loaded successfully")
             else:
                 self.api_key_available = False
-                logger.warning("OpenAI API key not found")
+                logger.warning("OpenAI API key not found in any location")
                 return
-            self.api_key_available = True
+                
         except Exception as e:
             self.api_key_available = False
             logger.error(f"OpenAI setup failed: {e}")
+            return
     
     def analyze_document(self, document_text: str, document_name: str, analysis_type: str) -> DocumentAnalysis:
         """Analyze document content using OpenAI"""
