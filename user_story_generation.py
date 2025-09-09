@@ -12,6 +12,10 @@ from typing import List, Dict, Any, Optional
 import logging
 from dataclasses import dataclass, asdict
 import re
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
